@@ -17,7 +17,7 @@ jobs:
         ports:
         # will assign a random free host port
         - 27017/tcp
-        # options: --name mongodb
+        options: --name mongodb
 
     steps:
     - run: docker ps
@@ -28,4 +28,5 @@ jobs:
         MONGODB_PORT: ${{ job.services.mongodb.ports[27017] }} # get randomly assigned published port
         MONGODB_ID: ${{ job.services.mongodb.id }}
         MONGODB_NETWORK: ${{ job.services.mongodb.network }}
+        MONGODB_NAME: ${{ job.services.mongodb.name }}
     - run: docker exec mongodb echo test
