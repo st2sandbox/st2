@@ -28,7 +28,7 @@ jobs:
 #          --config /etc/mongo/mongod.conf
 
     steps:
-    - run: docker exec mongodb cat \$(which docker-entrypoint.sh)
+    - run: docker exec mongodb cat '$(which docker-entrypoint.sh)'
     - run: docker exec mongodb ls -l /etc/mongo*
     - run: docker ps
       env:
