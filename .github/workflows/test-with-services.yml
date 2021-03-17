@@ -25,5 +25,5 @@ jobs:
         # If we were running the job on in a container this would be mongodb
         MONGODB_HOST: localhost
         MONGODB_PORT: ${{ job.services.mongodb.ports[27017] }} # get randomly assigned published port
-        MONGODB_PORT: ${{ job.services.mongodb.image }}
+        MONGODB_IMAGE: ${{ job.services.mongodb.image }}
 
