@@ -28,7 +28,8 @@ jobs:
 #          --config /etc/mongo/mongod.conf
 
     steps:
-    - run: docker exec mongodb which docker-entrypoint.sh
+    - run: docker exec mongodb cat \$(which docker-entrypoint.sh)
+    - run: docker exec mongodb ls -l /etc/mongo*
     - run: docker ps
       env:
         # use localhost for the host here because we are running the job on the VM.
@@ -39,7 +40,8 @@ jobs:
         MONGODB_NETWORK: ${{ job.services.mongodb.network }}
     - run: docker exec mongodb ps -ef
 
-    - run: docker restart mongodb (eg after changing config)
+    - name: restart mongodb service container (eg after changing config)
+      run: docker restart mongodb
 
     - name: wait for mongodb
       timeout-minutes: 2
