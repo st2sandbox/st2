@@ -29,13 +29,13 @@ jobs:
         # in order to allow editing the mongo config, mount the config file in a volume.
         # Use 'options' instead of 'volumes' to mount it read-write
         #volumes:
-        #- /root/mongoconf:/opt/bitnami/mongodb/conf
+        #- /home/runner/mongoconf:/opt/bitnami/mongodb/conf
 
         # These are strictly docker options.
         # We cannot pass args to the entrypoint from here (due to how docker create command is constructed)
         options: >-
           --name mongodb
-          -v /root/mongodb_conf:/bitnami/conf
+          -v /home/runner/mongodb_conf:/bitnami/conf
 
     steps:
     - run: pwd && ls
@@ -55,8 +55,8 @@ jobs:
     - run: docker exec mongodb ps -ef
 
     - run: docker exec mongodb ls -l /opt/bitnami/mongodb/conf
-    - run: echo drop mongod.conf in /root/mongodb_conf, and it will overwrite /opt/bitnami/mongodb/conf/mongod.conf
-    - run: mkdir /root/mongodb_conf && touch /root/mongdb_conf/example_file
+    - run: echo drop mongod.conf in /home/runner/mongodb_conf, and it will overwrite /opt/bitnami/mongodb/conf/mongod.conf
+    - run: mkdir /home/runner/mongodb_conf && touch /home/runner/mongdb_conf/example_file
 
     - name: restart mongodb service container (eg after changing config)
       run: docker restart mongodb
@@ -70,5 +70,5 @@ jobs:
 
     - run: docker exec mongodb ps -ef
 
-    - run: echo dropped example_file in /root/mongodb_conf
+    - run: echo dropped example_file in /home/runner/mongodb_conf
     - run: docker exec mongodb ls -l /opt/bitnami/mongodb/conf
