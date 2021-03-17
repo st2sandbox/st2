@@ -31,7 +31,8 @@ jobs:
     #- run: docker exec mongodb env
     - run: docker exec mongodb ps -ef
     - run: docker restart mongodb
-    - run: docker inspect --format="{{if .Config.Healthcheck}}{{print .State.Health.Status}}{{end}}" mongodb
+    - run: docker inspect -f {{.State.Running}} mongodb
+    - run: test "$(docker inspect -f {{.State.Running}} mongodb)" == "true"
     - run: docker exec mongodb ps -ef
     #- run: docker exec mongodb which mongod
     # pwd is /
