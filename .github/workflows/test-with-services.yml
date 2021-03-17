@@ -28,9 +28,11 @@ jobs:
         MONGODB_PORT: ${{ job.services.mongodb.ports[27017] }} # get randomly assigned published port
         MONGODB_ID: ${{ job.services.mongodb.id }}
         MONGODB_NETWORK: ${{ job.services.mongodb.network }}
-    - run: docker exec mongodb env
+    #- run: docker exec mongodb env
     - run: docker exec mongodb ps -ef
-    - run: docker exec mongodb sudo cat /proc/1/environ || true
+    - run: docker restart mongodb
+    - run: docker inspect --format="{{if .Config.Healthcheck}}{{print .State.Health.Status}}{{end}}" mongodb
+    - run: docker exec mongodb ps -ef
     #- run: docker exec mongodb which mongod
     # pwd is /
     #- run: docker exec mongodb ls /etc
