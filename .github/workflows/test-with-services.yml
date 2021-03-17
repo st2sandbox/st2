@@ -31,5 +31,5 @@ jobs:
     - run: docker exec mongodb env
     - run: docker exec mongodb ps -ef
     - run: docker exec mongodb which mongod
-    - run: docker exec mongodb pwd
-    - run: docker exec mongodb ls . /
+    # pwd is /
+    - run: docker exec mongodb ls /etc /opt
