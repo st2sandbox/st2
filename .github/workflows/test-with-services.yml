@@ -30,7 +30,7 @@ jobs:
         MONGODB_NETWORK: ${{ job.services.mongodb.network }}
     - run: docker exec mongodb env
     - run: docker exec mongodb ps -ef
-    - run: docker exec mongodb cat /proc/*/environ
-    - run: docker exec mongodb which mongod
+    - run: docker exec mongodb sudo cat /proc/1/environ || true
+    #- run: docker exec mongodb which mongod
     # pwd is /
-    - run: docker exec mongodb ls /etc
+    #- run: docker exec mongodb ls /etc
