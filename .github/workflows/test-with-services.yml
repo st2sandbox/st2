@@ -15,10 +15,11 @@ jobs:
       mongodb:
         image: bitnami/mongodb
         # 'mongo' image does not provide a way to specify command line options
-        # 'bitnami/mongodb' provides MONGODB_EXTRA_FLAGS or just use MONGODB_CONF_FILE directly
+        # 'bitnami/mongodb' provides MONGODB_EXTRA_FLAGS.
         # env:
         #   MONGODB_EXTRA_FLAGS: --config /etc/mongo/mongod.conf
-        #   MONGODB_CONF_FILE: /etc/mongo/mongod.conf
+        # the config file defaults to (not overridable):
+        #   MONGODB_CONF_FILE: 
 
         ports:
         # will assign a random free host port
@@ -26,7 +27,7 @@ jobs:
 
         # in order to allow editing the mongo config, mount the config file in a volume:
         volumes:
-        - /root/mongo:/etc/mongo
+        - /root/mongoconf:/opt/bitnami/mongodb/conf
 
         # These are strictly docker options.
         # We cannot pass args to the entrypoint from here (due to how docker create command is constructed)
