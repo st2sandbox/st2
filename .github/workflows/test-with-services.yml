@@ -57,7 +57,7 @@ jobs:
 
     - run: docker exec mongodb ls -l /opt/bitnami/mongodb/conf
     - run: echo drop mongod.conf in /home/runner/mongodb_conf, and it will overwrite /opt/bitnami/mongodb/conf/mongod.conf
-    - run: touch /home/runner/mongdb_conf/example_file
+    - run: touch /home/runner/mongodb_conf/example_file
 
     - name: restart mongodb service container (eg after changing config)
       run: docker restart mongodb
