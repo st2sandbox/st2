@@ -38,6 +38,7 @@ jobs:
           -v /root/mongodb_conf:/bitnami/conf
 
     steps:
+    - run: pwd && ls
     - run: docker exec mongodb cat /opt/bitnami/scripts/mongodb/entrypoint.sh
     - run: docker exec mongodb cat /opt/bitnami/scripts/mongodb-env.sh
     - run: docker exec mongodb cat /opt/bitnami/scripts/mongodb/run.sh
