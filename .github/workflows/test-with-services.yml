@@ -17,6 +17,8 @@ jobs:
         ports:
         # will assign a random free host port
         - 27017/tcp
+        options:
+        - --name mongodb
 
     steps:
     - run: docker ps
