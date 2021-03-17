@@ -33,7 +33,7 @@ jobs:
 
     steps:
     #- run: docker exec mongodb cat /opt/bitnami/scripts/mongodb/entrypoint.sh
-    - run: docker exec mongodb cat /opt/bitnami/scripts/mongodb/run.sh
+    #- run: docker exec mongodb cat /opt/bitnami/scripts/mongodb/run.sh
     - run: docker exec mongodb ls -l /etc
     - run: docker ps
       env:
