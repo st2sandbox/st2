@@ -41,6 +41,7 @@ jobs:
     - run: docker exec mongodb cat /opt/bitnami/scripts/mongodb-env.sh
     - run: docker exec mongodb cat /opt/bitnami/scripts/mongodb/run.sh
     - run: docker exec mongodb cat /opt/bitnami/scripts/mongodb/setup.sh
+    - run: docker exec mongodb cat /opt/bitnami/scripts/libmongodb.sh
     - run: docker exec mongodb ls -l /opt/bitnami/mongodb/conf
     - run: docker ps
       env:
