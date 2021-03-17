@@ -26,19 +26,19 @@ jobs:
         - 27017/tcp
 
         # in order to allow editing the mongo config, mount the config file in a volume:
-        volumes:
-        - /root/mongoconf:/opt/bitnami/mongodb/conf
+        #volumes:
+        #- /root/mongoconf:/opt/bitnami/mongodb/conf
 
         # These are strictly docker options.
         # We cannot pass args to the entrypoint from here (due to how docker create command is constructed)
         options: --name mongodb
 
     steps:
-    - run: docker exec mongodb cat /opt/bitnami/scripts/mongodb/entrypoint.sh
-    - run: docker exec mongodb cat /opt/bitnami/scripts/mongodb-env.sh
-    - run: docker exec mongodb cat /opt/bitnami/scripts/mongodb/run.sh
-    - run: docker exec mongodb cat /opt/bitnami/scripts/mongodb/setup.sh
-    - run: docker exec mongodb ls -l /etc
+    #- run: docker exec mongodb cat /opt/bitnami/scripts/mongodb/entrypoint.sh
+    #- run: docker exec mongodb cat /opt/bitnami/scripts/mongodb-env.sh
+    #- run: docker exec mongodb cat /opt/bitnami/scripts/mongodb/run.sh
+    #- run: docker exec mongodb cat /opt/bitnami/scripts/mongodb/setup.sh
+    - run: docker exec mongodb ls -l /opt/bitnami/mongodb/conf
     - run: docker ps
       env:
         # use localhost for the host here because we are running the job on the VM.
