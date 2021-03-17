@@ -28,4 +28,4 @@ jobs:
         MONGODB_PORT: ${{ job.services.mongodb.ports[27017] }} # get randomly assigned published port
         MONGODB_ID: ${{ job.services.mongodb.id }}
         MONGODB_NETWORK: ${{ job.services.mongodb.network }}
-    - run: docker exec mongodb cat /etc/mongod.conf
+    - run: docker exec mongodb env
