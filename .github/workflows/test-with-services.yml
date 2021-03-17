@@ -20,12 +20,15 @@ jobs:
 
         # in order to allow editing the mongo config, mount the config file in a volume:
         volumes:
-        - mongo:/etc/mongo
-        options: >-
-          --name mongodb
-          --config /etc/mongo/mongod.conf
+        - mongo.conf:/etc/mongo.conf
+
+        # These are strictly docker options.
+        # We cannot pass args to the entrypoint from here (due to how docker create command is constructed)
+        options: --name mongodb
+#          --config /etc/mongo/mongod.conf
 
     steps:
+    - run: docker exec mongodb which docker-entrypoint.sh
     - run: docker ps
       env:
         # use localhost for the host here because we are running the job on the VM.
