@@ -33,8 +33,10 @@ jobs:
         # We cannot pass args to the entrypoint from here (due to how docker create command is constructed)
         options: >-
           --name mongodb
-          -v /home/runner/mongodb_conf:/bitnami/conf:rw
+        #  -v /home/runner/mongodb_conf:/bitnami/conf:rw
         # note that docker creates this dir automatically
+        volumes:
+          - /home/runner/mongodb_conf:/bitnami/conf
 
     steps:
     - run: pwd && ls -l ~
