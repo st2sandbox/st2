@@ -34,7 +34,7 @@ jobs:
         # We cannot pass args to the entrypoint from here (due to how docker create command is constructed)
         options: >-
           --name mongodb
-          -v /root/mongoconf:/opt/bitnami/mongodb/conf
+#          -v /root/mongoconf:/opt/bitnami/mongodb/conf
 
     steps:
     - run: docker exec mongodb cat /opt/bitnami/scripts/mongodb/entrypoint.sh
