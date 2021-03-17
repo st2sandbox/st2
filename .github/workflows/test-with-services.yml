@@ -21,7 +21,7 @@ jobs:
         # in order to allow editing the mongo config, mount the config file in a volume:
         volumes:
         - mongo:/etc/mongo
-        options: >
+        options: >-
           --name mongodb
           --config /etc/mongo/mongod.conf
 
