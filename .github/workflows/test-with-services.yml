@@ -13,22 +13,27 @@ jobs:
 
     services:
       mongodb:
-        image: mongo
+        image: bitnami/mongodb
+        # 'mongo' image does not provide a way to specify command line options
+        # 'bitnami/mongodb' provides MONGODB_EXTRA_FLAGS
+        # env:
+        #   MONGODB_EXTRA_FLAGS: --config /etc/mongo/mongod.conf
+
         ports:
         # will assign a random free host port
         - 27017/tcp
 
         # in order to allow editing the mongo config, mount the config file in a volume:
         volumes:
-        - ${PWD}/mongod.conf:/etc/mongod.conf
+        - /root/mongod.conf:/etc/mongod.conf
 
         # These are strictly docker options.
         # We cannot pass args to the entrypoint from here (due to how docker create command is constructed)
         options: --name mongodb
-#          --config /etc/mongo/mongod.conf
 
     steps:
-    #- run: docker exec mongodb cat /usr/local/bin/docker-entrypoint.sh
+    #- run: docker exec mongodb cat /opt/bitnami/scripts/mongodb/entrypoint.sh
+    #- run: docker exec mongodb cat /opt/bitnami/scripts/mongodb/run.sh
     - run: docker exec mongodb ls -l /etc
     - run: docker ps
       env:
