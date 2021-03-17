@@ -20,7 +20,7 @@ jobs:
 
         # in order to allow editing the mongo config, mount the config file in a volume:
         volumes:
-        - mongo.conf:/etc/mongo.conf
+        - ${PWD}/mongod.conf:/etc/mongod.conf
 
         # These are strictly docker options.
         # We cannot pass args to the entrypoint from here (due to how docker create command is constructed)
