@@ -55,7 +55,7 @@ jobs:
         MONGODB_NETWORK: ${{ job.services.mongodb.network }}
     - run: docker exec mongodb ps -ef
 
-    - run: docker exec mongodb ls -l /opt/bitnami/mongodb/conf
+    - run: docker exec mongodb ls -la /opt/bitnami/mongodb/conf /bitnami/conf
     - run: docker exec mongodb cp /opt/bitnami/mongodb/conf/mongodb.conf /bitnami/conf/mongodb.conf.orig
     - run: echo drop mongod.conf in /home/runner/mongodb_conf, and it will overwrite /opt/bitnami/mongodb/conf/mongod.conf
     # need to let all write to this dir so that we can write to it inside the container
@@ -74,6 +74,6 @@ jobs:
     - run: docker exec mongodb ps -ef
 
     - run: echo dropped example_file in /home/runner/mongodb_conf
-    - run: docker exec mongodb ls -l /opt/bitnami/mongodb/conf
+    - run: docker exec mongodb ls -la /opt/bitnami/mongodb/conf /bitnami/conf
     - name: show the mongodb.conf file
       run: docker exec mongodb cat /opt/bitnami/mongodb/conf/mongodb.conf
