@@ -17,9 +17,10 @@ jobs:
         # 'mongo' image does not provide a way to specify command line options
         # 'bitnami/mongodb' provides MONGODB_EXTRA_FLAGS.
         # env:
-        #   MONGODB_EXTRA_FLAGS: --config /etc/mongo/mongod.conf
-        # the config file defaults to (not overridable):
-        #   MONGODB_CONF_FILE: 
+        #   MONGODB_EXTRA_FLAGS:
+        #   # anything in this dir gets copied over the default mongo conf dir
+        #   # MONGODB_MOUNTED_CONF_DIR defaults to /bitnami/conf (/bitnami is the MONGODB_VOLUME_DIR)
+        #   MONGODB_MOUNTED_CONF_DIR:
 
         ports:
         # will assign a random free host port
@@ -34,7 +35,7 @@ jobs:
         # We cannot pass args to the entrypoint from here (due to how docker create command is constructed)
         options: >-
           --name mongodb
-#          -v /root/mongoconf:/opt/bitnami/mongodb/conf
+          -v /root/mongodb_conf:/bitnami/conf
 
     steps:
     - run: docker exec mongodb cat /opt/bitnami/scripts/mongodb/entrypoint.sh
@@ -42,7 +43,6 @@ jobs:
     - run: docker exec mongodb cat /opt/bitnami/scripts/mongodb/run.sh
     - run: docker exec mongodb cat /opt/bitnami/scripts/mongodb/setup.sh
     - run: docker exec mongodb cat /opt/bitnami/scripts/libmongodb.sh
-    - run: docker exec mongodb ls -l /opt/bitnami/mongodb/conf
     - run: docker ps
       env:
         # use localhost for the host here because we are running the job on the VM.
@@ -52,6 +52,10 @@ jobs:
         MONGODB_ID: ${{ job.services.mongodb.id }}
         MONGODB_NETWORK: ${{ job.services.mongodb.network }}
     - run: docker exec mongodb ps -ef
+
+    - run: docker exec mongodb ls -l /opt/bitnami/mongodb/conf
+    - run: echo drop mongod.conf in /root/mongodb_conf, and it will overwrite /opt/bitnami/mongodb/conf/mongod.conf
+    - run: mkdir /root/mongodb_conf && touch /root/mongdb_conf/example_file
 
     - name: restart mongodb service container (eg after changing config)
       run: docker restart mongodb
@@ -64,3 +68,6 @@ jobs:
       # run: until [ "$(docker inspect -f {{.State.Health.Status}} mongodb)" == "healthy" ]; do sleep 0.1; done
 
     - run: docker exec mongodb ps -ef
+
+    - run: echo dropped example_file in /root/mongodb_conf
+    - run: docker exec mongodb ls -l /opt/bitnami/mongodb/conf
