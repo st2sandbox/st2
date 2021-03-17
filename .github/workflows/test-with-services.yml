@@ -29,7 +29,7 @@ jobs:
 
     steps:
     - run: docker exec mongodb cat /usr/local/bin/docker-entrypoint.sh
-    - run: docker exec mongodb ls -l /etc/mongo*
+    - run: docker exec mongodb ls -ld /etc/mongo*
     - run: docker ps
       env:
         # use localhost for the host here because we are running the job on the VM.
