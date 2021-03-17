@@ -19,11 +19,12 @@ jobs:
         - 27017/tcp
 
     steps:
-    - run: echo $MONGODB_HOST $MONGODB_PORT $MONGODB_IMAGE
+    - run: docker ps
       env:
         # use localhost for the host here because we are running the job on the VM.
         # If we were running the job on in a container this would be mongodb
         MONGODB_HOST: localhost
         MONGODB_PORT: ${{ job.services.mongodb.ports[27017] }} # get randomly assigned published port
-        MONGODB_IMAGE: ${{ job.services.mongodb.image }}
+        MONGODB_ID: ${{ job.services.mongodb.id }}
+        MONGODB_NETWORK: ${{ job.services.mongodb.network }}
 
