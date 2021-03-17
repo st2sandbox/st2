@@ -56,10 +56,11 @@ jobs:
     - run: docker exec mongodb ps -ef
 
     - run: docker exec mongodb ls -la /opt/bitnami/mongodb/conf /bitnami/conf
+    # need to let all write to this dir so that we can write to it inside the container
+    - run: sudo chmod g+w /home/runner/mongodb_conf
     - run: docker exec mongodb cp /opt/bitnami/mongodb/conf/mongodb.conf /bitnami/conf/mongodb.conf.orig
     - run: echo drop mongod.conf in /home/runner/mongodb_conf, and it will overwrite /opt/bitnami/mongodb/conf/mongod.conf
-    # need to let all write to this dir so that we can write to it inside the container
-    - run: sudo chmod a+w /home/runner/mongodb_conf && touch /home/runner/mongodb_conf/example_file
+    - run: touch /home/runner/mongodb_conf/example_file
 
     - name: restart mongodb service container (eg after changing config)
       run: docker restart mongodb
