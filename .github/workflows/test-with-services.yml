@@ -164,8 +164,7 @@ jobs:
     - name: backup the redis.conf file
       # we let root group write to this dir so that we can write to it inside the container
       run: |
-        echo TODO sudo chmod g+w /home/runner/redis_conf
-        docker exec redis ls -la /opt/bitnami/redis/etc /opt/bitnami/redis/mounted-etc
+        sudo chmod g+w /home/runner/redis_conf
         docker exec redis cp /opt/bitnami/redis/etc/redis.conf /opt/bitnami/redis/mounted-etc/redis.conf.orig
 
     - name: print job context vars
