@@ -138,3 +138,66 @@ jobs:
 
     - name: show the rabbitmq.conf file
       run: docker exec rabbitmq cat /opt/bitnami/rabbitmq/etc/rabbitmq/rabbitmq.conf
+
+  # see all the comments about the mongodb image. the same applies here
+  redis-job-on-vm:
+    runs-on: ubuntu-latest
+
+    services:
+      redis:
+        image: bitnami/redis
+        volumes:
+          # REDIS_MOUNTED_CONF_DIR
+          - /home/runner/redis_conf:/org/bitnami/redis/mounted-etc
+
+        ports:
+        - 6379/tcp  # these will assign a random free host port
+
+        # These are strictly docker options, not entrypoint args (GHA restriction)
+        options: >-
+          --name redis
+
+        env:
+          ALLOW_EMPTY_PASSWORD: "yes"
+
+    steps:
+    - name: backup the redis.conf file
+      # we let root group write to this dir so that we can write to it inside the container
+      run: |
+        echo TODO sudo chmod g+w /home/runner/redis_conf
+        docker exec redis cp /opt/bitnami/redis/etc/redis.conf /opt/bitnami/redis/mounted-etc/redis.conf.orig
+
+    - name: print job context vars
+      run: echo ${REDIS_HOST}:${REDIS_PORT} id=${REDIS_ID} net=${REDIS_NETWORK}
+      env:
+        REDIS_ID: ${{ job.services.redis.id }}
+        REDIS_NETWORK: ${{ job.services.redis.network }}
+        REDIS_HOST: localhost
+        # get randomly assigned published ports
+        REDIS_PORT: ${{ job.services.redis.ports[6379] }}
+
+    - name: drop redis.conf in /home/runner/redis_conf, and it will overwrite /opt/bitnami/redis/etc/redis.conf
+      run: |
+        echo actually this append a comment to the end of the conf file
+        docker exec redis ls -la /opt/bitnami/redis/etc /opt/bitnami/redis/mounted-etc
+        tail -n 4 /home/runner/redis_conf/redis.conf.orig
+        sudo cp /home/runner/redis_conf/redis.conf{.orig,}
+        echo '# example update to redis.conf' | sudo tee -a /home/runner/redis_conf/redis.conf
+
+    - name: restart redis service container (eg after changing config)
+      run: docker restart redis
+
+    - name: wait for redis
+      timeout-minutes: 2
+      # for a container without a HEALTHCHECK
+      run: until [ "$(docker inspect -f {{.State.Running}} redis)" == "true" ]; do sleep 0.1; done
+      # for a container with a HEALTHCHECK
+      # run: until [ "$(docker inspect -f {{.State.Health.Status}} redis)" == "healthy" ]; do sleep 0.1; done
+
+    - name: show the dropped redis.conf in /home/runner/redis_conf
+      run: |
+        docker exec redis ls -la /opt/bitnami/redis/etc /opt/bitnami/redis/mounted-etc
+        docker exec redis tail -n 5 /opt/bitnami/redis/etc/redis.conf
+
+    - name: show the redis.conf file
+      run: docker exec redis cat /opt/bitnami/redis/etc/redis.conf
