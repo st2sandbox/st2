@@ -201,4 +201,4 @@ jobs:
         docker exec redis tail -n 5 /opt/bitnami/redis/etc/redis.conf
 
     - name: show the redis.conf file
-      zun: docker exec redis cat /opt/bitnami/redis/etc/redis.conf
+      run: docker exec redis cat /opt/bitnami/redis/etc/redis.conf
