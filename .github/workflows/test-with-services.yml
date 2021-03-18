@@ -74,7 +74,7 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      mongodb:
+      rabbitmq:
         image: bitnami/rabbitmq
         volumes:
           # RABBITMQ_MOUNTED_CONF_DIR
@@ -200,4 +200,4 @@ jobs:
         docker exec redis tail -n 5 /opt/bitnami/redis/etc/redis.conf
 
     - name: show the redis.conf file
-      run: docker exec redis cat /opt/bitnami/redis/etc/redis.conf
+      zun: docker exec redis cat /opt/bitnami/redis/etc/redis.conf
