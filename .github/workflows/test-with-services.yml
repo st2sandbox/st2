@@ -148,7 +148,7 @@ jobs:
         image: bitnami/redis
         volumes:
           # REDIS_MOUNTED_CONF_DIR
-          - /home/runner/redis_conf:/org/bitnami/redis/mounted-etc
+          - /home/runner/redis_conf:/opt/bitnami/redis/mounted-etc
 
         ports:
         - 6379/tcp  # these will assign a random free host port
