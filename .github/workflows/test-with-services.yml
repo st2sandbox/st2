@@ -182,7 +182,7 @@ jobs:
         docker exec redis ls -la /opt/bitnami/redis/etc /opt/bitnami/redis/mounted-etc
         tail -n 4 /home/runner/redis_conf/redis.conf.orig
         sudo cp /home/runner/redis_conf/redis.conf{.orig,}
-        echo '# example update to redis.conf' | sudo tee -a /home/runner/redis_conf/redis.conf
+        echo '# example update to redis.conf' | sudo tee -a /home/runner/redis_conf/redis.conf >/dev/null
 
     - name: restart redis service container (eg after changing config)
       run: docker restart redis
