@@ -77,6 +77,7 @@ jobs:
       mongodb:
         image: bitnami/rabbitmq
         volumes:
+          # RABBITMQ_MOUNTED_CONF_DIR
           - /home/runner/rabbitmq_conf:/bitnami/conf
 
         ports:
@@ -98,7 +99,7 @@ jobs:
       # we let root group write to this dir so that we can write to it inside the container
       run: |
         sudo chmod g+w /home/runner/rabbitmq_conf
-        docker exec rabbitmq cp /opt/bitnami/rabbitmq/conf/rabbitmq.conf /bitnami/conf/rabbitmq.conf.orig
+        docker exec rabbitmq cp /opt/bitnami/rabbitmq/etc/rabbitmq/rabbitmq.conf /bitnami/conf/rabbitmq.conf.orig
 
     - name: print job context vars
       run: echo ${RMQ_HOST}:${RMQ_MGMNT_SSL_PORT},${RMQ_MGMNT_PORT} amqp_ports=${RMQ_AMQP_SSL_PORT},${RMQ_AMQP_PORT} cli=${RMQ_CLI_PORT} id=${RMQ_ID} net=${RMQ_NETWORK}
@@ -113,13 +114,13 @@ jobs:
         RMQ_AMQP_PORT: ${{ job.services.rabbitmq.ports[5672] }}
         RMQ_CLI_PORT: ${{ job.services.rabbitmq.ports[25672] }}
 
-    - name: drop custom.conf in /home/runner/rabbitmq_conf, and it will be merged with /opt/bitnami/rabbitmq/conf/rabbitmq.conf
+    - name: drop custom.conf in /home/runner/rabbitmq_conf, and it will be merged with /opt/bitnami/rabbitmq/etc/rabbitmq/rabbitmq.conf
       # bitnami image allows (see bitnami/rabbitmq readme):
       #   - replace generated rabbitmq.conf entirely
       #   - generate rabbitmq.conf then merge the custom.conf setings on top
       #   - add advanced.config (erlang) and/or rabbitmq-env.conf
       run: |
-        docker exec rabbitmq ls -la /opt/bitnami/rabbitmq/conf /bitnami/conf
+        docker exec rabbitmq ls -la /opt/bitnami/rabbitmq/etc/rabbitmq /bitnami/conf
         sudo touch /home/runner/rabbitmq_conf/custom.conf
 
     - name: restart rabbitmq service container (eg after changing config)
@@ -133,7 +134,7 @@ jobs:
       # run: until [ "$(docker inspect -f {{.State.Health.Status}} rabbitmq)" == "healthy" ]; do sleep 0.1; done
 
     - name: show the dropped custom.conf in /home/runner/rabbitmq_conf
-      run: docker exec rabbitmq ls -la /opt/bitnami/rabbitmq/conf /bitnami/conf
+      run: docker exec rabbitmq ls -la /opt/bitnami/rabbitmq/etc/rabbitmq /bitnami/conf
 
     - name: show the rabbitmq.conf file
-      run: docker exec rabbitmq cat /opt/bitnami/rabbitmq/conf/rabbitmq.conf
+      run: docker exec rabbitmq cat /opt/bitnami/rabbitmq/etc/rabbitmq/rabbitmq.conf
