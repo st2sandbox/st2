@@ -68,3 +68,72 @@ jobs:
 
     - name: show the mongodb.conf file
       run: docker exec mongodb cat /opt/bitnami/mongodb/conf/mongodb.conf
+
+  # see all the comments about the mongodb image. the same applies here
+  rabbitmq-job-on-vm:
+    runs-on: ubuntu-latest
+
+    services:
+      mongodb:
+        image: bitnami/rabbitmq
+        volumes:
+          - /home/runner/rabbitmq_conf:/bitnami/conf
+
+        ports:
+        # these will assign a random free host port
+        # These 6 ports are exposed by bitnami/rabbitmq (see https://www.rabbitmq.com/networking.html#ports)
+        #- 4369/tcp  # epmd
+        - 5671/tcp  # amqp w/o TLS
+        - 5672/tcp  # amqp w/o TLS
+        - 15671/tcp  # Management: SSL port
+        - 15672/tcp  # Management: HTTP, CLI
+        - 25672/tcp  # inter-node or CLI
+
+        # These are strictly docker options, not entrypoint args (GHA restriction)
+        options: >-
+          --name rabbitmq
+
+    steps:
+    - name: backup the rabbitmq.conf file
+      # we let root group write to this dir so that we can write to it inside the container
+      run: |
+        sudo chmod g+w /home/runner/rabbitmq_conf
+        docker exec rabbitmq cp /opt/bitnami/rabbitmq/conf/rabbitmq.conf /bitnami/conf/rabbitmq.conf.orig
+
+    - name: print job context vars
+      run: echo ${RMQ_HOST}:${RMQ_MGMNT_SSL_PORT},${RMQ_MGMNT_PORT} amqp_ports=${RMQ_AMQP_SSL_PORT},${RMQ_AMQP_PORT} cli=${RMQ_CLI_PORT} id=${RMQ_ID} net=${RMQ_NETWORK}
+      env:
+        RMQ_ID: ${{ job.services.rabbitmq.id }}
+        RMQ_NETWORK: ${{ job.services.rabbitmq.network }}
+        RMQ_HOST: localhost
+        # get randomly assigned published ports
+        RMQ_MGMNT_SSL_PORT: ${{ job.services.rabbitmq.ports[15671] }}
+        RMQ_MGMNT_PORT: ${{ job.services.rabbitmq.ports[15672] }}
+        RMQ_AMQP_SSL_PORT: ${{ job.services.rabbitmq.ports[5671] }}
+        RMQ_AMQP_PORT: ${{ job.services.rabbitmq.ports[5672] }}
+        RMQ_CLI_PORT: ${{ job.services.rabbitmq.ports[25672] }}
+
+    - name: drop custom.conf in /home/runner/rabbitmq_conf, and it will be merged with /opt/bitnami/rabbitmq/conf/rabbitmq.conf
+      # bitnami image allows (see bitnami/rabbitmq readme):
+      #   - replace generated rabbitmq.conf entirely
+      #   - generate rabbitmq.conf then merge the custom.conf setings on top
+      #   - add advanced.config (erlang) and/or rabbitmq-env.conf
+      run: |
+        docker exec rabbitmq ls -la /opt/bitnami/rabbitmq/conf /bitnami/conf
+        sudo touch /home/runner/rabbitmq_conf/custom.conf
+
+    - name: restart rabbitmq service container (eg after changing config)
+      run: docker restart rabbitmq
+
+    - name: wait for rabbitmq
+      timeout-minutes: 2
+      # for a container without a HEALTHCHECK
+      run: until [ "$(docker inspect -f {{.State.Running}} rabbitmq)" == "true" ]; do sleep 0.1; done
+      # for a container with a HEALTHCHECK
+      # run: until [ "$(docker inspect -f {{.State.Health.Status}} rabbitmq)" == "healthy" ]; do sleep 0.1; done
+
+    - name: show the dropped custom.conf in /home/runner/rabbitmq_conf
+      run: docker exec rabbitmq ls -la /opt/bitnami/rabbitmq/conf /bitnami/conf
+
+    - name: show the rabbitmq.conf file
+      run: docker exec rabbitmq cat /opt/bitnami/rabbitmq/conf/rabbitmq.conf
