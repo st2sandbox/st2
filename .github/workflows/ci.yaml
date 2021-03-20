@@ -53,14 +53,14 @@ jobs:
         ports:
           - 27017:27017
 
-			# In GHA, these services are started first before the code is checked out.
-			# We use bitnami images to facilitate reconfiguring RabbitMQ during ci-integration tests.
+      # In GHA, these services are started first before the code is checked out.
+      # We use bitnami images to facilitate reconfiguring RabbitMQ during ci-integration tests.
       # We rely on custom config and SSL certs that are in the repo.
-			# Many images require config in env vars (which we can't change during the test job)
-			# or they require config in entrypoint args (which we can't override for GHA services)
-			# bitnami builds ways to get config files from mounted volumes.
+      # Many images require config in env vars (which we can't change during the test job)
+      # or they require config in entrypoint args (which we can't override for GHA services)
+      # bitnami builds ways to get config files from mounted volumes.
       rabbitmq:
-				image: bitnami/rabbitmq:3.8  # includes mangement tools by default
+        image: bitnami/rabbitmq:3.8  # includes mangement tools by default
         volumes:
           - /home/runner/rabbitmq_conf:/bitnami/conf  # RABBITMQ_MOUNTED_CONF_DIR
           # this won't exist until checked out, but the checkout should then populate it.
