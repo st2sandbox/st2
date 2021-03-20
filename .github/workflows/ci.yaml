@@ -185,9 +185,10 @@ jobs:
           docker exec rabbitmq ls -la /opt/bitnami/rabbitmq/etc/rabbitmq /bitnami/conf
           echo
           echo This is the pre-restart rabbitmq.conf file:
-          docker exec rabbitmq cat /opt/bitnami/rabbitmq/etc/rabbitmq/rabbitmq.conf
+          docker exec rabbitmq cat /opt/bitnami/rabbitmq/etc/rabbitmq/rabbitmq.conf && sleep 1
           echo
           echo restarting rabbitmq container
+          docker events 2>&1 > docker-events.log &
           docker restart rabbitmq
           # wait for rabbitmq container to restart
           until [ "$(docker inspect -f {{.State.Running}} rabbitmq)" == "true" ]; do sleep 0.1; done
@@ -195,8 +196,9 @@ jobs:
           # print plugins list to: (1) ease debugging, (2) pause till rabbitmq is really running
           docker exec rabbitmq rabbitmq-plugins list -e
           docker exec rabbitmq ls -la /opt/bitnami/rabbitmq/etc/rabbitmq /bitnami/conf
+          cat docker-events.log && sleep 1
           echo This is the final rabbitmq.conf file:
-          docker exec rabbitmq cat /opt/bitnami/rabbitmq/etc/rabbitmq/rabbitmq.conf
+          docker exec rabbitmq cat /opt/bitnami/rabbitmq/etc/rabbitmq/rabbitmq.conf && sleep 1
           echo
           sudo wget http://guest:guest@localhost:15672/cli/rabbitmqadmin -O /usr/local/bin/rabbitmqadmin
           sudo chmod +x /usr/local/bin/rabbitmqadmin
