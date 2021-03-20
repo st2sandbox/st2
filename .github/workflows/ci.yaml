@@ -66,6 +66,9 @@ jobs:
         env:
           # tell bitnami/rabbitmq to enable this by default
           RABBITMQ_PLUGINS: rabbitmq_management
+          # TODO: don't hardcode the user as guest:guest in tests - maybe specify via an env var
+          RABBITMQ_DEFAULT_USER: guest
+          RABBITMQ_DEFAULT_PASS: guest
 
         # These are strictly docker options, not entrypoint args (GHA restriction)
         options: >-
