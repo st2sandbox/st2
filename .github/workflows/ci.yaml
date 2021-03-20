@@ -48,10 +48,10 @@ jobs:
           - name: 'Integration Tests'
             task: 'ci-integration'
     services:
-      mongo:
-        image: mongo:4.0
-        ports:
-          - 27017:27017
+#      mongo:
+#        image: mongo:4.0
+#        ports:
+#          - 27017:27017
 
       # In GHA, these services are started first before the code is checked out.
       # We use bitnami images to facilitate reconfiguring RabbitMQ during ci-integration tests.
@@ -189,10 +189,10 @@ jobs:
           echo
           echo restarting rabbitmq container
           docker events 2>&1 > docker-events.log &
-          docker exec rabbitmq ps -ef
-          # docker restart rabbitmq
-          docker stop rabbitmq
-          docker start rabbitmq
+          docker exec rabbitmq ps -ef && sleep 1
+          docker ps --all && sleep 1
+          docker restart rabbitmq
+          docker ps --all && sleep 1
           # wait for rabbitmq container to restart
           until [ "$(docker inspect -f {{.State.Running}} rabbitmq)" == "true" ]; do sleep 0.1; done
           echo enabled RabbitMQ plugins:
