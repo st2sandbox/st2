@@ -195,8 +195,8 @@ jobs:
           sudo chmod +x /usr/local/bin/rabbitmqadmin
           # print logs RABBITMQ_LOGS=-
           docker logs --tail=30 rabbitmq
-          docker exec rabbitmq ls /var/log /opt/bitnami/rabbitmq/var/log/rabbitmq
-          docker exec rabbitmq bash -c 'tail -n 30 /opt/bitnami/rabbitmq/var/log/rabbitmq/*'
+          docker exec rabbitmq ls /var/log /opt/bitnami/rabbitmq/var/log/rabbitmq/log
+          docker exec rabbitmq bash -c 'tail -n 30 /opt/bitnami/rabbitmq/var/log/rabbitmq/log/*'
       - name: Print versions
         run: |
           # Print various binary versions
