@@ -193,9 +193,10 @@ jobs:
           echo
           sudo wget http://guest:guest@localhost:15672/cli/rabbitmqadmin -O /usr/local/bin/rabbitmqadmin
           sudo chmod +x /usr/local/bin/rabbitmqadmin
-          # print logs
-          docker exec rabbitmq ls /var/log /var/log/rabbitmq
-          docker exec rabbitmq bash -c 'tail -n 30 /var/log/rabbitmq/*.log'
+          # print logs RABBITMQ_LOGS=-
+          docker logs --tail=30 rabbitmq
+          docker exec rabbitmq ls /var/log /opt/bitnami/rabbitmq/var/log/rabbitmq
+          docker exec rabbitmq bash -c 'tail -n 30 /opt/bitnami/rabbitmq/var/log/rabbitmq/*.log'
       - name: Print versions
         run: |
           # Print various binary versions
