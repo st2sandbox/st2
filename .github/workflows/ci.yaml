@@ -62,6 +62,8 @@ jobs:
 				image: bitnami/rabbitmq:3.8  # includes mangement tools by default
         volumes:
           - /home/runner/rabbitmq_conf:/bitnami/conf  # RABBITMQ_MOUNTED_CONF_DIR
+          # this won't exist until checked out, but the checkout should then populate it.
+          - /home/runner/work/st2/st2/st2tests/st2tests/fixtures/ssl_certs:/st2/ssl_certs
 
         # These are strictly docker options, not entrypoint args (GHA restriction)
         options: >-
@@ -163,24 +165,17 @@ jobs:
       - name: Setup RabbitMQ
         if: "${{ env.TASK == 'ci-integration' }}"
         # bitnami image allows (see bitnami/rabbitmq readme):
-        #   - replace generated rabbitmq.conf entirely
-        #   - generate rabbitmq.conf then merge the custom.conf setings on top
-        #   - add advanced.config (erlang) and/or rabbitmq-env.conf
         # Here we're copying a rabbitmq.config file which won't do anything.
         # We need to switch to custom.conf or advanced.config.
         timeout-minutes: 2  # may die if rabbitmq fails to start
         run: |
           # Use custom RabbitMQ config which enables SSL / TLS listener on port 5671 with test certs
-          # Travis runs as the 'travis' user, GitHub actions run as the 'runner' user,
-          # And the cert filepaths are slightly different between the two.
-          # Example:
-          #   Travis-CI:      /home/travis/build/StackStorm/st2/st2tests/st2tests/fixtures/ssl_certs/ca/ca_certificate_bundle.pem
-          #   GitHub Actions: /home/runner/work/st2/st2/st2tests/st2tests/fixtures/ssl_certs/ca/ca_certificate_bundle.pem
-          #   service container: /bitnami/conf/ssl_certs/ca/certificate_bundle.pem
-          sed -i 's|/home/travis/.*/ssl_certs/|/bitnami/conf/ssl_certs/|g' scripts/travis/rabbitmq.config
-          # Now that we've manged the config file, install it and the ssl certs
-          sudo cp scripts/travis/rabbitmq.config /home/runner/rabbitmq_conf/rabbitmq.config
-          sudo cp -r st2tests/st2tests/fixtures/ssl_certs /home/runner/rabbitmq_conf/
+          # These certs are mounted in a volume on the service container to /st2/ssl_certs
+          # bitnami/rabbitmq image supports 3 ways to adjust rabbitmq config:
+          #   - merge custom.conf into a generated rabbitmq.conf (we use this)
+          #   - replace generated rabbitmq.conf entirely
+          #   - add advanced.config (erlang) and/or rabbitmq-env.conf
+          sudo cp scripts/github/rabbitmq.conf /home/runner/rabbitmq_conf/custom.conf
           docker restart rabbitmq
           # wait for rabbitmq to restart
           until [ "$(docker inspect -f {{.State.Running}} rabbitmq)" == "true" ]; do sleep 0.1; done
