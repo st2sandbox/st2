@@ -144,10 +144,10 @@ jobs:
         run: |
           # Note: Use the verison of virtualenv pinned in fixed-requirements.txt so we
           #       only have to update it one place when we change the version
-          pip install --upgrade --force-reinstall $(grep "^virtualenv" fixed-requirements.txt)
+          echo pip install --upgrade --force-reinstall $(grep "^virtualenv" fixed-requirements.txt)
       - name: Install requirements
         run: |
-          ./scripts/travis/install-requirements.sh
+          echo ./scripts/travis/install-requirements.sh
       - name: Setup integration tests
         run: |
           # prep a ci-specific dev conf file that uses runner instead of stanley
@@ -177,11 +177,14 @@ jobs:
           # The code is checked out after the container is already up, so we don't mount them.
           # We copy those certs into the dir that is mounted to /bitnami/conf
           sudo cp -r st2tests/st2tests/fixtures/ssl_certs /home/runner/rabbitmq_conf/
-          
+          ls -l /home/runner/rabbitmq_conf
+          echo START restart rabbitmq container...
           docker restart rabbitmq
           # wait for rabbitmq to restart
           until [ "$(docker inspect -f {{.State.Running}} rabbitmq)" == "true" ]; do sleep 0.1; done
           # bitnami/rabbitmq enables rabbitmq_management RabbitMQ plugin by default
+          echo DONE restarted rabbitmq container
+          docker port rabbitmq
           sudo wget http://guest:guest@localhost:15672/cli/rabbitmqadmin -O /usr/local/bin/rabbitmqadmin
           sudo chmod +x /usr/local/bin/rabbitmqadmin
           # may need to escape the asterisk
