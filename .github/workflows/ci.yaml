@@ -184,6 +184,9 @@ jobs:
         timeout-minutes: 2  # may die if rabbitmq fails to start
         run: |
           set -x
+          # Since we're using a container, we can't use guest:guest
+          # Integration tests hardcode paths to conf/st2.tests*.conf so we modify in place.
+          sed -i -e "s/guest:guest/${RABBITMQ_USERNAME}:${RABBITMQ_PASSWORD}/" conf/st2.tests*.conf
           # Use custom RabbitMQ config which enables SSL / TLS listener on port 5671 with test certs
           sudo cp scripts/github/rabbitmq.conf /home/runner/rabbitmq_conf/custom.conf
           # The code is checked out after the container is already up, so we don't mount them.
