@@ -182,7 +182,7 @@ jobs:
           # We copy those certs into the dir that is mounted to /bitnami/conf
           sudo cp -r st2tests/st2tests/fixtures/ssl_certs /home/runner/rabbitmq_conf/
           ls -l /home/runner/rabbitmq_conf
-          docker exec rabbitmq ls -la /opt/bitnami/rabbitmq/etc/rabbitmq /bitnami/conf /bitnami/rabbitmq/conf
+          docker exec rabbitmq ls -la /opt/bitnami/rabbitmq/etc/rabbitmq /bitnami/conf
           echo
           echo This is the pre-restart rabbitmq.conf file:
           docker exec rabbitmq cat /opt/bitnami/rabbitmq/etc/rabbitmq/rabbitmq.conf
@@ -194,7 +194,7 @@ jobs:
           echo enabled RabbitMQ plugins:
           # print plugins list to: (1) ease debugging, (2) pause till rabbitmq is really running
           docker exec rabbitmq rabbitmq-plugins list -e
-          docker exec rabbitmq ls -la /opt/bitnami/rabbitmq/etc/rabbitmq /bitnami/conf /bitnami/rabbitmq/conf
+          docker exec rabbitmq ls -la /opt/bitnami/rabbitmq/etc/rabbitmq /bitnami/conf
           echo This is the final rabbitmq.conf file:
           docker exec rabbitmq cat /opt/bitnami/rabbitmq/etc/rabbitmq/rabbitmq.conf
           echo
