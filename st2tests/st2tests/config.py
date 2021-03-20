@@ -111,7 +111,7 @@ def _override_messaging_opts():
     rmq_pass = os.environ.get("RABBITMQ_PASSWORD", "guest")
     rmq_host = os.environ.get("RABBITMQ_HOST", "127.0.0.1")
     rmq_port = os.environ.get("RABBITMQ_PORT", "5672")
-    override_rmq_url = f"amqp://{RMQ_USER}:{RMQ_PASS}@{RMQ_HOST}:{RMQ_PORT}//"
+    override_rmq_url = f"amqp://{rmq_user}:{rmq_pass}@{rmq_host}:{rmq_port}//"
 
     if override_rmq_url != "amqp://guest:guest@127.0.0.1:5672//":
         CONF.set_override(
