@@ -44,9 +44,9 @@ jobs:
           # - name: 'Micro Benchmarks'
           #   task: 'micro-benchmarks'
           #   python-version: '3.6'
-          # Integration tests are not working yet, still done in Travis
           - name: 'Integration Tests'
             task: 'ci-integration'
+            python-version: '3.6'
     services:
       mongo:
         image: mongo:4.0
