@@ -180,6 +180,8 @@ jobs:
           echo
           echo refresh rabbitmq config - based on ENTRYPOINT logic
           docker exec rabbitmq bash -c 'cat /bitnami/conf/custom.conf >> /opt/bitnami/rabbitmq/etc/rabbitmq/rabbitmq.conf'
+          # sleep to prevent interleaved output in GHA logs
+          docker exec rabbitmq cat /opt/bitnami/rabbitmq/etc/rabbitmq/rabbitmq.conf && sleep 0.1
           echo
           echo restarting rabbitmq container
           docker restart rabbitmq
@@ -189,12 +191,10 @@ jobs:
           # print plugins list to: (1) ease debugging, (2) pause till rabbitmq is really running
           docker exec rabbitmq rabbitmq-plugins list -e
           echo
-          echo This is the final rabbitmq.conf file:
-          docker exec rabbitmq cat /opt/bitnami/rabbitmq/etc/rabbitmq/rabbitmq.conf && sleep 0.25
-          echo
           sudo wget http://guest:guest@localhost:15672/cli/rabbitmqadmin -O /usr/local/bin/rabbitmqadmin
           sudo chmod +x /usr/local/bin/rabbitmqadmin
           # print logs
+          docker exec rabbitmq ls /var/log /var/log/rabbitmq
           docker exec rabbitmq bash -c 'tail -n 30 /var/log/rabbitmq/*.log'
       - name: Print versions
         run: |
