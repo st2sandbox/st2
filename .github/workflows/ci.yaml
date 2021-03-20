@@ -171,6 +171,7 @@ jobs:
         # We need to switch to custom.conf or advanced.config.
         timeout-minutes: 2  # may die if rabbitmq fails to start
         run: |
+          set -x
           # Use custom RabbitMQ config which enables SSL / TLS listener on port 5671 with test certs
           # bitnami/rabbitmq image supports 3 ways to adjust rabbitmq config:
           #   - merge custom.conf into a generated rabbitmq.conf (we use this)
@@ -181,20 +182,24 @@ jobs:
           # We copy those certs into the dir that is mounted to /bitnami/conf
           sudo cp -r st2tests/st2tests/fixtures/ssl_certs /home/runner/rabbitmq_conf/
           ls -l /home/runner/rabbitmq_conf
+          docker exec rabbitmq ls -la /opt/bitnami/rabbitmq/etc/rabbitmq /bitnami/conf
+          echo
+          echo This is the pre-restart rabbitmq.conf file:
+          docker exec rabbitmq cat /opt/bitnami/rabbitmq/etc/rabbitmq/rabbitmq.conf
+          echo
           echo restarting rabbitmq container
           docker restart rabbitmq
-          # wait for rabbitmq to restart
+          # wait for rabbitmq container to restart
           until [ "$(docker inspect -f {{.State.Running}} rabbitmq)" == "true" ]; do sleep 0.1; done
           echo enabled RabbitMQ plugins:
+          # print plugins list to: (1) ease debugging, (2) pause till rabbitmq is really running
           docker exec rabbitmq rabbitmq-plugins list -e
           echo This is the final rabbitmq.conf file:
           docker exec rabbitmq cat /opt/bitnami/rabbitmq/etc/rabbitmq/rabbitmq.conf
+          echo
           sudo wget http://guest:guest@localhost:15672/cli/rabbitmqadmin -O /usr/local/bin/rabbitmqadmin
           sudo chmod +x /usr/local/bin/rabbitmqadmin
-          # may need to escape the asterisk
-          echo docker logs
-          docker logs --tail 30 rabbitmq
-          echo rmq logs
+          # print logs
           docker exec rabbitmq bash -c 'tail -n 30 /var/log/rabbitmq/*.log'
       - name: Print versions
         run: |
