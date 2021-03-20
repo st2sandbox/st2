@@ -48,10 +48,10 @@ jobs:
           - name: 'Integration Tests'
             task: 'ci-integration'
     services:
-#      mongo:
-#        image: mongo:4.0
-#        ports:
-#          - 27017:27017
+      mongo:
+        image: mongo:4.0
+        ports:
+          - 27017:27017
 
       # In GHA, these services are started first before the code is checked out.
       # We use bitnami images to facilitate reconfiguring RabbitMQ during ci-integration tests.
@@ -74,12 +74,12 @@ jobs:
         ports:
           # These 6 ports are exposed by bitnami/rabbitmq (see https://www.rabbitmq.com/networking.html#ports)
           # host_port:container_port/protocol
-          #- 4369:4369/tcp  # epmd
           - 5671:5671/tcp   # AMQP SSL port
           - 5672:5672/tcp   # AMQP standard port
-          #- 15671:15671/tcp  # Management: SSL port
-          - 15672:15672/tcp  # Management: HTTP, CLI
-          #- 25672:25672/tcp  # inter-node or CLI
+          - 15672:15672/tcp # Management: HTTP, CLI
+          #- 15671:15671/tcp # Management: SSL port
+          #- 25672:25672/tcp # inter-node or CLI
+          #- 4369:4369/tcp   # epmd
 
     env:
       TASK: '${{ matrix.task }}'
@@ -141,16 +141,16 @@ jobs:
         run: |
           # install dev dependencies for Python YAML and LDAP packages
           # https://github.com/StackStorm/st2-auth-ldap
-          echo sudo apt-get -y update
-          echo sudo apt-get -f -y install libldap2-dev libsasl2-dev libssl-dev libyaml-dev ldap-utils
+          sudo apt-get -y update
+          sudo apt-get -f -y install libldap2-dev libsasl2-dev libssl-dev libyaml-dev ldap-utils
       - name: Install virtualenv
         run: |
           # Note: Use the verison of virtualenv pinned in fixed-requirements.txt so we
           #       only have to update it one place when we change the version
-          echo pip install --upgrade --force-reinstall $(grep "^virtualenv" fixed-requirements.txt)
+          pip install --upgrade --force-reinstall $(grep "^virtualenv" fixed-requirements.txt)
       - name: Install requirements
         run: |
-          echo ./scripts/travis/install-requirements.sh
+          ./scripts/travis/install-requirements.sh
       - name: Setup integration tests
         run: |
           # prep a ci-specific dev conf file that uses runner instead of stanley
@@ -177,8 +177,7 @@ jobs:
           # The code is checked out after the container is already up, so we don't mount them.
           # We copy those certs into the dir that is mounted to /bitnami/conf
           sudo cp -r st2tests/st2tests/fixtures/ssl_certs /home/runner/rabbitmq_conf/
-          echo
-          echo refresh rabbitmq config - based on ENTRYPOINT logic
+          # refresh rabbitmq config - based on ENTRYPOINT logic
           docker exec rabbitmq bash -c 'cat /bitnami/conf/custom.conf >> /opt/bitnami/rabbitmq/etc/rabbitmq/rabbitmq.conf'
           # sleep to prevent interleaved output in GHA logs
           docker exec rabbitmq cat /opt/bitnami/rabbitmq/etc/rabbitmq/rabbitmq.conf && sleep 0.1
@@ -189,7 +188,7 @@ jobs:
           until [ "$(docker inspect -f {{.State.Running}} rabbitmq)" == "true" ]; do sleep 0.1; done
           echo enabled RabbitMQ plugins:
           # print plugins list to: (1) ease debugging, (2) pause till rabbitmq is really running
-          docker exec rabbitmq rabbitmq-plugins list
+          docker exec rabbitmq rabbitmq-plugins list -e
           echo
           sudo wget http://guest:guest@localhost:15672/cli/rabbitmqadmin -O /usr/local/bin/rabbitmqadmin
           sudo chmod +x /usr/local/bin/rabbitmqadmin
@@ -206,7 +205,7 @@ jobs:
       - name: make
         # use: script -e -c to print colors
         run: |
-          echo script -e -c "make ${TASK}"
+          script -e -c "make ${TASK}"
       - name: Nightly
         # Run any additional nightly checks only as part of a nightly (cron) build
         if: "${{ env.IS_NIGHTLY_BUILD == 'yes' }}"
@@ -216,7 +215,7 @@ jobs:
         # NOTE: We only generate and submit coverage report for master and version branches and only when the build succeeds (default on GitHub Actions, this was not the case on Travis so we had to explicitly check success)
         if: "${{ success() && ((env.TASK == 'ci-unit') || (env.TASK == 'ci-integration')) && (env.ENABLE_COVERAGE == 'yes') }}"
         run: |
-          echo ./scripts/travis/submit-codecov-coverage.sh
+          ./scripts/travis/submit-codecov-coverage.sh
   slack-notification:
     name: Slack notification for failed master builds
     if: always()
