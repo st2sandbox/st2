@@ -182,11 +182,11 @@ jobs:
           sudo cp -r st2tests/st2tests/fixtures/ssl_certs /home/runner/rabbitmq_conf/
           ls -l /home/runner/rabbitmq_conf
           echo restarting rabbitmq container
-          docker exec rabbitmq-plugins list
+          docker exec rabbitmq rabbitmq-plugins list
           docker restart rabbitmq
           # wait for rabbitmq to restart
           until [ "$(docker inspect -f {{.State.Running}} rabbitmq)" == "true" ]; do sleep 0.1; done
-          docker exec rabbitmq-plugins list
+          docker exec rabbitmq rabbitmq-plugins list
           echo This is the final rabbitmq.conf file:
           docker exec rabbitmq cat /opt/bitnami/rabbitmq/etc/rabbitmq/rabbitmq.conf
           sudo wget http://guest:guest@localhost:15672/cli/rabbitmqadmin -O /usr/local/bin/rabbitmqadmin
