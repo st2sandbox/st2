@@ -192,7 +192,10 @@ jobs:
           sudo wget http://guest:guest@localhost:15672/cli/rabbitmqadmin -O /usr/local/bin/rabbitmqadmin
           sudo chmod +x /usr/local/bin/rabbitmqadmin
           # may need to escape the asterisk
-          docker exec rabbitmq tail -n 30 /var/log/rabbitmq/*.log
+          echo docker logs
+          docker logs --tail 30 rabbitmq
+          echo rmq logs
+          docker exec rabbitmq bash -c 'tail -n 30 /var/log/rabbitmq/*.log'
       - name: Print versions
         run: |
           # Print various binary versions
