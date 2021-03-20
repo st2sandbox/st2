@@ -182,17 +182,17 @@ jobs:
           sudo cp -r st2tests/st2tests/fixtures/ssl_certs /home/runner/rabbitmq_conf/
           ls -l /home/runner/rabbitmq_conf
           echo restarting rabbitmq container
-          docker exec rabbitmq rabbitmq-plugins list
           docker restart rabbitmq
           # wait for rabbitmq to restart
           until [ "$(docker inspect -f {{.State.Running}} rabbitmq)" == "true" ]; do sleep 0.1; done
-          docker exec rabbitmq rabbitmq-plugins list
+          echo enabled RabbitMQ plugins:
+          docker exec rabbitmq rabbitmq-plugins list -e
           echo This is the final rabbitmq.conf file:
           docker exec rabbitmq cat /opt/bitnami/rabbitmq/etc/rabbitmq/rabbitmq.conf
           sudo wget http://guest:guest@localhost:15672/cli/rabbitmqadmin -O /usr/local/bin/rabbitmqadmin
           sudo chmod +x /usr/local/bin/rabbitmqadmin
           # may need to escape the asterisk
-          docker exec tail -n 30 /var/log/rabbitmq/*.log
+          docker exec rabbitmq tail -n 30 /var/log/rabbitmq/*.log
       - name: Print versions
         run: |
           # Print various binary versions
@@ -204,7 +204,7 @@ jobs:
       - name: make
         # use: script -e -c to print colors
         run: |
-          script -e -c "make ${TASK}"
+          echo script -e -c "make ${TASK}"
       - name: Nightly
         # Run any additional nightly checks only as part of a nightly (cron) build
         if: "${{ env.IS_NIGHTLY_BUILD == 'yes' }}"
@@ -214,7 +214,7 @@ jobs:
         # NOTE: We only generate and submit coverage report for master and version branches and only when the build succeeds (default on GitHub Actions, this was not the case on Travis so we had to explicitly check success)
         if: "${{ success() && ((env.TASK == 'ci-unit') || (env.TASK == 'ci-integration')) && (env.ENABLE_COVERAGE == 'yes') }}"
         run: |
-          ./scripts/travis/submit-codecov-coverage.sh
+          echo ./scripts/travis/submit-codecov-coverage.sh
   slack-notification:
     name: Slack notification for failed master builds
     if: always()
