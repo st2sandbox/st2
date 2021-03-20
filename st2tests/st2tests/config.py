@@ -57,6 +57,7 @@ def _override_config_opts(coordinator_noop=False):
     _override_db_opts()
     _override_common_opts()
     _override_api_opts()
+    _override_messaging_opts()
     _override_keyvalue_opts()
     _override_scheduler_opts()
     _override_workflow_engine_opts()
@@ -102,6 +103,22 @@ def _override_api_opts():
         override=["http://127.0.0.1:3000", "http://dev"],
         group="api",
     )
+
+
+def _override_messaging_opts():
+    # If CI has RabbitMQ running in a container, then we can't use guest.
+    rmq_user = os.environ.get("RABBITMQ_USERNAME", "guest")
+    rmq_pass = os.environ.get("RABBITMQ_PASSWORD", "guest")
+    rmq_host = os.environ.get("RABBITMQ_HOST", "127.0.0.1")
+    rmq_port = os.environ.get("RABBITMQ_PORT", "5672")
+    override_rmq_url = f"amqp://{RMQ_USER}:{RMQ_PASS}@{RMQ_HOST}:{RMQ_PORT}//"
+
+    if override_rmq_url != "amqp://guest:guest@127.0.0.1:5672//":
+        CONF.set_override(
+            name="url",
+            override=rmq_url,
+            group="messaging",
+        )
 
 
 def _override_keyvalue_opts():
