@@ -189,14 +189,12 @@ jobs:
           until [ "$(docker inspect -f {{.State.Running}} rabbitmq)" == "true" ]; do sleep 0.1; done
           echo enabled RabbitMQ plugins:
           # print plugins list to: (1) ease debugging, (2) pause till rabbitmq is really running
-          docker exec rabbitmq rabbitmq-plugins list -e
+          docker exec rabbitmq rabbitmq-plugins list
           echo
           sudo wget http://guest:guest@localhost:15672/cli/rabbitmqadmin -O /usr/local/bin/rabbitmqadmin
           sudo chmod +x /usr/local/bin/rabbitmqadmin
-          # print logs RABBITMQ_LOGS=-
-          docker logs --tail=30 rabbitmq
-          docker exec rabbitmq ls /var/log /opt/bitnami/rabbitmq/var/log/rabbitmq/log
-          docker exec rabbitmq bash -c 'tail -n 30 /opt/bitnami/rabbitmq/var/log/rabbitmq/log/*'
+          # print logs from stdout (RABBITMQ_LOGS=-)
+          docker logs --tail=20 rabbitmq
       - name: Print versions
         run: |
           # Print various binary versions
