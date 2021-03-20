@@ -153,7 +153,8 @@ function st2start(){
         cp -Rp ./contrib/examples $PACKS_BASE_DIR
         # Clone st2tests in /tmp directory.
         pushd /tmp
-		# -q = no progress bar (better for CI)
+		echo Cloning https://github.com/StackStorm/st2tests.git
+		# -q = no progress reporting (better for CI). Errors will still print.
         git clone -q https://github.com/StackStorm/st2tests.git
         ret=$?
         if [ ${ret} -eq 0 ]; then
