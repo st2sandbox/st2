@@ -181,12 +181,12 @@ jobs:
           # We copy those certs into the dir that is mounted to /bitnami/conf
           sudo cp -r st2tests/st2tests/fixtures/ssl_certs /home/runner/rabbitmq_conf/
           ls -l /home/runner/rabbitmq_conf
-          echo START restart rabbitmq container...
+          echo restarting rabbitmq container
           docker restart rabbitmq
           # wait for rabbitmq to restart
           until [ "$(docker inspect -f {{.State.Running}} rabbitmq)" == "true" ]; do sleep 0.1; done
-          echo DONE restarted rabbitmq container
-          docker port rabbitmq
+          echo This is the final rabbitmq.conf file:
+          docker exec rabbitmq cat /opt/bitnami/rabbitmq/etc/rabbitmq/rabbitmq.conf
           sudo wget http://guest:guest@localhost:15672/cli/rabbitmqadmin -O /usr/local/bin/rabbitmqadmin
           sudo chmod +x /usr/local/bin/rabbitmqadmin
           # may need to escape the asterisk
