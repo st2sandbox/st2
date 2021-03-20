@@ -66,10 +66,10 @@ jobs:
         env:
           # tell bitnami/rabbitmq to enable this by default
           RABBITMQ_PLUGINS: rabbitmq_management
-          # TODO: don't hardcode the user as guest:guest in tests - maybe specify via an env var
+          # Since we're using a container, we can't use guest:guest
           RABBITMQ_SECURE_PASSWORD: "no"
-          RABBITMQ_DEFAULT_USER: guest
-          RABBITMQ_DEFAULT_PASS: guest
+          RABBITMQ_USERNAME: st2
+          RABBITMQ_PASSWORD: st2
 
         # These are strictly docker options, not entrypoint args (GHA restriction)
         options: >-
@@ -104,6 +104,10 @@ jobs:
 
       # Name of the user who is running the CI (on GitHub Actions this is 'runner')
       ST2_CI_USER: 'runner'
+
+      # Since we're using a container, we can't use guest:guest
+      RABBITMQ_USERNAME: st2
+      RABBITMQ_PASSWORD: st2
     steps:
       - name: Custom Environment Setup
         # built-in GitHub Actions environment variables

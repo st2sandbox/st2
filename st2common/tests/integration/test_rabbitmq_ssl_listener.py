@@ -31,6 +31,11 @@ __all__ = ["RabbitMQTLSListenerTestCase"]
 
 CERTS_FIXTURES_PATH = os.path.join(get_fixtures_base_path(), "ssl_certs/")
 ST2_CI = os.environ.get("ST2_CI", "false").lower() == "true"
+RMQ_USER = os.environ.get("RABBITMQ_USERNAME", "guest")
+RMQ_PASS = os.environ.get("RABBITMQ_PASSWORD", "guest")
+RMQ_HOST = os.environ.get("RABBITMQ_HOST", "127.0.0.1")
+RMQ_PORT = os.environ.get("RABBITMQ_PORT", "5671")
+RMQ_URL = f"amqp://{RMQ_USER}:{RMQ_PASS}@{RMQ_HOST}:{RMQ_PORT}/"
 
 NON_SSL_LISTENER_PORT = 5672
 SSL_LISTENER_PORT = 5671
@@ -52,9 +57,7 @@ class RabbitMQTLSListenerTestCase(unittest2.TestCase):
         cfg.CONF.set_override(name="ssl_cert_reqs", override=None, group="messaging")
 
     def test_non_ssl_connection_on_ssl_listener_port_failure(self):
-        connection = transport_utils.get_connection(
-            urls="amqp://guest:guest@127.0.0.1:5671/"
-        )
+        connection = transport_utils.get_connection(urls=RMQ_URL)
 
         expected_msg_1 = (
             "[Errno 104]"  # followed by: ' Connection reset by peer' or ' ECONNRESET'
@@ -80,7 +83,7 @@ class RabbitMQTLSListenerTestCase(unittest2.TestCase):
 
     def test_ssl_connection_on_ssl_listener_success(self):
         # Using query param notation
-        urls = "amqp://guest:guest@127.0.0.1:5671/?ssl=true"
+        urls = f"{RMQ_URL}?ssl=true"
         connection = transport_utils.get_connection(urls=urls)
 
         try:
@@ -93,9 +96,7 @@ class RabbitMQTLSListenerTestCase(unittest2.TestCase):
         # Using messaging.ssl config option
         cfg.CONF.set_override(name="ssl", override=True, group="messaging")
 
-        connection = transport_utils.get_connection(
-            urls="amqp://guest:guest@127.0.0.1:5671/"
-        )
+        connection = transport_utils.get_connection(urls=RMQ_URL)
 
         try:
             self.assertTrue(connection.connect())
@@ -117,9 +118,7 @@ class RabbitMQTLSListenerTestCase(unittest2.TestCase):
             name="ssl_cert_reqs", override="required", group="messaging"
         )
 
-        connection = transport_utils.get_connection(
-            urls="amqp://guest:guest@127.0.0.1:5671/"
-        )
+        connection = transport_utils.get_connection(urls=RMQ_URL)
 
         try:
             self.assertTrue(connection.connect())
@@ -139,9 +138,7 @@ class RabbitMQTLSListenerTestCase(unittest2.TestCase):
             name="ssl_ca_certs", override=ca_cert_path, group="messaging"
         )
 
-        connection = transport_utils.get_connection(
-            urls="amqp://guest:guest@127.0.0.1:5671/"
-        )
+        connection = transport_utils.get_connection(urls=RMQ_URL)
 
         expected_msg = r"\[SSL: CERTIFICATE_VERIFY_FAILED\] certificate verify failed"
         self.assertRaisesRegexp(ssl.SSLError, expected_msg, connection.connect)
@@ -156,9 +153,7 @@ class RabbitMQTLSListenerTestCase(unittest2.TestCase):
             name="ssl_ca_certs", override=ca_cert_path, group="messaging"
         )
 
-        connection = transport_utils.get_connection(
-            urls="amqp://guest:guest@127.0.0.1:5671/"
-        )
+        connection = transport_utils.get_connection(urls=RMQ_URL)
 
         expected_msg = r"\[SSL: CERTIFICATE_VERIFY_FAILED\] certificate verify failed"
         self.assertRaisesRegexp(ssl.SSLError, expected_msg, connection.connect)
@@ -172,9 +167,7 @@ class RabbitMQTLSListenerTestCase(unittest2.TestCase):
             name="ssl_ca_certs", override=ca_cert_path, group="messaging"
         )
 
-        connection = transport_utils.get_connection(
-            urls="amqp://guest:guest@127.0.0.1:5671/"
-        )
+        connection = transport_utils.get_connection(urls=RMQ_URL)
 
         try:
             self.assertTrue(connection.connect())
@@ -204,9 +197,7 @@ class RabbitMQTLSListenerTestCase(unittest2.TestCase):
             name="ssl_ca_certs", override=ca_cert_path, group="messaging"
         )
 
-        connection = transport_utils.get_connection(
-            urls="amqp://guest:guest@127.0.0.1:5671/"
-        )
+        connection = transport_utils.get_connection(urls=RMQ_URL)
 
         try:
             self.assertTrue(connection.connect())
@@ -235,9 +226,7 @@ class RabbitMQTLSListenerTestCase(unittest2.TestCase):
             name="ssl_ca_certs", override=ca_cert_path, group="messaging"
         )
 
-        connection = transport_utils.get_connection(
-            urls="amqp://guest:guest@127.0.0.1:5671/"
-        )
+        connection = transport_utils.get_connection(urls=RMQ_URL)
 
         expected_msg = r"\[X509: KEY_VALUES_MISMATCH\] key values mismatch"
         self.assertRaisesRegexp(ssl.SSLError, expected_msg, connection.connect)
