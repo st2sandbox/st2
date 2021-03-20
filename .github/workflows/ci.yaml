@@ -67,6 +67,7 @@ jobs:
           # tell bitnami/rabbitmq to enable this by default
           RABBITMQ_PLUGINS: rabbitmq_management
           # TODO: don't hardcode the user as guest:guest in tests - maybe specify via an env var
+          RABBITMQ_SECURE_PASSWORD: "no"
           RABBITMQ_DEFAULT_USER: guest
           RABBITMQ_DEFAULT_PASS: guest
 
@@ -209,6 +210,9 @@ jobs:
         # use: script -e -c to print colors
         run: |
           script -e -c "make ${TASK}"
+          success=$?
+          docker logs --tail=100 rabbitmq
+          exit $success
       - name: Nightly
         # Run any additional nightly checks only as part of a nightly (cron) build
         if: "${{ env.IS_NIGHTLY_BUILD == 'yes' }}"
