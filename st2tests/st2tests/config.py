@@ -116,7 +116,7 @@ def _override_messaging_opts():
     if override_rmq_url != "amqp://guest:guest@127.0.0.1:5672//":
         CONF.set_override(
             name="url",
-            override=rmq_url,
+            override=override_rmq_url,
             group="messaging",
         )
 
