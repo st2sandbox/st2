@@ -179,13 +179,9 @@ jobs:
           docker restart rabbitmq
           # wait for rabbitmq to restart
           until [ "$(docker inspect -f {{.State.Running}} rabbitmq)" == "true" ]; do sleep 0.1; done
-          # Install rabbitmq_management RabbitMQ plugin
-          #sudo service rabbitmq-server restart
-          #sleep 5
-          #sudo rabbitmq-plugins enable rabbitmq_management
+          # bitnami/rabbitmq enables rabbitmq_management RabbitMQ plugin by default
           sudo wget http://guest:guest@localhost:15672/cli/rabbitmqadmin -O /usr/local/bin/rabbitmqadmin
           sudo chmod +x /usr/local/bin/rabbitmqadmin
-          #sudo service rabbitmq-server restart
           # may need to escape the asterisk
           docker exec tail -n 30 /var/log/rabbitmq/*.log
       - name: Print versions
