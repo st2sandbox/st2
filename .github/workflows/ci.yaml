@@ -63,8 +63,6 @@ jobs:
         image: bitnami/rabbitmq:3.8  # includes mangement tools by default
         volumes:
           - /home/runner/rabbitmq_conf:/bitnami/conf  # RABBITMQ_MOUNTED_CONF_DIR
-          # this won't exist until checked out, but the checkout should then populate it.
-          - /home/runner/work/st2/st2/st2tests/st2tests/fixtures/ssl_certs:/st2/ssl_certs
 
         # These are strictly docker options, not entrypoint args (GHA restriction)
         options: >-
@@ -171,12 +169,15 @@ jobs:
         timeout-minutes: 2  # may die if rabbitmq fails to start
         run: |
           # Use custom RabbitMQ config which enables SSL / TLS listener on port 5671 with test certs
-          # These certs are mounted in a volume on the service container to /st2/ssl_certs
           # bitnami/rabbitmq image supports 3 ways to adjust rabbitmq config:
           #   - merge custom.conf into a generated rabbitmq.conf (we use this)
           #   - replace generated rabbitmq.conf entirely
           #   - add advanced.config (erlang) and/or rabbitmq-env.conf
           sudo cp scripts/github/rabbitmq.conf /home/runner/rabbitmq_conf/custom.conf
+          # The code is checked out after the container is already up, so we don't mount them.
+          # We copy those certs into the dir that is mounted to /bitnami/conf
+          sudo cp -r st2tests/st2tests/fixtures/ssl_certs /home/runner/rabbitmq_conf/
+          
           docker restart rabbitmq
           # wait for rabbitmq to restart
           until [ "$(docker inspect -f {{.State.Running}} rabbitmq)" == "true" ]; do sleep 0.1; done
