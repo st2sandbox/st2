@@ -190,7 +190,9 @@ jobs:
           echo restarting rabbitmq container
           docker events 2>&1 > docker-events.log &
           docker exec rabbitmq ps -ef
-          docker restart rabbitmq
+          # docker restart rabbitmq
+          docker stop rabbitmq
+          docker start rabbitmq
           # wait for rabbitmq container to restart
           until [ "$(docker inspect -f {{.State.Running}} rabbitmq)" == "true" ]; do sleep 0.1; done
           echo enabled RabbitMQ plugins:
