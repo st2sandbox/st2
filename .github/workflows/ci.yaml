@@ -173,36 +173,24 @@ jobs:
         run: |
           set -x
           # Use custom RabbitMQ config which enables SSL / TLS listener on port 5671 with test certs
-          # bitnami/rabbitmq image supports 3 ways to adjust rabbitmq config:
-          #   - merge custom.conf into a generated rabbitmq.conf (we use this)
-          #   - replace generated rabbitmq.conf entirely
-          #   - add advanced.config (erlang) and/or rabbitmq-env.conf
           sudo cp scripts/github/rabbitmq.conf /home/runner/rabbitmq_conf/custom.conf
           # The code is checked out after the container is already up, so we don't mount them.
           # We copy those certs into the dir that is mounted to /bitnami/conf
           sudo cp -r st2tests/st2tests/fixtures/ssl_certs /home/runner/rabbitmq_conf/
-          ls -l /home/runner/rabbitmq_conf
-          docker exec rabbitmq ls -la /opt/bitnami/rabbitmq/etc/rabbitmq /bitnami/conf
           echo
-          echo This is the pre-restart rabbitmq.conf file:
-          docker exec rabbitmq cat /opt/bitnami/rabbitmq/etc/rabbitmq/rabbitmq.conf && sleep 1
+          echo refresh rabbitmq config - based on ENTRYPOINT logic
+          docker exec rabbitmq bash -c 'cat /bitnami/conf/custom.conf >> /opt/bitnami/rabbitmq/etc/rabbitmq/rabbitmq.conf'
           echo
           echo restarting rabbitmq container
-          docker events 2>&1 > docker-events.log &
-          docker exec rabbitmq ps -ef && sleep 0.25
-          docker ps --no-trunc && sleep 0.25
           docker restart rabbitmq
-          docker ps --no-trunc && sleep 0.25
           # wait for rabbitmq container to restart
           until [ "$(docker inspect -f {{.State.Running}} rabbitmq)" == "true" ]; do sleep 0.1; done
           echo enabled RabbitMQ plugins:
           # print plugins list to: (1) ease debugging, (2) pause till rabbitmq is really running
-          docker exec rabbitmq ps -ef
           docker exec rabbitmq rabbitmq-plugins list -e
-          docker exec rabbitmq ls -la /opt/bitnami/rabbitmq/etc/rabbitmq /bitnami/conf
-          cat docker-events.log && sleep 1
+          echo
           echo This is the final rabbitmq.conf file:
-          docker exec rabbitmq cat /opt/bitnami/rabbitmq/etc/rabbitmq/rabbitmq.conf && sleep 1
+          docker exec rabbitmq cat /opt/bitnami/rabbitmq/etc/rabbitmq/rabbitmq.conf && sleep 0.25
           echo
           sudo wget http://guest:guest@localhost:15672/cli/rabbitmqadmin -O /usr/local/bin/rabbitmqadmin
           sudo chmod +x /usr/local/bin/rabbitmqadmin
