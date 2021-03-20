@@ -141,8 +141,8 @@ jobs:
         run: |
           # install dev dependencies for Python YAML and LDAP packages
           # https://github.com/StackStorm/st2-auth-ldap
-          sudo apt-get -y update
-          sudo apt-get -f -y install libldap2-dev libsasl2-dev libssl-dev libyaml-dev ldap-utils
+          echo sudo apt-get -y update
+          echo sudo apt-get -f -y install libldap2-dev libsasl2-dev libssl-dev libyaml-dev ldap-utils
       - name: Install virtualenv
         run: |
           # Note: Use the verison of virtualenv pinned in fixed-requirements.txt so we
@@ -182,9 +182,11 @@ jobs:
           sudo cp -r st2tests/st2tests/fixtures/ssl_certs /home/runner/rabbitmq_conf/
           ls -l /home/runner/rabbitmq_conf
           echo restarting rabbitmq container
+          docker exec rabbitmq-plugins list
           docker restart rabbitmq
           # wait for rabbitmq to restart
           until [ "$(docker inspect -f {{.State.Running}} rabbitmq)" == "true" ]; do sleep 0.1; done
+          docker exec rabbitmq-plugins list
           echo This is the final rabbitmq.conf file:
           docker exec rabbitmq cat /opt/bitnami/rabbitmq/etc/rabbitmq/rabbitmq.conf
           sudo wget http://guest:guest@localhost:15672/cli/rabbitmqadmin -O /usr/local/bin/rabbitmqadmin
