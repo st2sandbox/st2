@@ -176,7 +176,7 @@ jobs:
         run: |
           echo "$ST2_CI_REPO_PATH"
           sudo ST2_CI_REPO_PATH="${ST2_CI_REPO_PATH}" scripts/travis/permissions-workaround.sh
-      - name: Setup RabbitMQ
+      - name: Finish Integration test setup (RabbitMQ, st2.tests.conf)
         if: "${{ env.TASK == 'ci-integration' }}"
         # bitnami image allows (see bitnami/rabbitmq readme):
         # Here we're copying a rabbitmq.config file which won't do anything.
@@ -184,9 +184,12 @@ jobs:
         timeout-minutes: 2  # may die if rabbitmq fails to start
         run: |
           set -x
+          ls -l /tmp /etc/ssl /etc/ssl/certs || true
           # Since we're using a container, we can't use guest:guest
           # Integration tests hardcode paths to conf/st2.tests*.conf so we modify in place.
           sed -i -e "s/guest:guest/${RABBITMQ_USERNAME}:${RABBITMQ_PASSWORD}/" conf/st2.tests*.conf
+          # use a temp directory that is actually writeable (for pack installation tests)
+          sed -i -e "s/base_path = .*/base_path = ${{ runner.temp }}/" conf/st2.tests*.conf
           # Use custom RabbitMQ config which enables SSL / TLS listener on port 5671 with test certs
           sudo cp scripts/github/rabbitmq.conf /home/runner/rabbitmq_conf/custom.conf
           # The code is checked out after the container is already up, so we don't mount them.
