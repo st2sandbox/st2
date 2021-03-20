@@ -93,7 +93,9 @@ jobs:
       COLUMNS: '120'
       PYLINT_CONCURRENCY: '2'
 
-      # CI st2.conf (with ST2_CI_USER user instead of stanley)
+      # CI st2.conf
+      #   - with ST2_CI_USER user instead of stanley
+      #   - with RABBITMQ_USERNAME:RABBITMQ_PASSWORD instead of guest:guest
       ST2_CONF: 'conf/st2.ci.conf'
 
       # Tell StackStorm that we are indeed in CI mode, previously we hard coded a Travis specific
@@ -161,10 +163,12 @@ jobs:
           ./scripts/travis/install-requirements.sh
       - name: Setup integration tests
         run: |
-          # prep a ci-specific dev conf file that uses runner instead of stanley
-          # this user is the username of the user in GitHub actions, used for SSH, etc during
-          # integration tests (important)
-          cp conf/st2.dev.conf "${ST2_CONF}" ; sed -i -e "s/stanley/${ST2_CI_USER}/" "${ST2_CONF}"
+          # prep a ci-specific dev conf file that
+          #   - uses runner instead of stanley
+          #     this user is the username of the user in GitHub actions,
+          #     used for SSH, etc during integration tests (important)
+          #   - uses a non-guest user/pass for RabbitMQ since we can't use guest outside of the container
+          cp conf/st2.dev.conf "${ST2_CONF}" ; sed -i -e "s/stanley/${ST2_CI_USER}/" -e "s/guest:guest/${RABBITMQ_USERNAME}:${RABBITMQ_PASSWORD}/" "${ST2_CONF}"
           scripts/travis/add-itest-user-key.sh
           sudo .circle/add-itest-user.sh
       - name: Permissions Workaround
