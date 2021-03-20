@@ -68,14 +68,14 @@ jobs:
           --name rabbitmq
 
         ports:
-          # these will assign a random free host port
           # These 6 ports are exposed by bitnami/rabbitmq (see https://www.rabbitmq.com/networking.html#ports)
-          #- 4369/tcp  # epmd
-          - 5671/tcp   # AMQP SSL port
-          - 5672/tcp   # AMQP standard port
-          - 15671/tcp  # Management: SSL port
-          - 15672/tcp  # Management: HTTP, CLI
-          #- 25672/tcp  # inter-node or CLI
+          # host_port:container_port/protocol
+          #- 4369:4369/tcp  # epmd
+          - 5671:5671/tcp   # AMQP SSL port
+          - 5672:5672/tcp   # AMQP standard port
+          - 15671:15671/tcp  # Management: SSL port
+          - 15672:15672/tcp  # Management: HTTP, CLI
+          #- 25672:25672/tcp  # inter-node or CLI
 
     env:
       TASK: '${{ matrix.task }}'
@@ -188,7 +188,7 @@ jobs:
           #sudo service rabbitmq-server restart
           #sleep 5
           #sudo rabbitmq-plugins enable rabbitmq_management
-          sudo wget http://guest:guest@localhost:${{ job.services.rabbitmq.ports[15672] }}/cli/rabbitmqadmin -O /usr/local/bin/rabbitmqadmin
+          sudo wget http://guest:guest@localhost:15672/cli/rabbitmqadmin -O /usr/local/bin/rabbitmqadmin
           sudo chmod +x /usr/local/bin/rabbitmqadmin
           #sudo service rabbitmq-server restart
           # may need to escape the asterisk
