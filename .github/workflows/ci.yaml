@@ -14,6 +14,7 @@ on:
     type: [opened, reopened, edited]
     branches:
       # Only for PRs targeting those branches
+      - main
       - master
       - v[0-9]+.[0-9]+
   schedule:
@@ -28,18 +29,18 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - name: 'Lint Checks'
-            task: 'ci-checks'
-            python-version: '3.6'
-          - name: 'Compile'
-            task: 'ci-compile'
-            python-version: '3.6'
-          - name: 'Pack Tests'
-            task: 'ci-packs-tests'
-            python-version: '3.6'
-          - name: 'Unit Tests'
-            task: 'ci-unit'
-            python-version: '3.6'
+          #- name: 'Lint Checks'
+          #  task: 'ci-checks'
+          #  python-version: '3.6'
+          #- name: 'Compile'
+          #  task: 'ci-compile'
+          #  python-version: '3.6'
+          #- name: 'Pack Tests'
+          #  task: 'ci-packs-tests'
+          #  python-version: '3.6'
+          #- name: 'Unit Tests'
+          #  task: 'ci-unit'
+          #  python-version: '3.6'
           # - name: 'Micro Benchmarks'
           #   task: 'micro-benchmarks'
           #   python-version: '3.6'
