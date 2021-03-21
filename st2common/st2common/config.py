@@ -395,7 +395,8 @@ def register_opts(ignore_errors=False):
     default_python_bin_path = sys.executable
     # FIXME: If the virtualenv uses a symlinked python, then this won't use
     # what is installed in the virtualenv, it will use the system virtualenv.
-    base_dir = os.path.dirname(os.path.realpath(default_python_bin_path))
+    #base_dir = os.path.dirname(os.path.realpath(default_python_bin_path))
+    base_dir = os.path.dirname(default_python_bin_path)
     default_virtualenv_bin_path = os.path.join(base_dir, "virtualenv")
 
     action_runner_opts = [
