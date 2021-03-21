@@ -235,6 +235,10 @@ jobs:
           git --version
           pip --version
           pip list
+          which virtualenv
+          virtualenv --version
+          virtualenv/bin/virtualenv --version
+          ls -l virtualenv/bin
           # Print out various environment variables info
           make play
       - name: make
