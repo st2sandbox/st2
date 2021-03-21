@@ -145,7 +145,7 @@ class PythonRunnerActionWrapperProcessTestCase(unittest2.TestCase):
             "python %s --pack=dummy --file-path=%s --config='%s' "
             "--stdin-parameters" % (WRAPPER_SCRIPT_PATH, file_path, config)
         )
-        LOG.debug(self.command_string)
+        LOG.debug(command_string)
         exit_code, stdout, stderr = run_command(command_string, shell=True)
         LOG.debug(f"stdout=\n{stdout}")
         LOG.debug(f"stderr=\n{stderr}")
