@@ -41,6 +41,9 @@ WRAPPER_SCRIPT_PATH = os.path.abspath(WRAPPER_SCRIPT_PATH)
 
 
 class PythonRunnerBehaviorTestCase(CleanFilesTestCase, CleanDbTestCase):
+
+    DISPLAY_LOG_MESSAGES = True
+
     def setUp(self):
         super(PythonRunnerBehaviorTestCase, self).setUp()
         config.parse_args()
@@ -87,8 +90,12 @@ class PythonRunnerBehaviorTestCase(CleanFilesTestCase, CleanDbTestCase):
             f"owner={pwd.getpwuid(ls.st_uid)[0]} "
             f"uid={os.getuid()} user={pwd.getpwuid(os.getuid())[0]}"
         )
-        p = os.path.join(self.virtualenvs_path, pack_name, 'lib', 'python3.6', 'site-packages', 'six.py')
-        print(f"\n{p} exists={os.path.exists(p)}")
+        lpy = os.path.join(self.virtualenvs_path, pack_name, 'lib', 'python3.6')
+        print(f"\n{lpy} exists={os.path.exists(lpy)}")
+        sp = os.path.join(self.virtualenvs_path, pack_name, 'lib', 'python3.6', 'site-packages')
+        print(f"{sp} exists={os.path.exists(sp)}")
+        p_six = os.path.join(self.virtualenvs_path, pack_name, 'lib', 'python3.6', 'site-packages', 'six.py')
+        print(f"{p_six} exists={os.path.exists(p_six)}")
 
         # This test suite expects that loaded six module is located under the virtualenv library,
         # because 'six' is written in the requirements.txt of 'test_library_dependencies' pack.
