@@ -18,12 +18,14 @@ This tests whether an action which is python-script behaves as we expect.
 """
 
 import os
+import pwd
 import mock
 import tempfile
 
 from oslo_config import cfg
 
 from python_runner import python_runner
+from st2common import log as logging
 from st2common.util.virtualenvs import setup_pack_virtualenv
 from st2tests import config
 from st2tests.base import CleanFilesTestCase
@@ -31,6 +33,8 @@ from st2tests.base import CleanDbTestCase
 from st2tests.fixturesloader import get_fixtures_base_path
 
 __all__ = ["PythonRunnerBehaviorTestCase"]
+
+LOG = logging.getLogger(__name__)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 WRAPPER_SCRIPT_PATH = os.path.join(
@@ -49,6 +53,13 @@ class PythonRunnerBehaviorTestCase(CleanFilesTestCase, CleanDbTestCase):
 
         self.base_path = dir_path
         self.virtualenvs_path = os.path.join(self.base_path, "virtualenvs/")
+        ls = os.stat(self.virtualenvs_path)
+        LOG.debug(
+            f"{self.virtualenvs_path} exists={os.path.exists(self.virtualenvs_path)} "
+            f"perms={oct(ls.st_mode)[-3:]} owner_uid={ls.st_uid} owner_gid={ls.st_gid} "
+            f"owner={pwd.getpwuid(ls.st_uid)[0]} "
+            f"uid={os.getuid()} user={pwd.getpwuid(os.getuid())[0]}"
+        )
 
         # Make sure dir is deleted on tearDown
         self.to_delete_directories.append(self.base_path)
@@ -68,6 +79,14 @@ class PythonRunnerBehaviorTestCase(CleanFilesTestCase, CleanDbTestCase):
         # requirements.txt wihch only writes 'six' module.
         setup_pack_virtualenv(pack_name=pack_name)
         self.assertTrue(os.path.exists(os.path.join(self.virtualenvs_path, pack_name)))
+        ls = os.stat(os.path.join(self.virtualenvs_path, pack_name))
+        LOG.debug(
+            f"{os.path.join(self.virtualenvs_path, pack_name)} "
+            f"exists={os.path.exists(os.path.join(self.virtualenvs_path, pack_name))} "
+            f"perms={oct(ls.st_mode)[-3:]} owner_uid={ls.st_uid} owner_gid={ls.st_gid} "
+            f"owner={pwd.getpwuid(ls.st_uid)[0]} "
+            f"uid={os.getuid()} user={pwd.getpwuid(os.getuid())[0]}"
+        )
 
         # This test suite expects that loaded six module is located under the virtualenv library,
         # because 'six' is written in the requirements.txt of 'test_library_dependencies' pack.

@@ -39,10 +39,13 @@ import json
 import unittest2
 from distutils.spawn import find_executable
 
+from st2common import log as logging
 from st2common.util.shell import run_command
 from six.moves import range
 
 __all__ = ["PythonRunnerActionWrapperProcessTestCase"]
+
+LOG = logging.getLogger(__name__)
 
 # Maximum limit for the process wrapper script execution time (in seconds)
 WRAPPER_PROCESS_RUN_TIME_UPPER_LIMIT = 0.31
@@ -142,7 +145,10 @@ class PythonRunnerActionWrapperProcessTestCase(unittest2.TestCase):
             "python %s --pack=dummy --file-path=%s --config='%s' "
             "--stdin-parameters" % (WRAPPER_SCRIPT_PATH, file_path, config)
         )
+        LOG.debug(self.command_string)
         exit_code, stdout, stderr = run_command(command_string, shell=True)
+        LOG.debug(f"stdout=\n{stdout}")
+        LOG.debug(f"stderr=\n{stderr}")
 
         expected_msg = (
             "ValueError: No input received and timed out while waiting for parameters "
