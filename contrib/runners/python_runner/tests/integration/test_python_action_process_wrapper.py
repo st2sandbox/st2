@@ -35,11 +35,11 @@ profimp "from python_runner.python_runner import python_action_wrapper" --html >
 from __future__ import absolute_import
 import os
 import json
+import logging
 
 import unittest2
 from distutils.spawn import find_executable
 
-from st2common import log as logging
 from st2common.util.shell import run_command
 from six.moves import range
 

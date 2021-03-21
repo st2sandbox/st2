@@ -17,6 +17,7 @@
 This tests whether an action which is python-script behaves as we expect.
 """
 
+import logging
 import os
 import pwd
 import mock
@@ -25,7 +26,6 @@ import tempfile
 from oslo_config import cfg
 
 from python_runner import python_runner
-from st2common import log as logging
 from st2common.util.virtualenvs import setup_pack_virtualenv
 from st2tests import config
 from st2tests.base import CleanFilesTestCase
