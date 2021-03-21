@@ -842,10 +842,10 @@ endif
 		echo "Running integration tests in" $$component; \
 		echo "-----------------------------------------------------------"; \
 		echo skipping . $(VIRTUALENV_DIR)/bin/activate; \
-		    COVERAGE_FILE=.coverage.integration.$$(echo $$component | tr '/' '.') \
-		    nosetests $(NOSE_OPTS) -s -v $(NOSE_COVERAGE_FLAGS) \
-		    $(NOSE_COVERAGE_PACKAGES) \
-		    $$component/tests/integration || exit 1; \
+		echo     COVERAGE_FILE=.coverage.integration.$$(echo $$component | tr '/' '.') \
+		echo     nosetests $(NOSE_OPTS) -s -v $(NOSE_COVERAGE_FLAGS) \
+		echo     $(NOSE_COVERAGE_PACKAGES) \
+		echo     $$component/tests/integration || exit 1; \
 		echo "-----------------------------------------------------------"; \
 		echo "Done integration running tests in" $$component; \
 		echo "==========================================================="; \

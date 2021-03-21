@@ -88,7 +88,7 @@ class PythonRunnerBehaviorTestCase(CleanFilesTestCase, CleanDbTestCase):
             f"uid={os.getuid()} user={pwd.getpwuid(os.getuid())[0]}"
         )
         p = os.path.join(self.virtualenvs_path, pack_name, 'lib', 'python3.6', 'site-packages', 'six.py')
-        print(f"{p} exists={os.path.exists(p)}")
+        print(f"\n{p} exists={os.path.exists(p)}")
 
         # This test suite expects that loaded six module is located under the virtualenv library,
         # because 'six' is written in the requirements.txt of 'test_library_dependencies' pack.
