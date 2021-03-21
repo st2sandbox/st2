@@ -185,12 +185,12 @@ jobs:
         run: |
           set -x
           ls -l /etc/ssl/certs || true
-          ls -ld /tmp || true
           # Since we're using a container, we can't use guest:guest
           # Integration tests hardcode paths to conf/st2.tests*.conf so we modify in place.
           sed -i -e "s/guest:guest/${RABBITMQ_USERNAME}:${RABBITMQ_PASSWORD}/" conf/st2.tests*.conf
+          # ls -ld /tmp || true
           # use a temp directory that is actually writeable (for pack installation tests)
-          sed -i -e "s|base_path = .*|base_path = ${{ runner.temp }}|" conf/st2.tests*.conf
+          #sed -i -e "s|base_path = .*|base_path = ${{ runner.temp }}|" conf/st2.tests*.conf
           # Use custom RabbitMQ config which enables SSL / TLS listener on port 5671 with test certs
           sudo cp scripts/github/rabbitmq.conf /home/runner/rabbitmq_conf/custom.conf
           # The code is checked out after the container is already up, so we don't mount them.
