@@ -176,6 +176,7 @@ jobs:
         run: |
           echo "$ST2_CI_REPO_PATH"
           sudo ST2_CI_REPO_PATH="${ST2_CI_REPO_PATH}" scripts/travis/permissions-workaround.sh
+          sudo chmod -R o+w /home/runner/.local/share/virtualenv
       - name: Finish Integration test setup (RabbitMQ, st2.tests.conf)
         if: "${{ env.TASK == 'ci-integration' }}"
         # bitnami image allows (see bitnami/rabbitmq readme):
