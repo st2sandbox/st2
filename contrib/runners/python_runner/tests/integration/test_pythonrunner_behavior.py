@@ -51,7 +51,7 @@ class PythonRunnerBehaviorTestCase(CleanFilesTestCase, CleanDbTestCase):
         self.base_path = dir_path
         self.virtualenvs_path = os.path.join(self.base_path, "virtualenvs/")
         print(
-            f"{self.virtualenvs_path} exists={os.path.exists(self.virtualenvs_path)} "
+            f"\n{self.virtualenvs_path} exists={os.path.exists(self.virtualenvs_path)} "
         )
 
         # Make sure dir is deleted on tearDown
@@ -74,19 +74,21 @@ class PythonRunnerBehaviorTestCase(CleanFilesTestCase, CleanDbTestCase):
         self.assertTrue(os.path.exists(os.path.join(self.virtualenvs_path, pack_name)))
         ls_v = os.stat(self.virtualenvs_path)
         print(
-            f"\n{self.virtualenvs_path} exists={os.path.exists(self.virtualenvs_path)} "
+            f"{self.virtualenvs_path} exists={os.path.exists(self.virtualenvs_path)} "
             f"perms={oct(ls_v.st_mode)[-3:]} owner_uid={ls_v.st_uid} owner_gid={ls_v.st_gid} "
             f"owner={pwd.getpwuid(ls_v.st_uid)[0]} "
             f"uid={os.getuid()} user={pwd.getpwuid(os.getuid())[0]}"
         )
         ls = os.stat(os.path.join(self.virtualenvs_path, pack_name))
         print(
-            f"\n{os.path.join(self.virtualenvs_path, pack_name)} "
+            f"{os.path.join(self.virtualenvs_path, pack_name)} "
             f"exists={os.path.exists(os.path.join(self.virtualenvs_path, pack_name))} "
             f"perms={oct(ls.st_mode)[-3:]} owner_uid={ls.st_uid} owner_gid={ls.st_gid} "
             f"owner={pwd.getpwuid(ls.st_uid)[0]} "
             f"uid={os.getuid()} user={pwd.getpwuid(os.getuid())[0]}"
         )
+        p = os.path.join(self.virtualenvs_path, pack_name, 'lib', 'python3.6', 'site-packages', 'six.py')
+        print(f"{p} exists={os.path.exists(p)}")
 
         # This test suite expects that loaded six module is located under the virtualenv library,
         # because 'six' is written in the requirements.txt of 'test_library_dependencies' pack.

@@ -63,14 +63,14 @@ ifndef PYLINT_CONCURRENCY
 	PYLINT_CONCURRENCY := 1
 endif
 
-NOSE_OPTS := --rednose --immediate --with-parallel --nocapture --nologcapture
+NOSE_OPTS := --rednose --immediate --with-parallel --nocapture
 
 ifndef NOSE_TIME
 	NOSE_TIME := yes
 endif
 
 ifeq ($(NOSE_TIME),yes)
-	NOSE_OPTS := --rednose --immediate --with-parallel --with-timer --nocapture --nologcapture
+	NOSE_OPTS := --rednose --immediate --with-parallel --with-timer --nocapture
 	NOSE_WITH_TIMER := 1
 endif
 
@@ -841,7 +841,7 @@ endif
 		echo "==========================================================="; \
 		echo "Running integration tests in" $$component; \
 		echo "-----------------------------------------------------------"; \
-		. $(VIRTUALENV_DIR)/bin/activate; \
+		echo skipping . $(VIRTUALENV_DIR)/bin/activate; \
 		    COVERAGE_FILE=.coverage.integration.$$(echo $$component | tr '/' '.') \
 		    nosetests $(NOSE_OPTS) -s -v $(NOSE_COVERAGE_FLAGS) \
 		    $(NOSE_COVERAGE_PACKAGES) \
