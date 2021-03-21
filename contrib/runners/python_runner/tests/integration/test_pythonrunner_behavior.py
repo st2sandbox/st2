@@ -74,14 +74,14 @@ class PythonRunnerBehaviorTestCase(CleanFilesTestCase, CleanDbTestCase):
         self.assertTrue(os.path.exists(os.path.join(self.virtualenvs_path, pack_name)))
         ls_v = os.stat(self.virtualenvs_path)
         print(
-            f"{self.virtualenvs_path} exists={os.path.exists(self.virtualenvs_path)} "
+            f"\n{self.virtualenvs_path} exists={os.path.exists(self.virtualenvs_path)} "
             f"perms={oct(ls_v.st_mode)[-3:]} owner_uid={ls_v.st_uid} owner_gid={ls_v.st_gid} "
             f"owner={pwd.getpwuid(ls_v.st_uid)[0]} "
             f"uid={os.getuid()} user={pwd.getpwuid(os.getuid())[0]}"
         )
         ls = os.stat(os.path.join(self.virtualenvs_path, pack_name))
         print(
-            f"{os.path.join(self.virtualenvs_path, pack_name)} "
+            f"\n{os.path.join(self.virtualenvs_path, pack_name)} "
             f"exists={os.path.exists(os.path.join(self.virtualenvs_path, pack_name))} "
             f"perms={oct(ls.st_mode)[-3:]} owner_uid={ls.st_uid} owner_gid={ls.st_gid} "
             f"owner={pwd.getpwuid(ls.st_uid)[0]} "
@@ -93,6 +93,7 @@ class PythonRunnerBehaviorTestCase(CleanFilesTestCase, CleanDbTestCase):
         (_, output, _) = self._run_action(
             pack_name, "get_library_path.py", {"module": "six"}
         )
+        print(f"\noutput={output}")
         self.assertEqual(output["result"].find(self.virtualenvs_path), 0)
 
         # Conversely, this expects that 'mock' module file-path is not under sandbox library,
