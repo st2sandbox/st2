@@ -53,9 +53,6 @@ class PythonRunnerBehaviorTestCase(CleanFilesTestCase, CleanDbTestCase):
 
         self.base_path = dir_path
         self.virtualenvs_path = os.path.join(self.base_path, "virtualenvs/")
-        print(
-            f"\n{self.virtualenvs_path} exists={os.path.exists(self.virtualenvs_path)} "
-        )
 
         # Make sure dir is deleted on tearDown
         self.to_delete_directories.append(self.base_path)
@@ -75,13 +72,6 @@ class PythonRunnerBehaviorTestCase(CleanFilesTestCase, CleanDbTestCase):
         # requirements.txt wihch only writes 'six' module.
         setup_pack_virtualenv(pack_name=pack_name)
         self.assertTrue(os.path.exists(os.path.join(self.virtualenvs_path, pack_name)))
-        ls_v = os.stat(self.virtualenvs_path)
-        print(
-            f"{self.virtualenvs_path} exists={os.path.exists(self.virtualenvs_path)} "
-            f"perms={oct(ls_v.st_mode)[-3:]} owner_uid={ls_v.st_uid} owner_gid={ls_v.st_gid} "
-            f"owner={pwd.getpwuid(ls_v.st_uid)[0]} "
-            f"uid={os.getuid()} user={pwd.getpwuid(os.getuid())[0]}"
-        )
         ls = os.stat(os.path.join(self.virtualenvs_path, pack_name))
         print(
             f"{os.path.join(self.virtualenvs_path, pack_name)} "
@@ -90,8 +80,6 @@ class PythonRunnerBehaviorTestCase(CleanFilesTestCase, CleanDbTestCase):
             f"owner={pwd.getpwuid(ls.st_uid)[0]} "
             f"uid={os.getuid()} user={pwd.getpwuid(os.getuid())[0]}"
         )
-        lpy = os.path.join(self.virtualenvs_path, pack_name, 'lib', 'python3.6')
-        print(f"\n{lpy} exists={os.path.exists(lpy)}")
         sp = os.path.join(self.virtualenvs_path, pack_name, 'lib', 'python3.6', 'site-packages')
         print(f"{sp} exists={os.path.exists(sp)}")
         p_six = os.path.join(self.virtualenvs_path, pack_name, 'lib', 'python3.6', 'site-packages', 'six.py')
