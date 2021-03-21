@@ -240,6 +240,12 @@ jobs:
       - name: make
         # use: script -e -c to print colors
         run: |
+          ls -ld /tmp
+          sudo ls -ld /tmp
+          ls -l /tmp
+          sudo ls -l /tmp
+          mount
+          sudo mount
           script -e -c "make ${TASK}"
       - name: Nightly
         # Run any additional nightly checks only as part of a nightly (cron) build
