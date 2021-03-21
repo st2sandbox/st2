@@ -109,16 +109,6 @@ before_script:
   - ls -l /etc/rabbitmq
   - ls -l /home/travis
   - ls -l /home/travis/build
-  - ls -l /home/travis/build/StackStorm
-  - ls -l /home/travis/build/StackStorm/st2
-  - ls -l /home/travis/build/StackStorm/st2/st2tests
-  - ls -l /home/travis/build/StackStorm/st2/st2tests/st2tests
-  - ls -l /home/travis/build/StackStorm/st2/st2tests/st2tests/fixtures
-  - ls -l /home/travis/build/StackStorm/st2/st2tests/st2tests/fixtures/ssl_certs
-  - ls -l /home/travis/build/StackStorm/st2/st2tests/st2tests/fixtures/ssl_certs/ca
-  - ls -l /home/travis/build/StackStorm/st2/st2tests/st2tests/fixtures/ssl_certs/server
-  - cat /home/travis/build/StackStorm/st2/st2tests/st2tests/fixtures/ssl_certs/ca/ca_certificate_bundle.pem
-  - cat /home/travis/build/StackStorm/st2/st2tests/st2tests/fixtures/ssl_certs/server/server_certificate.pem
   # Install rabbitmq_management RabbitMQ plugin
   - sudo service rabbitmq-server restart ; sleep 5
   - sudo rabbitmq-plugins enable rabbitmq_management
