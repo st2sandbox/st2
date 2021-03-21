@@ -55,6 +55,7 @@ function init(){
     CURRENT_DIR=`pwd`
     CURRENT_USER=`whoami`
     CURRENT_USER_GROUP=`id -gn`
+	echo "Current user:group = ${CURRENT_USER}:${CURRENT_USER_GROUP}"
 
     if [[ (${COMMAND_PATH} == /*) ]] ;
     then
