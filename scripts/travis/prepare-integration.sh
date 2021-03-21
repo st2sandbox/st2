@@ -46,4 +46,5 @@ chmod 777 logs/*
 # o=other; X=only set execute bit if user execute bit is set (eg on dirs)
 chmod -R o+rwX ./virtualenv/
 # newer virtualenv versions are putting lock files under ~/.local
-chmod -R o+rwX ~${ST2_CI_USER}/.local/share/virtualenv
+# as this script runs with sudo, HOME is actually the CI user's home
+chmod -R o+rwX ${HOME}/.local/share/virtualenv
