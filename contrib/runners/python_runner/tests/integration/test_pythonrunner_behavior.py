@@ -17,7 +17,6 @@
 This tests whether an action which is python-script behaves as we expect.
 """
 
-import logging
 import os
 import pwd
 import mock
@@ -33,8 +32,6 @@ from st2tests.base import CleanDbTestCase
 from st2tests.fixturesloader import get_fixtures_base_path
 
 __all__ = ["PythonRunnerBehaviorTestCase"]
-
-LOG = logging.getLogger(__name__)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 WRAPPER_SCRIPT_PATH = os.path.join(
@@ -53,7 +50,7 @@ class PythonRunnerBehaviorTestCase(CleanFilesTestCase, CleanDbTestCase):
 
         self.base_path = dir_path
         self.virtualenvs_path = os.path.join(self.base_path, "virtualenvs/")
-        LOG.debug(
+        print(
             f"{self.virtualenvs_path} exists={os.path.exists(self.virtualenvs_path)} "
         )
 
@@ -76,14 +73,14 @@ class PythonRunnerBehaviorTestCase(CleanFilesTestCase, CleanDbTestCase):
         setup_pack_virtualenv(pack_name=pack_name)
         self.assertTrue(os.path.exists(os.path.join(self.virtualenvs_path, pack_name)))
         ls_v = os.stat(self.virtualenvs_path)
-        LOG.debug(
+        print(
             f"{self.virtualenvs_path} exists={os.path.exists(self.virtualenvs_path)} "
             f"perms={oct(ls_v.st_mode)[-3:]} owner_uid={ls_v.st_uid} owner_gid={ls_v.st_gid} "
             f"owner={pwd.getpwuid(ls_v.st_uid)[0]} "
             f"uid={os.getuid()} user={pwd.getpwuid(os.getuid())[0]}"
         )
         ls = os.stat(os.path.join(self.virtualenvs_path, pack_name))
-        LOG.debug(
+        print(
             f"{os.path.join(self.virtualenvs_path, pack_name)} "
             f"exists={os.path.exists(os.path.join(self.virtualenvs_path, pack_name))} "
             f"perms={oct(ls.st_mode)[-3:]} owner_uid={ls.st_uid} owner_gid={ls.st_gid} "
