@@ -283,6 +283,7 @@ def install_requirements(
         " ".join(cmd),
     )
     exit_code, stdout, stderr = run_command(cmd=cmd, env=env)
+    logger.debug(f"\n==========\nstdout=\n{stdout}\n==========\nstderr=\n{stderr}")
 
     if exit_code != 0:
         stdout = to_ascii(stdout)
