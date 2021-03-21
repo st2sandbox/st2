@@ -201,7 +201,6 @@ jobs:
         timeout-minutes: 2  # may die if rabbitmq fails to start
         run: |
           set -x
-          ls -ld /home/runner/.local/share/virtualenv/py_info /home/runner/.local/share/virtualenv /home/runner/.local/share /home/runner/.local /home/runner /home / || true
           # Since we're using a container, we can't use guest:guest
           # Integration tests hardcode paths to conf/st2.tests*.conf so we modify in place.
           sed -i -e "s/guest:guest/${RABBITMQ_USERNAME}:${RABBITMQ_PASSWORD}/" conf/st2.tests*.conf
@@ -240,11 +239,7 @@ jobs:
       - name: make
         # use: script -e -c to print colors
         run: |
-          sudo ls -l /tmp /home/runner/work/st2/st2/virtualenv/bin/python /home/runner/.local/share/virtualenv/py_info/* || true
-          script -e -c "make ${TASK}" || true
-          sudo ls -l /tmp /home/runner/work/st2/st2/virtualenv/bin/python /home/runner/.local/share/virtualenv/py_info/* || true
-          sudo ls -ld /home/runner/.local/share/virtualenv/py_info /home/runner/.local/share/virtualenv /home/runner/.local/share /home/runner/.local /home/runner /home /
-          exit 5
+          script -e -c "make ${TASK}"
       - name: Nightly
         # Run any additional nightly checks only as part of a nightly (cron) build
         if: "${{ env.IS_NIGHTLY_BUILD == 'yes' }}"
