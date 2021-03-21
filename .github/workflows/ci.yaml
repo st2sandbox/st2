@@ -150,9 +150,9 @@ jobs:
           path: |
             ~/.cache/pip
             virtualenv
-          key: ${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('requirements.txt', 'test-requirements.txt') }}
+          key: py-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('requirements.txt', 'test-requirements.txt') }}
           restore-keys: |
-            ${{ runner.os }}-${{ matrix.python }}-
+            py-${{ runner.os }}-${{ matrix.python }}-
       - uses: actions/cache@v2
         with:
           path: |
