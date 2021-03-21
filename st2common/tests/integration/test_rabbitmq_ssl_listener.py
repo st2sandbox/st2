@@ -131,7 +131,7 @@ class RabbitMQTLSListenerTestCase(unittest2.TestCase):
 
         # 2. Validate server cert against other CA bundle (failure)
         # CA bundle which was not used to sign the server cert
-        ca_cert_path = os.path.join("/etc/ssl/certs/thawte_Primary_Root_CA.pem")
+        ca_cert_path = os.path.join("/etc/ssl/certs/SecureTrust_CA.pem")
 
         cfg.CONF.set_override(
             name="ssl_cert_reqs", override="required", group="messaging"
@@ -146,7 +146,7 @@ class RabbitMQTLSListenerTestCase(unittest2.TestCase):
         self.assertRaisesRegexp(ssl.SSLError, expected_msg, connection.connect)
 
         # 3. Validate server cert against other CA bundle (failure)
-        ca_cert_path = os.path.join("/etc/ssl/certs/thawte_Primary_Root_CA.pem")
+        ca_cert_path = os.path.join("/etc/ssl/certs/SecureTrust_CA.pem")
 
         cfg.CONF.set_override(
             name="ssl_cert_reqs", override="optional", group="messaging"
@@ -162,7 +162,7 @@ class RabbitMQTLSListenerTestCase(unittest2.TestCase):
 
         # 4. Validate server cert against other CA bundle (failure)
         # We use invalid bundle but cert_reqs is none
-        ca_cert_path = os.path.join("/etc/ssl/certs/thawte_Primary_Root_CA.pem")
+        ca_cert_path = os.path.join("/etc/ssl/certs/SecureTrust_CA.pem")
 
         cfg.CONF.set_override(name="ssl_cert_reqs", override="none", group="messaging")
         cfg.CONF.set_override(
