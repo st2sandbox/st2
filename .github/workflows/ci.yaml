@@ -67,9 +67,11 @@ jobs:
           # tell bitnami/rabbitmq to enable this by default
           RABBITMQ_PLUGINS: rabbitmq_management
           # Since we're using a container, we can't use guest:guest
-          RABBITMQ_SECURE_PASSWORD: "no"
-          RABBITMQ_USERNAME: st2
-          RABBITMQ_PASSWORD: st2
+          # RABBITMQ_SECURE_PASSWORD: "no"
+          # RABBITMQ_USERNAME: st2
+          # RABBITMQ_PASSWORD: st2
+          RABBITMQ_USERNAME: guest
+          RABBITMQ_PASSWORD: guest
 
         # These are strictly docker options, not entrypoint args (GHA restriction)
         options: >-
@@ -108,8 +110,8 @@ jobs:
       ST2_CI_USER: 'runner'
 
       # Since we're using a container, we can't use guest:guest
-      RABBITMQ_USERNAME: st2
-      RABBITMQ_PASSWORD: st2
+      # RABBITMQ_USERNAME: st2
+      # RABBITMQ_PASSWORD: st2
     steps:
       - name: Custom Environment Setup
         # built-in GitHub Actions environment variables
@@ -184,7 +186,8 @@ jobs:
           #     this user is the username of the user in GitHub actions,
           #     used for SSH, etc during integration tests (important)
           #   - uses a non-guest user/pass for RabbitMQ since we can't use guest outside of the container
-          cp conf/st2.dev.conf "${ST2_CONF}" ; sed -i -e "s/stanley/${ST2_CI_USER}/" -e "s/guest:guest/${RABBITMQ_USERNAME}:${RABBITMQ_PASSWORD}/" "${ST2_CONF}"
+          cp conf/st2.dev.conf "${ST2_CONF}" ; sed -i -e "s/stanley/${ST2_CI_USER}/" "${ST2_CONF}"
+          # cp conf/st2.dev.conf "${ST2_CONF}" ; sed -i -e "s/stanley/${ST2_CI_USER}/" -e "s/guest:guest/${RABBITMQ_USERNAME}:${RABBITMQ_PASSWORD}/" "${ST2_CONF}"
           scripts/travis/add-itest-user-key.sh
           sudo .circle/add-itest-user.sh
       - name: Permissions Workaround
@@ -203,9 +206,7 @@ jobs:
           set -x
           # Since we're using a container, we can't use guest:guest
           # Integration tests hardcode paths to conf/st2.tests*.conf so we modify in place.
-          sed -i -e "s/guest:guest/${RABBITMQ_USERNAME}:${RABBITMQ_PASSWORD}/" conf/st2.tests*.conf
-          # use a temp directory that is actually writeable (for pack installation tests)
-          #sed -i -e "s|base_path = .*|base_path = ${{ runner.temp }}|" conf/st2.tests*.conf
+          ###sed -i -e "s/guest:guest/${RABBITMQ_USERNAME}:${RABBITMQ_PASSWORD}/" conf/st2.tests*.conf
           # Use custom RabbitMQ config which enables SSL / TLS listener on port 5671 with test certs
           sudo cp scripts/github/rabbitmq.conf /home/runner/rabbitmq_conf/custom.conf
           # The code is checked out after the container is already up, so we don't mount them.

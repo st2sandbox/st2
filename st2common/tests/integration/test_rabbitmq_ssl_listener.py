@@ -32,12 +32,7 @@ __all__ = ["RabbitMQTLSListenerTestCase"]
 CERTS_FIXTURES_PATH = os.path.join(get_fixtures_base_path(), "ssl_certs/")
 ST2_CI = os.environ.get("ST2_CI", "false").lower() == "true"
 
-# If CI has RabbitMQ running in a container, then we can't use guest.
-RMQ_USER = os.environ.get("RABBITMQ_USERNAME", "guest")
-RMQ_PASS = os.environ.get("RABBITMQ_PASSWORD", "guest")
-RMQ_HOST = os.environ.get("RABBITMQ_HOST", "127.0.0.1")
-RMQ_PORT = os.environ.get("RABBITMQ_PORT", "5671")
-RMQ_URL = f"amqp://{RMQ_USER}:{RMQ_PASS}@{RMQ_HOST}:{RMQ_PORT}/"
+RMQ_URL = "amqp://guest:guest@127.0.0.1:5671/"
 
 NON_SSL_LISTENER_PORT = 5672
 SSL_LISTENER_PORT = 5671
