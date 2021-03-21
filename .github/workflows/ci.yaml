@@ -184,7 +184,7 @@ jobs:
         timeout-minutes: 2  # may die if rabbitmq fails to start
         run: |
           set -x
-          ls -l /etc/ssl/certs || true
+          ls -ld /home/runner/.local/share/virtualenv/py_info /home/runner/.local/share/virtualenv /home/runner/.local/share /home/runner/.local /home/runner /home / || true
           # Since we're using a container, we can't use guest:guest
           # Integration tests hardcode paths to conf/st2.tests*.conf so we modify in place.
           sed -i -e "s/guest:guest/${RABBITMQ_USERNAME}:${RABBITMQ_PASSWORD}/" conf/st2.tests*.conf
