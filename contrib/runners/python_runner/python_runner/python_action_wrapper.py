@@ -364,7 +364,9 @@ if __name__ == "__main__":
 
         stdin_data = sys.stdin.readline().strip()
         print("stdin data: %s" % (stdin_data))
-        print(len(stdin_data)
+        print(len(stdin_data))
+        print(stdin_data)
+        print(stdin_data)
 
         try:
             stdin_parameters = orjson.loads(stdin_data)
