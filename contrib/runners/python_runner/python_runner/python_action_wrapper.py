@@ -349,7 +349,7 @@ if __name__ == "__main__":
 
         print(f"\nBEFORE: type(sys.stdin)={type(sys.stdin)}\nsys.stdin={sys.stdin}\nsys.stdin.closed={sys.stdin.closed}")
         i, _, _ = select.select([sys.stdin], [], [], READ_STDIN_INPUT_TIMEOUT)
-        print(f"\nAFTER: type(sys.stdin)={type(sys.stdin)}\nsys.stdin={sys.stdin}\nsys.stdin.closed={sys.stdin.closed}")
+        print(f"\nAFTER: type(sys.stdin)={type(sys.stdin)}\nsys.stdin={sys.stdin}\nsys.stdin.closed={sys.stdin.closed}\ni={i}")
 
         if not i:
             raise ValueError(
@@ -358,7 +358,7 @@ if __name__ == "__main__":
                     "parameters from stdin"
                 )
             )
-        print(i)
+        print("after not i")
 
         stdin_data = sys.stdin.readline().strip()
 
