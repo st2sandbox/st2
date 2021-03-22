@@ -363,6 +363,8 @@ if __name__ == "__main__":
         print("after not i")
 
         stdin_data = sys.stdin.readline().strip()
+        print("stdin data: %s" % (stdin_data))
+        print(len(stdin_data)
 
         try:
             stdin_parameters = orjson.loads(stdin_data)
