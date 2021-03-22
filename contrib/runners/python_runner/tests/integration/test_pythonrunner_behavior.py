@@ -74,16 +74,16 @@ class PythonRunnerBehaviorTestCase(CleanFilesTestCase, CleanDbTestCase):
         self.assertTrue(os.path.exists(os.path.join(self.virtualenvs_path, pack_name)))
         ls = os.stat(os.path.join(self.virtualenvs_path, pack_name))
         print(
-            f"{os.path.join(self.virtualenvs_path, pack_name)} "
+            f"\n{os.path.join(self.virtualenvs_path, pack_name)} "
             f"exists={os.path.exists(os.path.join(self.virtualenvs_path, pack_name))} "
             f"perms={oct(ls.st_mode)[-3:]} owner_uid={ls.st_uid} owner_gid={ls.st_gid} "
             f"owner={pwd.getpwuid(ls.st_uid)[0]} "
             f"uid={os.getuid()} user={pwd.getpwuid(os.getuid())[0]}"
         )
         sp = os.path.join(self.virtualenvs_path, pack_name, 'lib', 'python3.6', 'site-packages')
-        print(f"{sp} exists={os.path.exists(sp)}")
+        print(f"\n{sp} exists={os.path.exists(sp)}")
         p_six = os.path.join(self.virtualenvs_path, pack_name, 'lib', 'python3.6', 'site-packages', 'six.py')
-        print(f"{p_six} exists={os.path.exists(p_six)}")
+        print(f"\n{p_six} exists={os.path.exists(p_six)}")
 
         # This test suite expects that loaded six module is located under the virtualenv library,
         # because 'six' is written in the requirements.txt of 'test_library_dependencies' pack.

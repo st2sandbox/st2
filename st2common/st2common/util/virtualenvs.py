@@ -330,6 +330,7 @@ def install_requirement(virtualenv_path, requirement, proxy_config=None, logger=
         "Installing requirement %s with command %s.", requirement, " ".join(cmd)
     )
     exit_code, stdout, stderr = run_command(cmd=cmd, env=env)
+    logger.debug(f"\n==========\nstdout=\n{stdout}\n==========\nstderr=\n{stderr}")
 
     if exit_code != 0:
         raise Exception(
