@@ -184,6 +184,9 @@ jobs:
       - name: Install requirements
         run: |
           ./scripts/travis/install-requirements.sh
+          # drop the --user install virtualenv to prevent polluting tests
+          ls /home/runner/.local/lib/python3.6/site-packages
+          rm -rf /home/runner/.local/lib/python3.6/site-packages
       - name: Setup integration tests
         run: |
           # prep a ci-specific dev conf file that
