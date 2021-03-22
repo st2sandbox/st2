@@ -86,24 +86,11 @@ cache:
     #- .tox/
 
 install:
-  - ls -l /opt/python/3.6*/bin/python*
-  #- ls /opt/python/3.6.7/ /home/travis/virtualenv/python3.6.7/
-  - ls /opt/python/3.6.7/lib/python3.6/
-  - ls -l /home/travis/virtualenv/python3.6.7/lib/python3.6/
-  #- cat /home/travis/virtualenv/python3.6.7/pyvenv.cfg
-  - exit 1
-  #- ls /home/travis/virtualenv/python3.6.7/lib/python3.6/site-packages
   - which virtualenv || true
   - virtualenv --version || true
   - pip install --upgrade --force-reinstall $(grep "^virtualenv" fixed-requirements.txt)
   - which virtualenv
   - virtualenv --version
-  #- virtualenv --help # no config file
-  #- ls -l /home/travis/virtualenv/python3.6*/bin/python*
-  #- /home/travis/virtualenv/python3.6.7/bin/python -c 'import sysconfig; print(sysconfig.get_config_vars())'
-  #- /opt/python/3.6.7/bin/python -c 'import sysconfig; print(sysconfig.get_config_vars())'
-  - exit 1
-  #- ls /home/travis/virtualenv/python3.6.7/lib/python3.6/site-packages
   - ./scripts/travis/install-requirements.sh
   - ls -l /home/travis/build/st2sandbox/st2/virtualenv/bin
   # prep a travis-specific dev conf file that uses travis instead of stanley
