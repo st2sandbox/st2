@@ -95,9 +95,7 @@ jobs:
       COLUMNS: '120'
       PYLINT_CONCURRENCY: '2'
 
-      # CI st2.conf
-      #   - with ST2_CI_USER user instead of stanley
-      #   - with RABBITMQ_USERNAME:RABBITMQ_PASSWORD instead of guest:guest
+      # CI st2.conf (with ST2_CI_USER user instead of stanley)
       ST2_CONF: 'conf/st2.ci.conf'
 
       # Tell StackStorm that we are indeed in CI mode, previously we hard coded a Travis specific
@@ -108,10 +106,6 @@ jobs:
 
       # Name of the user who is running the CI (on GitHub Actions this is 'runner')
       ST2_CI_USER: 'runner'
-
-      # Since we're using a container, we can't use guest:guest
-      # RABBITMQ_USERNAME: st2
-      # RABBITMQ_PASSWORD: st2
     steps:
       - name: Custom Environment Setup
         # built-in GitHub Actions environment variables
@@ -152,11 +146,12 @@ jobs:
           path: |
             ~/.cache/pip
             virtualenv
+            ~/virtualenv
           #  !virtualenv/lib/python*/site-packages/st2*
           #  !virtualenv/bin/st2*
-          key: py-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('requirements.txt', 'test-requirements.txt') }}
+          key: ${{ runner.os }}-python-${{ matrix.python-version }}-${{ hashFiles('requirements.txt', 'test-requirements.txt') }}
           restore-keys: |
-            py-${{ runner.os }}-${{ matrix.python }}-
+            ${{ runner.os }}-python-${{ matrix.python }}-
       - uses: actions/cache@v2
         with:
           path: |
@@ -165,8 +160,8 @@ jobs:
             /var/cache/apt/*.bin
           key: apt-${{ runner.os }}-${{ steps.date.outputs.year }}-${{ steps.date.outputs.week }}
           restore-keys: |
-            apt-${{ runner.os }}-${{ steps.date.outputs.year }}-
-            apt-${{ runner.os }}-
+            ${{ runner.os }}-apt-${{ steps.date.outputs.year }}-
+            ${{ runner.os }}-apt-
       - name: Install apt depedencies
         run: |
           # install dev dependencies for Python YAML and LDAP packages
@@ -179,13 +174,15 @@ jobs:
           #       only have to update it one place when we change the version
           # Note: Use --user to avoid polluting system site-packages (which breaks one of our tests)
           # TODO: simplify this once fixed in contrib/runners/python_runner/tests/integration/test_pythonrunner_behavior.py
-          pip install --user --upgrade --force-reinstall $(grep "^virtualenv" fixed-requirements.txt)
-          virtualenv --no-download ~/virtualenv
-          ~/virtualenv/bin/pip install --upgrade --force-reinstall $(grep "^virtualenv" fixed-requirements.txt)
-          # drop the --user install virtualenv to prevent polluting tests
-          pip freeze --user | xargs pip uninstall -y
-          mkdir -p ~/.local/bin
-          ln -s ~/virtualenv/bin/virtualenv ~/.local/bin/virtualenv
+          if [[ ! -f ~/virtualenv/bin/virtualenv ]]; then  # use the cached version whenever possible
+            pip install --user --upgrade --force-reinstall $(grep "^virtualenv" fixed-requirements.txt)
+            virtualenv --no-download ~/virtualenv
+            ~/virtualenv/bin/pip install --upgrade --force-reinstall $(grep "^virtualenv" fixed-requirements.txt)
+            # drop the --user install virtualenv to prevent polluting tests
+            pip freeze --user | xargs pip uninstall -y
+            mkdir -p ~/.local/bin
+            ln -s ~/virtualenv/bin/virtualenv ~/.local/bin/virtualenv
+          fi
           which virtualenv
           virtualenv --version
       - name: Install requirements
@@ -193,13 +190,10 @@ jobs:
           ./scripts/travis/install-requirements.sh
       - name: Setup integration tests
         run: |
-          # prep a ci-specific dev conf file that
-          #   - uses runner instead of stanley
-          #     this user is the username of the user in GitHub actions,
-          #     used for SSH, etc during integration tests (important)
-          #   - uses a non-guest user/pass for RabbitMQ since we can't use guest outside of the container
+          # prep a ci-specific dev conf file that uses runner instead of stanley
+          # this user is the username of the user in GitHub actions, used for SSH, etc during
+          # integration tests (important)
           cp conf/st2.dev.conf "${ST2_CONF}" ; sed -i -e "s/stanley/${ST2_CI_USER}/" "${ST2_CONF}"
-          # cp conf/st2.dev.conf "${ST2_CONF}" ; sed -i -e "s/stanley/${ST2_CI_USER}/" -e "s/guest:guest/${RABBITMQ_USERNAME}:${RABBITMQ_PASSWORD}/" "${ST2_CONF}"
           scripts/travis/add-itest-user-key.sh
           sudo .circle/add-itest-user.sh
       - name: Permissions Workaround
@@ -207,7 +201,6 @@ jobs:
         run: |
           echo "$ST2_CI_REPO_PATH"
           sudo ST2_CI_REPO_PATH="${ST2_CI_REPO_PATH}" scripts/travis/permissions-workaround.sh
-          # sudo chmod -R o+w /home/runner/.local/share/virtualenv
       - name: Finish Integration test setup (RabbitMQ, st2.tests.conf)
         if: "${{ env.TASK == 'ci-integration' }}"
         # bitnami image allows (see bitnami/rabbitmq readme):
@@ -216,9 +209,6 @@ jobs:
         timeout-minutes: 2  # may die if rabbitmq fails to start
         run: |
           set -x
-          # Since we're using a container, we can't use guest:guest
-          # Integration tests hardcode paths to conf/st2.tests*.conf so we modify in place.
-          ###sed -i -e "s/guest:guest/${RABBITMQ_USERNAME}:${RABBITMQ_PASSWORD}/" conf/st2.tests*.conf
           # Use custom RabbitMQ config which enables SSL / TLS listener on port 5671 with test certs
           sudo cp scripts/github/rabbitmq.conf /home/runner/rabbitmq_conf/custom.conf
           # The code is checked out after the container is already up, so we don't mount them.
@@ -247,21 +237,12 @@ jobs:
           git --version
           pip --version
           pip list
-          which virtualenv
           virtualenv --version
-          virtualenv/bin/virtualenv --version
-          ls -l virtualenv/bin
           # Print out various environment variables info
           make play
       - name: make
         # use: script -e -c to print colors
         run: |
-          ls -ld /tmp
-          sudo ls -ld /tmp
-          ls -l /tmp
-          sudo ls -l /tmp
-          mount
-          sudo mount
           script -e -c "make ${TASK}"
       - name: Nightly
         # Run any additional nightly checks only as part of a nightly (cron) build

@@ -18,7 +18,6 @@ This tests whether an action which is python-script behaves as we expect.
 """
 
 import os
-import pwd
 import mock
 import tempfile
 
@@ -42,7 +41,10 @@ WRAPPER_SCRIPT_PATH = os.path.abspath(WRAPPER_SCRIPT_PATH)
 
 class PythonRunnerBehaviorTestCase(CleanFilesTestCase, CleanDbTestCase):
 
-    DISPLAY_LOG_MESSAGES = True
+    # If you need these logs, then you probably also want to uncomment
+    # extra debug log messages in st2common/st2common/util/virtualenvs.py
+    # and pass --logging-level=DEBUG to nosetests
+    # DISPLAY_LOG_MESSAGES = True
 
     def setUp(self):
         super(PythonRunnerBehaviorTestCase, self).setUp()

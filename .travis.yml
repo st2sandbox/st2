@@ -93,7 +93,6 @@ install:
   - which virtualenv
   - virtualenv --version
   - ./scripts/travis/install-requirements.sh
-  - ls -l /home/travis/build/st2sandbox/st2/virtualenv/bin
   # prep a travis-specific dev conf file that uses travis instead of stanley
   - cp conf/st2.dev.conf "${ST2_CONF}" ; sed -i -e "s/stanley/${ST2_CI_USER}/" "${ST2_CONF}"
   - sudo scripts/travis/add-itest-user-key.sh
