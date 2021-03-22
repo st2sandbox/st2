@@ -143,7 +143,10 @@ class PythonRunnerActionWrapperProcessTestCase(unittest2.TestCase):
             "--stdin-parameters" % (WRAPPER_SCRIPT_PATH, file_path, config)
         )
         print(f"\ncommand_string=\n{command_string}")
-        exit_code, stdout, stderr = run_command(command_string, shell=True)
+        import subprocess
+        import sys
+        print(sys.stdin)
+        exit_code, stdout, stderr = run_command(command_string, shell=True, close_fds=False)
         print(f"stdout=\n{stdout}")
         print(f"stderr=\n{stderr}")
 

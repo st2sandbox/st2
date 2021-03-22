@@ -47,6 +47,7 @@ def run_command(
     shell=False,
     cwd=None,
     env=None,
+    close_fds=None,
 ):
     """
     Run the provided command in a subprocess and wait until it completes.
@@ -83,6 +84,10 @@ def run_command(
     if not env:
         env = os.environ.copy()
 
+    kwargs = {}
+    if close_fds is not None:
+        kwargs["close_fds"] = close_fds
+
     process = concurrency.subprocess_popen(
         args=cmd,
         stdin=stdin,
@@ -91,6 +96,7 @@ def run_command(
         env=env,
         cwd=cwd,
         shell=shell,
+        **kwargs,
     )
     stdout, stderr = process.communicate()
     exit_code = process.returncode
