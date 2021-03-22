@@ -152,6 +152,8 @@ jobs:
           path: |
             ~/.cache/pip
             virtualenv
+          #  !virtualenv/lib/python*/site-packages/st2*
+          #  !virtualenv/bin/st2*
           key: py-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('requirements.txt', 'test-requirements.txt') }}
           restore-keys: |
             py-${{ runner.os }}-${{ matrix.python }}-
@@ -185,8 +187,7 @@ jobs:
         run: |
           ./scripts/travis/install-requirements.sh
           # drop the --user install virtualenv to prevent polluting tests
-          ls /home/runner/.local/lib/python3.6/site-packages
-          rm -rf /home/runner/.local/lib/python3.6/site-packages
+          pip freeze --user | xargs pip uninstall -y
       - name: Setup integration tests
         run: |
           # prep a ci-specific dev conf file that
