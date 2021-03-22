@@ -182,7 +182,8 @@ jobs:
           which virtualenv
           virtualenv --version
           #ls /opt/hostedtoolcache/Python/3.6.13/x64/lib/python3.6/site-packages
-          virtualenv --help
+          #virtualenv --help # no config file
+          ls -l /opt/hostedtoolcache/Python/3.6*/x64/bin/python*
           exit 1
       - name: Install requirements
         run: |
