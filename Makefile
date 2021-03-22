@@ -674,6 +674,8 @@ virtualenv:
 	@echo
 	@echo "==================== virtualenv ===================="
 	@echo
+	which virtualenv
+	virtualenv --version
 	test -f $(VIRTUALENV_DIR)/bin/activate || virtualenv --python=$(PYTHON_VERSION) $(VIRTUALENV_DIR) --no-download
 
 	# Setup PYTHONPATH in bash activate script...

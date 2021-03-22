@@ -173,9 +173,14 @@ jobs:
           sudo apt-get -f -y install libldap2-dev libsasl2-dev libssl-dev libyaml-dev ldap-utils
       - name: Install virtualenv
         run: |
+          ls /opt/hostedtoolcache/Python/3.6.13/x64/lib/python3.6/site-packages
+          which virtualenv || true
+          virtualenv --version || true
           # Note: Use the verison of virtualenv pinned in fixed-requirements.txt so we
           #       only have to update it one place when we change the version
           pip install --upgrade --force-reinstall $(grep "^virtualenv" fixed-requirements.txt)
+          which virtualenv
+          virtualenv --version
       - name: Install requirements
         run: |
           ./scripts/travis/install-requirements.sh
