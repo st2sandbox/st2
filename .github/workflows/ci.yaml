@@ -181,6 +181,7 @@ jobs:
           pip install --upgrade --force-reinstall $(grep "^virtualenv" fixed-requirements.txt)
           which virtualenv
           virtualenv --version
+          ls /opt/hostedtoolcache/Python/3.6.13/x64/lib/python3.6/site-packages
       - name: Install requirements
         run: |
           ./scripts/travis/install-requirements.sh

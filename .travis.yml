@@ -86,11 +86,13 @@ cache:
     #- .tox/
 
 install:
+  - ls /home/travis/virtualenv/python3.6.7/lib/python3.6/site-packages
   - which virtualenv || true
   - virtualenv --version || true
   - pip install --upgrade --force-reinstall $(grep "^virtualenv" fixed-requirements.txt)
   - which virtualenv
   - virtualenv --version
+  - ls /home/travis/virtualenv/python3.6.7/lib/python3.6/site-packages
   - ./scripts/travis/install-requirements.sh
   - ls -l /home/travis/build/st2sandbox/st2/virtualenv/bin
   # prep a travis-specific dev conf file that uses travis instead of stanley
