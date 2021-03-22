@@ -184,6 +184,7 @@ jobs:
           #ls /opt/hostedtoolcache/Python/3.6.13/x64/lib/python3.6/site-packages
           #virtualenv --help # no config file
           ls -l /opt/hostedtoolcache/Python/3.6*/x64/bin/python*
+          /opt/hostedtoolcache/Python/3.6.13/x64/bin/python -c 'import sysconfig; print(sysconfig.get_config_vars())'
           exit 1
       - name: Install requirements
         run: |
