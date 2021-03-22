@@ -175,11 +175,10 @@ jobs:
           sudo apt-get -f -y install libldap2-dev libsasl2-dev libssl-dev libyaml-dev ldap-utils
       - name: Install virtualenv
         run: |
-          which virtualenv || true
-          virtualenv --version || true
           # Note: Use the verison of virtualenv pinned in fixed-requirements.txt so we
           #       only have to update it one place when we change the version
-          # Note: Use --user to avoid polluting system site-packages
+          # Note: Use --user to avoid polluting system site-packages (which breaks one of our tests)
+          # TODO: simplify this once fixed in contrib/runners/python_runner/tests/integration/test_pythonrunner_behavior.py
           pip install --user --upgrade --force-reinstall $(grep "^virtualenv" fixed-requirements.txt)
           virtualenv --no-download ~/virtualenv
           ~/virtualenv/bin/pip install --upgrade --force-reinstall $(grep "^virtualenv" fixed-requirements.txt)
