@@ -397,7 +397,7 @@ def register_opts(ignore_errors=False):
     # first before looking for virtualenv installed in python's system-site-packages.
     base_dir = os.path.dirname(default_python_bin_path)
     default_virtualenv_bin_path = os.path.join(base_dir, "virtualenv")
-    if not os.path.exists(default_virtualenv_bin_python):
+    if not os.path.exists(default_virtualenv_bin_path):
         base_dir = os.path.dirname(os.path.realpath(default_python_bin_path))
         default_virtualenv_bin_path = os.path.join(base_dir, "virtualenv")
 
