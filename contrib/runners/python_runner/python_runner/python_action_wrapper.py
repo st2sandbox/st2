@@ -347,7 +347,9 @@ if __name__ == "__main__":
     if args.stdin_parameters:
         LOG.debug("Getting parameters from stdin")
 
+        print(f"\nBEFORE: type(sys.stdin)={type(sys.stdin)}\nsys.stdin={sys.stdin}\nsys.stdin.closed={sys.stdin.closed}")
         i, _, _ = select.select([sys.stdin], [], [], READ_STDIN_INPUT_TIMEOUT)
+        print(f"\nAFTER: type(sys.stdin)={type(sys.stdin)}\nsys.stdin={sys.stdin}\nsys.stdin.closed={sys.stdin.closed}")
 
         if not i:
             raise ValueError(
@@ -356,6 +358,7 @@ if __name__ == "__main__":
                     "parameters from stdin"
                 )
             )
+        print(i)
 
         stdin_data = sys.stdin.readline().strip()
 
