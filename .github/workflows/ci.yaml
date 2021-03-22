@@ -44,12 +44,9 @@ jobs:
           # - name: 'Micro Benchmarks'
           #   task: 'micro-benchmarks'
           #   python-version: '3.6'
-          - name: 'Integration Tests 3.6.7 (travis version)'
-            task: 'ci-integration'
-            python-version: '3.6.7'
           - name: 'Integration Tests'
             task: 'ci-integration'
-            python-version: '3.6'
+            python-version: '3.6.7'  # temporarily match travis CI version; TODO use 3.6
     services:
       mongo:
         image: mongo:4.0
@@ -173,6 +170,10 @@ jobs:
           sudo apt-get -f -y install libldap2-dev libsasl2-dev libssl-dev libyaml-dev ldap-utils
       - name: Install virtualenv
         run: |
+          uname -a
+          which python
+          python --version
+          python -c 'import sys, select; i,_,_=select.select([sys.stdin],[],[],2);print(i)'
           # Note: Use the verison of virtualenv pinned in fixed-requirements.txt so we
           #       only have to update it one place when we change the version
           # Note: Use --user to avoid polluting system site-packages (which breaks one of our tests)

@@ -90,6 +90,10 @@ install:
   #- /opt/python/3.6.7/bin/pip install --upgrade --force-reinstall $(grep "^virtualenv" fixed-requirements.txt)
   #- mkdir -p ~/.local/bin
   #- ln -s /opt/python/3.6.7/bin/virtualenv ~/.local/bin/virtualenv
+  - uname -a
+  - which python
+  - python --version
+  - python -c 'import sys, select; i,_,_=select.select([sys.stdin],[],[],2);print(i)'
   - which virtualenv
   - virtualenv --version
   - ./scripts/travis/install-requirements.sh

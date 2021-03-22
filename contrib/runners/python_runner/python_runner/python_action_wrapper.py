@@ -347,6 +347,8 @@ if __name__ == "__main__":
     if args.stdin_parameters:
         LOG.debug("Getting parameters from stdin")
 
+        # travis has ubuntu xenial (16.04.6 LTS) with kernel 4.15.0-1077-gcp
+        # gha has ubuntu focal (20.04.2 LTS) with kernel 5.4
         print(f"\nBEFORE: type(sys.stdin)={type(sys.stdin)}\nsys.stdin={sys.stdin}\nsys.stdin.closed={sys.stdin.closed}")
         i, _, _ = select.select([sys.stdin], [], [], READ_STDIN_INPUT_TIMEOUT)
         print(f"\nAFTER: type(sys.stdin)={type(sys.stdin)}\nsys.stdin={sys.stdin}\nsys.stdin.closed={sys.stdin.closed}\ni={i}")
