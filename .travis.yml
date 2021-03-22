@@ -86,6 +86,11 @@ cache:
     #- .tox/
 
 install:
+  - which virtualenv || true
+  - virtualenv --version || true
+  - pip install --upgrade --force-reinstall $(grep "^virtualenv" fixed-requirements.txt)
+  - which virtualenv
+  - virtualenv --version
   - ./scripts/travis/install-requirements.sh
   - ls -l /home/travis/build/st2sandbox/st2/virtualenv/bin
   # prep a travis-specific dev conf file that uses travis instead of stanley
