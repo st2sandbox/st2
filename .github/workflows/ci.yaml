@@ -181,13 +181,16 @@ jobs:
           #       only have to update it one place when we change the version
           # Note: Use --user to avoid polluting system site-packages
           pip install --user --upgrade --force-reinstall $(grep "^virtualenv" fixed-requirements.txt)
+          virtualenv --no-download ~/virtualenv
+          ~/virtualenv/bin/pip install --upgrade --force-reinstall $(grep "^virtualenv" fixed-requirements.txt)
+          # drop the --user install virtualenv to prevent polluting tests
+          pip freeze --user | xargs pip uninstall -y
+          ln -s ~/virtualenv/bin/virtualenv ~/.local/bin/virtualenv
           which virtualenv
           virtualenv --version
       - name: Install requirements
         run: |
           ./scripts/travis/install-requirements.sh
-          # drop the --user install virtualenv to prevent polluting tests
-          pip freeze --user | xargs pip uninstall -y
       - name: Setup integration tests
         run: |
           # prep a ci-specific dev conf file that
