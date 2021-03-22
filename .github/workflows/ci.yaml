@@ -173,6 +173,8 @@ jobs:
           sudo apt-get -f -y install libldap2-dev libsasl2-dev libssl-dev libyaml-dev ldap-utils
       - name: Install virtualenv
         run: |
+          ls /opt/hostedtoolcache/Pythonn/3.6.13/x64
+          exit 1
           #ls /opt/hostedtoolcache/Python/3.6.13/x64/lib/python3.6/site-packages
           which virtualenv || true
           virtualenv --version || true
