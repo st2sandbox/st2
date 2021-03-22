@@ -349,9 +349,7 @@ if __name__ == "__main__":
 
         # travis has ubuntu xenial (16.04.6 LTS) with kernel 4.15.0-1077-gcp
         # gha has ubuntu focal (20.04.2 LTS) with kernel 5.4
-        print(f"\nBEFORE: type(sys.stdin)={type(sys.stdin)}\nsys.stdin={sys.stdin}\nsys.stdin.closed={sys.stdin.closed}")
         i, _, _ = select.select([sys.stdin], [], [], READ_STDIN_INPUT_TIMEOUT)
-        print(f"\nAFTER: type(sys.stdin)={type(sys.stdin)}\nsys.stdin={sys.stdin}\nsys.stdin.closed={sys.stdin.closed}\ni={i}")
 
         if not i:
             raise ValueError(
@@ -360,13 +358,14 @@ if __name__ == "__main__":
                     "parameters from stdin"
                 )
             )
-        print("after not i")
 
         stdin_data = sys.stdin.readline().strip()
-        print("stdin data: %s" % (stdin_data))
-        print(len(stdin_data))
-        print(stdin_data)
-        print(stdin_data)
+
+        if not stdin_data:
+            # This could indicate that parent process (e.g. process which runs the tests has
+            # incorrectly opened the stdin and that one is then inherited by the process which is
+            # spawning it which will cause issues)
+            raise ValueError("Received no valid parameters data from sys.stdin")
 
         try:
             stdin_parameters = orjson.loads(stdin_data)

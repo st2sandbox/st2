@@ -74,6 +74,9 @@ def run_command(
                 environment from the current process is inherited.
     :type env: ``dict``
 
+    :param close_fds: True to close all the fds. By default when None is provided we rely on
+                      default upstream behavior which may be Python version specific.
+
     :rtype: ``tuple`` (exit_code, stdout, stderr)
     """
     if not isinstance(cmd, (list, tuple) + six.string_types):
