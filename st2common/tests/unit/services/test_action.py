@@ -18,7 +18,6 @@ import jsonschema
 import mock
 import six
 
-from st2actions.container.base import RunnerContainer
 from st2common.constants import action as action_constants
 from st2common.exceptions import action as action_exc
 from st2common.exceptions import actionrunner as runner_exc
@@ -184,8 +183,6 @@ class TestActionExecutionService(DbTestCase):
             name: Action.add_or_update(ActionAPI.to_model(action))
             for name, action in six.iteritems(cls.actions)
         }
-
-        cls.container = RunnerContainer()
 
     @classmethod
     def tearDownClass(cls):
