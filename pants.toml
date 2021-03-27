@@ -1,8 +1,19 @@
 [GLOBAL]
 pants_version = "2.3.0"
+backend_packages = [
+  "pants.backend.python",
+#  "pants.backend.python.mixed_interpreter_constraints",
+#  "pants.backend.python.lint.bandit",
+  "pants.backend.python.lint.black",
+#  "pants.backend.python.lint.docformatter",
+#  "pants.backend.python.lint.flake8",
+#  "pants.backend.python.lint.isort",
+#  "pants.backend.python.lint.pylint",
+#  "pants.backend.python.typecheck.mypy",
+]
 
 [source]
 root_patterns = [
-  '/st2*/st2*',
-  '/st2*/tests',
+  "/st2*/st2*",
+  "/st2*/tests",
 ]
