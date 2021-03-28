@@ -17,3 +17,6 @@ root_patterns = [
   "/st2*/st2*",
   "/st2*/tests",
 ]
+
+[python-infer]
+inits = true
