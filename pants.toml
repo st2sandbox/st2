@@ -14,8 +14,16 @@ backend_packages = [
 
 [source]
 root_patterns = [
+  # core libs
   "/st2*/st2*",
   "/st2*/tests",
+  # runners
+  "/contrib/runners/*_runner/*_runner",
+  "/contrib/runners/*_runner/tests",
+  # packs
+  "/contrib/*/actions",
+  "/contrib/*/sensors",
+  "/contrib/*/tests",
 ]
 
 [python-infer]
