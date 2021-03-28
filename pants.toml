@@ -23,6 +23,7 @@ root_patterns = [
   # packs
   "/contrib/*/actions",
   "/contrib/*/sensors",
+  "/contrib/*/lib",
   "/contrib/*/tests",
 ]
 
