@@ -16,27 +16,18 @@ pants_ignore = [
   "/dist/",
   # TODO: remove these, replace with pyproject.toml
   "dist_utils.py",
-  "setup.py",
+  #"setup.py",
 ]
 
 [source]
 root_patterns = [
   # core libs
-  "/st2*/bin",
-  "/st2*/st2*",
-  "/st2common/benchmarks/micro",
-  "/st2*/tests",
-  "/st2tests/integration",  # is this installed as a module?
+  "/st2*",
   # runners
-  "/contrib/runners/*_runner/*_runner",
-  "/contrib/runners/orquesta_runner/orquesta_functions",
-  "/contrib/runners/*_runner/tests",
-  # packs
-  "/contrib/*/actions",
-  "/contrib/*/sensors",
-  "/contrib/*/lib",
-  "/contrib/*/tests",
-  "/st2tests/testpacks/*/actions",
+  "/contrib/runners/*_runner",
+  # packs (dirs other than runners, schemas)
+  "/contrib/[a-q]*",
+  "/st2tests/testpacks/*",
   # lint plugins
   "/pylint_plugins",
   # misc
