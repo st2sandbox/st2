@@ -15,7 +15,10 @@ mock
 mongoengine
 networkx
 orjson
-orquesta
+# gitpython & gitdb are used for pack management
+gitdb
+gitpython
+git+https://github.com/StackStorm/orquesta.git@v1.3.0#egg=orquesta
 # NOTE: Recent version substantially affect the performance and add big import time overhead
 # See https://github.com/StackStorm/st2/issues/4160#issuecomment-394386433 for details
 oslo.config>=1.12.1,<1.13
@@ -35,26 +38,26 @@ semver
 six
 sseclient-py
 stevedore
+# For backward compatibility reasons, flat file backend is installed by default
+git+https://github.com/StackStorm/st2-auth-backend-flat-file.git@master#egg=st2-auth-backend-flat-file
+git+https://github.com/StackStorm/st2-auth-ldap.git@master#egg=st2-auth-ldap
+git+https://github.com/StackStorm/st2-rbac-backend.git@master#egg=st2-rbac-backend
 tooz
 udatetime
 ujson
 unittest2
 virtualenv
 webob
-
-# TODO: missing git/editable requirements
+# Required by tooz - on new versions of tooz, all the backend dependencies need
+# to be installed manually
+# TODO: add pants dependency for zake:// backend
+zake
 
 # winrm runner
 #pywinrm
 
-# coordination driver used indirectly via zake://
-#zake
-
 # from st2-auth-backend-flat-file
 #passlib
-
-# test for dist_utils cruft
-#gitpython
 
 # was in fixed-requirements.txt, but not in constraints-pants.txt?
 #python-keyczar
