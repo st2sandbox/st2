@@ -2,7 +2,7 @@
 pants_version = "2.3.0"
 backend_packages = [
   "pants.backend.python",
-#  "pants.backend.python.mixed_interpreter_constraints",
+  "pants.backend.python.mixed_interpreter_constraints",
 #  "pants.backend.python.lint.bandit",
   "pants.backend.python.lint.black",
 #  "pants.backend.python.lint.docformatter",
@@ -37,6 +37,12 @@ root_patterns = [
 
 [python-setup]
 requirement_constraints = "constraints-pants.txt"
+interpreter_constraints = [
+  # work around a pants bug. TODO: uncomment this
+  #"CPython==3.6.*",
+  # we will be targeting 3.8 next (skipping 3.7)
+  "CPython==3.8.*",
+]
 
 [python-infer]
 inits = true
