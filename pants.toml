@@ -35,6 +35,9 @@ root_patterns = [
   "/tools",
 ]
 
+[python-setup]
+requirement_constraints = "constraints-pants.txt"
+
 [python-infer]
 inits = true
 

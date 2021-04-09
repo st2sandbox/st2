@@ -1,0 +1,37 @@
+# Add/remove direct 3rdparty dependencies here as needed, with version constraints if necessary.
+# Then run scripts/generate_constraints.sh to regenerate the lockfile.
+
+apscheduler
+cryptography
+eventlet
+flex
+gunicorn
+jinja2
+jsonpath-rw
+jsonschema
+kombu
+lockfile
+mock
+mongoengine
+networkx
+orjson
+orquesta
+oslo.config
+paramiko
+prance
+prompt-toolkit
+psutil
+pymongo
+python-dateutil
+pytz
+requests[security]
+retrying
+routes
+semver
+six
+stevedore
+tooz
+udatetime
+ujson
+unittest2
+webob
