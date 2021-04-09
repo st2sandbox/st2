@@ -3,13 +3,14 @@
 set -euo pipefail
 
 # You can change these constants.
-PYTHON_BIN=python3
+PYTHON_BIN=python3.6
 VIRTUALENV=/tmp/st2/.venv
 PIP="${VIRTUALENV}/bin/pip"
 REQUIREMENTS_FILE=requirements-pants.txt
 CONSTRAINTS_FILE=constraints-pants.txt
 
 "${PYTHON_BIN}" -m venv "${VIRTUALENV}"
+"${PIP}" install wheel
 "${PIP}" install pip --upgrade
 # Install all our requirements.txt, and also any 3rdparty
 # dependencies specified outside requirements.txt, e.g. via a
