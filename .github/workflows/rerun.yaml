@@ -1,0 +1,21 @@
+# To rerun failed workflows:
+#   org members only:
+#     - comment: /retest
+#   everyone else:
+#     - org member adds ok-to-test label
+#     - anyone (not just org member) can comment: /retest
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  rerun_pr_tests:
+    name: rerun_pr_tests
+    if: ${{ github.event.issue.pull_request }}
+    runs-on: ubuntu-latest
+    steps:
+    - uses: estroz/rerun-actions@v0.3.0
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        comment_id: ${{ github.event.comment.id }}
