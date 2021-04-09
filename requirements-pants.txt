@@ -16,22 +16,64 @@ mongoengine
 networkx
 orjson
 orquesta
-oslo.config
+# NOTE: Recent version substantially affect the performance and add big import time overhead
+# See https://github.com/StackStorm/st2/issues/4160#issuecomment-394386433 for details
+oslo.config>=1.12.1,<1.13
 paramiko
 prance
 prompt-toolkit
 psutil
 pymongo
 python-dateutil
+python-editor
+python-statsd
 pytz
 requests[security]
 retrying
 routes
 semver
 six
+sseclient-py
 stevedore
 tooz
 udatetime
 ujson
 unittest2
+virtualenv
 webob
+
+# TODO: missing git/editable requirements
+
+# winrm runner
+#pywinrm
+
+# coordination driver used indirectly via zake://
+#zake
+
+# from st2-auth-backend-flat-file
+#passlib
+
+# test for dist_utils cruft
+#gitpython
+
+# was in fixed-requirements.txt, but not in constraints-pants.txt?
+#python-keyczar
+
+###########
+
+# dropped when st2debug was dropped. was in fixed-requirements.txt
+#python-gnupg
+
+# was a py2-only transitive dep. was in fixed-requirements.txt
+#more-itertools
+
+# maybe a py2-only transitive dep? Can't find what dep used to need it.
+#zipp
+
+# dropped long ago. Perhaps inadvertently reintroduced?
+#prometheus_client
+
+# not needed with switch to pytest
+#nose-timer
+#nose-parallel
+
