@@ -1,2 +1,14 @@
-python_requirements()
+# Using `python_requirements()` here results in:
+# ">1 target exports this module, so it is ambiguous which to use"
+# So, we explicitly list deps instead.
+#python_requirements()
 
+python_requirement_library(
+    name="beautifulsoup4",
+    requirements=["beautifulsoup4"],
+)
+
+python_requirement_library(
+    name="flask",
+    requirements=["flask"],
+)
