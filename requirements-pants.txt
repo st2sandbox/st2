@@ -59,22 +59,10 @@ zake
 # from st2-auth-backend-flat-file
 #passlib
 
-# was in fixed-requirements.txt, but not in constraints-pants.txt?
+# was in fixed-requirements.txt, but not in constraints-pants.txt? A py2-only test uses this.
 #python-keyczar
 
 ###########
-
-# dropped when st2debug was dropped. was in fixed-requirements.txt
-#python-gnupg
-
-# was a py2-only transitive dep. was in fixed-requirements.txt
-#more-itertools
-
-# maybe a py2-only transitive dep? Can't find what dep used to need it.
-#zipp
-
-# dropped long ago. Perhaps inadvertently reintroduced?
-#prometheus_client
 
 # not needed with switch to pytest
 #nose-timer
