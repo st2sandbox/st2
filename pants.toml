@@ -36,6 +36,7 @@ root_patterns = [
 ]
 
 [python-setup]
+#resolver_version = "pip-2020-resolver"
 requirement_constraints = "constraints-pants.txt"
 interpreter_constraints = [
   # work around a pants bug. TODO: uncomment this
@@ -61,13 +62,7 @@ extra_requirements = [
 config = "lint-configs/python/.flake8"
 
 [pylint]
-version = "pylint==2.6.0"
-extra_requirements = [
-  # dep used by /pylint_plugins/{api_models,db_models}
-  "astroid==2.4.2",
-  # not sure where this is used
-  #"pylint-plugin-utils>=0.4",
-]
+version = "pylint==2.7.4"
 config = "lint-configs/python/.pylintrc"
 source_plugins = [
   # the /pylint_plugins directory
