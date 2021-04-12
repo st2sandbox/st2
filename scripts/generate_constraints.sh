@@ -3,8 +3,8 @@
 set -euo pipefail
 
 # You can change these constants.
-#PYTHON_BIN=python3.6
-PYTHON_BIN=python3.8
+PYTHON_BIN=python3.6
+#PYTHON_BIN=python3.8
 VIRTUALENV=/tmp/st2/.venv
 PIP="${VIRTUALENV}/bin/pip"
 REQUIREMENTS_FILE=requirements-pants.txt

@@ -1,5 +1,5 @@
 [GLOBAL]
-pants_version = "2.4.0rc2"
+pants_version = "2.4.0rc3"
 backend_packages = [
   "pants.backend.python",
   "pants.backend.python.mixed_interpreter_constraints",
@@ -40,9 +40,9 @@ root_patterns = [
 requirement_constraints = "constraints-pants.txt"
 interpreter_constraints = [
   # work around a pants bug. TODO: uncomment this
-  #"CPython==3.6.*",
+  "CPython==3.6.*",
   # we will be targeting 3.8 next (skipping 3.7)
-  "CPython==3.8.*",
+  #"CPython==3.8.*",
 ]
 
 [python-infer]
@@ -62,7 +62,8 @@ extra_requirements = [
 config = "lint-configs/python/.flake8"
 
 [pylint]
-version = "pylint==2.7.4"
+version = "pylint~=2.7.4"
+# < 2.7 doesn't work with the version of astroid pinned for the plugin
 config = "lint-configs/python/.pylintrc"
 source_plugins = [
   # the /pylint_plugins directory
