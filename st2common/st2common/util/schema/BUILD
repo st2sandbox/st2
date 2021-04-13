@@ -1,11 +1,11 @@
 python_library(
     dependencies = [
-        ":json",
+        ":jsonschema",
     ]
 )
 
-files(
-    name = "json",
+resources(
+    name = "jsonschema",
     sources = ["*.json"],
 )
 

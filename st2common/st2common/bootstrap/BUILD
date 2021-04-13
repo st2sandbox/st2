@@ -1,1 +1,6 @@
-python_library()
+python_library(
+    dependencies = [
+        ":policies_meta",
+    ]
+)
+

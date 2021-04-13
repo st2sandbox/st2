@@ -1,1 +1,6 @@
-python_library()
+python_library(
+    dependencies = [
+        ":base_logging_conf",
+    ]
+)
+
