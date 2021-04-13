@@ -1,6 +1,6 @@
 python_library(
     dependencies = [
-        ":base_logging_conf",
+        "st2common/st2common/conf:base_logging_conf",
     ]
 )
 

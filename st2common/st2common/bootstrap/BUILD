@@ -1,6 +1,6 @@
 python_library(
     dependencies = [
-        ":policies_meta",
+        "st2common/st2common/policies/meta:policies_meta",
     ]
 )
 
