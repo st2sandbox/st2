@@ -1,4 +1,5 @@
-ROOT_DIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+# TODO: a path with spaces breaks every use of ROOT_DIR
+ROOT_DIR := $(shell dirname "$(realpath $(lastword $(MAKEFILE_LIST)))")
 SHELL := /bin/bash
 TOX_DIR := .tox
 OS := $(shell uname)
