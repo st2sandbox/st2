@@ -28,7 +28,8 @@ paramiko
 pika
 prance
 prettytable
-prompt-toolkit
+# For st2client: prompt-toolkit v2+ does not have prompt_toolkit.token.Token
+prompt-toolkit<2
 psutil
 pymongo
 pytest
