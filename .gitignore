@@ -48,6 +48,7 @@ coverage*.xml
 .tox
 nosetests.xml
 htmlcov
+benchmark_histograms/
 
 # Pants workspace files
 /.pants.d/

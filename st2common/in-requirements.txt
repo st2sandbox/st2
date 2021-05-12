@@ -16,6 +16,8 @@ oslo.config
 paramiko
 pyyaml
 pymongo
+# used for optional network level compression for mongodb
+zstandard
 cryptography
 requests
 retrying
@@ -39,6 +41,7 @@ orjson
 amqp
 # Used by st2-pack-* commands
 gitpython
+gitdb
 lockfile
 # needed by requests
 chardet
