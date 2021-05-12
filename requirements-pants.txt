@@ -2,6 +2,7 @@
 # Then run scripts/generate_constraints.sh to regenerate the lockfile.
 
 apscheduler
+argcomplete
 cryptography
 eventlet
 flex
@@ -23,10 +24,14 @@ orquesta @ git+https://github.com/StackStorm/orquesta.git@v1.3.0
 # See https://github.com/StackStorm/st2/issues/4160#issuecomment-394386433 for details
 oslo.config>=1.12.1,<1.13
 paramiko
+# pika used by tools/direct_queue_publisher.py
+pika
 prance
+prettytable
 prompt-toolkit
 psutil
 pymongo
+pytest
 python-dateutil
 python-editor
 python-statsd
@@ -35,6 +40,7 @@ requests[security]
 retrying
 routes
 semver
+simplejson
 six
 sseclient-py
 stevedore
@@ -42,16 +48,21 @@ stevedore
 st2-auth-backend-flat-file @ git+https://github.com/StackStorm/st2-auth-backend-flat-file.git@master
 st2-auth-ldap @ git+https://github.com/StackStorm/st2-auth-ldap.git@master
 st2-rbac-backend @ git+https://github.com/StackStorm/st2-rbac-backend.git@master
+# tabulate used by tools/log_watcher.py
+tabulate
 tooz
 udatetime
 ujson
 unittest2
 virtualenv
 webob
+webtest
 # Required by tooz - on new versions of tooz, all the backend dependencies need
 # to be installed manually
 # TODO: add pants dependency for zake:// backend
 zake
+# zstandard is used for micro benchmarks
+zstandard
 
 # winrm runner
 #pywinrm

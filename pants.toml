@@ -33,6 +33,8 @@ root_patterns = [
   # misc
   "/scripts",
   "/tools",
+  # benchmarks
+  "/st2common/benchmarks/micro",
 ]
 
 [python-setup]
