@@ -3,4 +3,4 @@ python_tests(
     dependencies=["contrib/runners/orquesta_runner/tests/unit/base.py"],
 )
 
-python_library()
+python_library(skip_pylint=True)

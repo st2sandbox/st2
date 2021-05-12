@@ -1,5 +1,5 @@
 [GLOBAL]
-pants_version = "2.4.0rc3"
+pants_version = "2.5.0rc1"
 backend_packages = [
   "pants.backend.python",
   "pants.backend.python.mixed_interpreter_constraints",
