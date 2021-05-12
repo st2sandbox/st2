@@ -1,6 +1,10 @@
 # This config is for CI. It extends the config in pants.toml.
 # See https://www.pantsbuild.org/docs/using-pants-in-ci
 
+[anonymous-telemetry]
+# enable for CI builds
+enabled = true
+
 [GLOBAL]
 # Colors often work in CI, but the shell is usually not a TTY so Pants
 # doesn't attempt to use them by default.
