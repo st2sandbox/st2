@@ -27,6 +27,7 @@ root_patterns = [
   "/contrib/runners/*_runner",
   # packs (dirs other than runners, schemas)
   "/contrib/[a-q]*",
+  "/contrib/examples/lib", # odd import in examples.isprime
   "/st2tests/testpacks/*",
   # lint plugins
   "/pylint_plugins",
