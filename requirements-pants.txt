@@ -42,6 +42,8 @@ requests[security]
 retrying
 routes
 semver
+# for pkg_resources
+setuptools
 simplejson
 six
 sseclient-py
