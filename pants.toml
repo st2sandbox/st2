@@ -7,6 +7,7 @@ repo_id = "de0dea7a-9f6a-4c6e-aa20-6ba5ad969b8a"
 
 [GLOBAL]
 pants_version = "2.5.0rc2"
+pythonpath = ["%(buildroot)s/pants-plugins"]
 backend_packages = [
   "pants.backend.python",
   "pants.backend.python.mixed_interpreter_constraints",
@@ -17,6 +18,9 @@ backend_packages = [
 #  "pants.backend.python.lint.isort",
   "pants.backend.python.lint.pylint",
 #  "pants.backend.python.typecheck.mypy",
+
+  # internal plugins in pants-plugins/
+  "uses_services",
 ]
 pants_ignore = [
   ".*/",  # . directories
@@ -38,6 +42,8 @@ root_patterns = [
   "/st2tests/testpacks/*",
   # lint plugins
   "/pylint_plugins",
+  # pants plugins
+  "/pants-plugins",
   # misc
   "/scripts",
   "/tools",
