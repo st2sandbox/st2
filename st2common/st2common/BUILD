@@ -1,7 +1,6 @@
 python_library(
     dependencies = [
         ":openapi_spec",
-        "//:setuptools",  # flex uses pkg_resources w/o declaring the dep
     ]
 )
 

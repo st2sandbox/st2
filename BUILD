@@ -9,3 +9,12 @@ python_requirements(
         "oslo.config": ["oslo_config"],
     }
 )
+
+python_requirement_library(
+    name="flex",
+    requirements=["flex"],
+    dependencies = [
+        # flex uses pkg_resources w/o declaring the dep
+        "//:setuptools",
+    ]
+)
