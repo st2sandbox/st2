@@ -37,6 +37,7 @@ python-dateutil
 python-editor
 python-statsd
 pytz
+PyYAML
 requests[security]
 retrying
 routes
