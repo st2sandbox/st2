@@ -11,7 +11,7 @@ pythonpath = ["%(buildroot)s/pants-plugins"]
 backend_packages = [
   "pants.backend.python",
   "pants.backend.python.mixed_interpreter_constraints",
-#  "pants.backend.python.lint.bandit",
+  "pants.backend.python.lint.bandit",
   "pants.backend.python.lint.black",
 #  "pants.backend.python.lint.docformatter",
   "pants.backend.python.lint.flake8",
@@ -64,13 +64,13 @@ interpreter_constraints = [
 [python-infer]
 inits = true
 
-#[bandit]
-#version = "bandit==1.7.0"
-#args = [
-#  "-lll",  # only HIGH severity level
-#  "--exclude",
-#  "build,dist",
-#]
+[bandit]
+version = "bandit==1.7.0"
+args = [
+  "-lll",  # only HIGH severity level
+  "--exclude",
+  "build,dist",
+]
 
 [black]
 version = "black==20.8b1"
