@@ -22,6 +22,10 @@ backend_packages = [
   # internal plugins in pants-plugins/
   "uses_services",
 ]
+plugins = [
+  # dependencies for internal plugins
+  "distro",
+]
 pants_ignore = [
   ".*/",  # . directories
   "/dist/",
