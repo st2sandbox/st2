@@ -24,7 +24,7 @@ backend_packages = [
 ]
 plugins = [
   # dependencies for internal plugins
-  "distro",
+  #"distro",  # dep of the pex
 ]
 pants_ignore = [
   ".*/",  # . directories
