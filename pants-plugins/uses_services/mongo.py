@@ -30,7 +30,7 @@ class MongoStatus:
 async def mongo_is_running() -> MongoStatus:
     # These config opts are used via oslo_config.cfg.CONF.database.{host,port,db_name,connection_timeout}
     # These config opts currently hard-coded in:
-    #   for unit tests: st2tests/st2test/config.py and st2common/tests/unit/test_db.py
+    #   for unit tests: st2tests/st2test/config.py
     #   for integration tests: conf/st2.tests*.conf st2tests/st2tests/fixtures/conf/st2.tests*.conf
     #       (changed by setting ST2_CONFIG_PATH env var inside the tests)
     # TODO: for unit tests: modify code to pull from an env var and then use per-pantsd-slot db_name
