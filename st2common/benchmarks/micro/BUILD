@@ -1,6 +1,7 @@
 python_library(
-	skip_pylint=True,
-	dependencies=["st2common/benchmarks/fixtures/json"],
+    skip_pylint=True,
+    dependencies=["st2common/benchmarks/fixtures/json"],
+    tags=["benchmarks"],
 )
 
 python_tests(
