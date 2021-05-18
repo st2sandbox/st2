@@ -19,6 +19,7 @@ Module for performing eventlet and other monkey patching.
 
 from __future__ import absolute_import
 
+import os
 import sys
 
 __all__ = [
@@ -43,6 +44,20 @@ def monkey_patch(patch_thread=None):
                          patched unless debugger is used.
     :type patch_thread: ``bool``
     """
+    os.environ["GEVENT_SUPPORT"] = "True"
+
+    if os.environ.get("ST2_PYCHARM_DEBUG", False):
+
+        import pydevd_pycharm
+
+        pydevd_pycharm.settrace(
+            os.environ.get("ST2_PYCHARM_DEBUG_HOST", "localhost"),
+            port=os.environ.get("ST2_PYCHARM_DEBUG_PORT", 5000),
+            stdoutToServer=True,
+            stderrToServer=True,
+            patch_multiprocessing=True
+        )
+
     import eventlet
 
     if patch_thread is None:
@@ -109,5 +124,9 @@ def is_use_debugger_flag_provided():
     for arg in sys.argv:
         if arg.startswith(PARENT_ARGS_FLAG) and USE_DEBUGGER_FLAG in arg:
             return True
+
+    # 3. Check for ST2_PYCHARM_DEBUG env var
+    if os.environ.get("ST2_PYCHARM_DEBUG", False):
+        return True
 
     return False

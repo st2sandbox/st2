@@ -129,5 +129,9 @@ args = [
 ]
 execution_slot_var = "ST2TESTS_PARALLEL_SLOT"
 
+[subprocess-environment]
+env_vars.add = [
+  "ST2_DEBUG_PYCHARM_PORT",  # var to trigger injecting pydevd-pycharm
+]
 # TODO: For MacOS X, if someone is using python from XCode, add ARCHFLAGS to subprocess-environment.env_vars as shown here: 
 # https://github.com/st2sandbox/st2/pull/6/files#diff-0e52f2670837f305c9a0d8be0f90156bf366431563506c21584fa2ea4f42ba1fR84-R90

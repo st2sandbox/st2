@@ -18,3 +18,8 @@ python_requirement_library(
         "//:setuptools",
     ]
 )
+
+python_requirement_library(
+  name = "pydevd-pycharm",
+  requirements=["pydevd-pycharm==211.7142.13"],
+)
