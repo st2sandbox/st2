@@ -5,5 +5,6 @@ python_library(
     "st2tests/conf:logging.conf",
     "st2tests/st2tests/resources:ssh",
     "st2tests/st2tests/resources:packs",
+    "st2tests/st2tests/fixtures:pack-fixtures",
   ],
 )
