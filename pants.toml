@@ -41,7 +41,7 @@ root_patterns = [
   # runners
   "/contrib/runners/*_runner",
   # packs (dirs other than runners, schemas)
-  "/contrib/[a-q]*",
+  "/contrib/[a-q]*",  # TODO: less ugly glob (w/o requiring an entry for every pack)
   "/contrib/examples/lib", # odd import in examples.isprime
   "/st2tests/testpacks/*",
   # lint plugins
