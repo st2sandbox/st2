@@ -21,6 +21,7 @@ backend_packages = [
 
   # internal plugins in pants-plugins/
   "uses_services",
+  "stevedore_extensions",
 ]
 plugins = [
   # dependencies for internal plugins
