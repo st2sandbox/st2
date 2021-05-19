@@ -4,7 +4,10 @@ python_tests(
 	uses=["mongo"],
     skip_pylint=True,
 	tags=["unit"],
-    stevedore_namespaces=["st2common.runners.runner"],
+    stevedore_namespaces=[
+		"orquesta.expressions.functions",
+		"st2common.runners.runner",
+	],
 )
 
 python_library(skip_pylint=True)
