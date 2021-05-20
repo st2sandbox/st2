@@ -1,13 +1,14 @@
 # coding: utf-8
-from pants.backend.python.target_types import PythonSources
+from pants.backend.python.goals.pytest_runner import (
+    PytestPluginSetupRequest,
+    PytestPluginSetup,
+)
 from pants.base.specs import AddressSpecs, SiblingAddresses
 from pants.engine.fs import CreateDigest, Digest, FileContent
 from pants.engine.rules import Get, MultiGet, collect_rules, rule
 from pants.engine.target import (
     Address,
-    GeneratedSources,
-    GenerateSourcesRequest,
-    Snapshot,
+    Target,
     Targets,
 )
 from pants.engine.unions import UnionRule
@@ -20,23 +21,25 @@ from stevedore_extensions.target_types import (
     StevedoreEntryPointsField,
     StevedoreExtension,
     StevedoreNamespaceField,
-    StevedoreSources,
+    StevedoreNamespacesField,
 )
 
 
-class GenerateEntryPointsTxtFromStevedoreExtensionRequest(GenerateSourcesRequest):
-    input = StevedoreSources
-    output = PythonSources
+class GenerateEntryPointsTxtFromStevedoreExtensionRequest(PytestPluginSetupRequest):
+    @classmethod
+    def is_applicable(cls, target: Target) -> bool:
+        # select python_tests targets with stevedore_namespaces field
+        return target.has_field(StevedoreNamespacesField) and target.get(StevedoreNamespacesField).value is not None
 
 
 @rule(desc="Generate entry_points.txt from stevedore_extension target metadata", level=LogLevel.DEBUG)
 async def generate_entry_points_txt_from_stevedore_extension(
     request: GenerateEntryPointsTxtFromStevedoreExtensionRequest,
-) -> GeneratedSources:
+) -> PytestPluginSetup:
     # similar to relocate_files, this isn't standard codegen.
     # It uses the metadata on targets as source instead of source files.
 
-    address: Address = request.protocol_target.address
+    address: Address = request.target.address
 
     sibling_targets = await Get(
         Targets, AddressSpecs([SiblingAddresses(address.spec_path)]),
@@ -73,12 +76,11 @@ async def generate_entry_points_txt_from_stevedore_extension(
         Digest,
         CreateDigest([FileContent(entry_points_txt_path, entry_points_txt_contents)])
     )
-    snapshot = await Get(Snapshot, Digest, digest)
-    return GeneratedSources(snapshot)
+    return PytestPluginSetup(digest)
 
 
 def rules():
     return [
         *collect_rules(),
-        UnionRule(GenerateSourcesRequest, GenerateEntryPointsTxtFromStevedoreExtensionRequest),
+        UnionRule(PytestPluginSetupRequest, GenerateEntryPointsTxtFromStevedoreExtensionRequest),
     ]
