@@ -36,14 +36,20 @@ pants_ignore = [
 ]
 
 [source]
+marker_filenames = [
+  # packs (primarily for /contrib/* packs)
+  "pack.yaml",
+]
+# do not use /contrib/* in root_patterns or *_runner imports become ambiguous
+# eg `import noop_runner` should use runners/noop_runner/noop_runner not runners/noop_runner
 root_patterns = [
   # core libs
   "/st2*",
   # runners
   "/contrib/runners/*_runner",
-  # packs (dirs other than runners, schemas)
-  "/contrib/[a-q]*",  # TODO: less ugly glob (w/o requiring an entry for every pack)
-  "/contrib/examples/lib", # odd import in examples.isprime
+  # odd import in examples.isprime
+  "/contrib/examples/lib",
+  # test packs that do not have pack.yaml
   "/st2tests/testpacks/*",
   # lint plugins
   "/pylint_plugins",
