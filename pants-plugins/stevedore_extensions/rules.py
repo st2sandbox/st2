@@ -56,9 +56,9 @@ async def generate_entry_points_txt_from_stevedore_extension(
     entry_points_txt_contents = ""
 
     stevedore_extension: StevedoreExtension
-    for i, stevedore_extension in enumerate(stevedore_targets):
+    for stevedore_extension, resolved_ep in zip(stevedore_targets, resolved_entry_points):
         namespace: StevedoreNamespaceField = stevedore_extension[StevedoreNamespaceField]
-        entry_points: StevedoreEntryPoints = resolved_entry_points[i].val
+        entry_points: StevedoreEntryPoints = resolved_ep.val
         if not entry_points:
             continue
 
