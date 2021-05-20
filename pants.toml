@@ -144,6 +144,7 @@ env_vars.add = [
   "ST2_PYCHARM_DEBUG",
   "ST2_PYCHARM_DEBUG_HOST",
   "ST2_PYCHARM_DEBUG_PORT",
+  # For users testing with python from XCode, make sure to export ARCHFLAGS
+  # see: https://github.com/pantsbuild/pants/pull/11733
+  "ARCHFLAGS",
 ]
-# TODO: For MacOS X, if someone is using python from XCode, add ARCHFLAGS to subprocess-environment.env_vars as shown here: 
-# https://github.com/st2sandbox/st2/pull/6/files#diff-0e52f2670837f305c9a0d8be0f90156bf366431563506c21584fa2ea4f42ba1fR84-R90
