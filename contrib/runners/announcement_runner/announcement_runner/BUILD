@@ -4,5 +4,5 @@ resources(
 )
 
 python_library(
-    dependencies=["runner_metadata"],
+    dependencies=[":runner_metadata"],
 )
