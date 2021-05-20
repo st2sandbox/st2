@@ -6,7 +6,7 @@ from pants.backend.python.goals.pytest_runner import (
     PytestPluginSetup,
 )
 from pants.backend.python.target_types import PythonTestsDependencies
-from pants.engine.fs import CreateDigest, Digest, FileContent
+from pants.engine.fs import CreateDigest, Digest, FileContent, PathGlobs, Paths
 from pants.engine.rules import Get, MultiGet, collect_rules, rule
 from pants.engine.target import DependenciesRequest, Target, Targets
 from pants.engine.unions import UnionRule
@@ -56,16 +56,36 @@ async def generate_entry_points_txt_from_stevedore_extension(
         for tgt in stevedore_targets
     )
 
+    possible_paths = [
+        {
+            f"{stevedore_extension.address.spec_path}/{entry_point.value.module.split('.')[0]}"
+            for entry_point in resolved_ep.val
+        } for stevedore_extension, resolved_ep in zip(stevedore_targets, resolved_entry_points)
+    ]
+    resolved_paths = []
+    # MultiGet can only do up to 10 at a time
+    batchsize = 10
+    for i in range(0, len(possible_paths), batchsize):
+        resolved_paths.extend(
+            await MultiGet(
+                Get(
+                    Paths,
+                    PathGlobs(module_candidate_paths)
+                ) for module_candidate_paths in possible_paths[i:i+batchsize]
+            )
+        )
+
     # arrange in sibling groups
-    stevedore_extensions_by_spec_path = defaultdict(list)
-    for stevedore_extension, resolved_ep in zip(stevedore_targets, resolved_entry_points):
-        stevedore_extensions_by_spec_path[stevedore_extension.address.spec_path].append(
+    stevedore_extensions_by_path = defaultdict(list)
+    for stevedore_extension, resolved_ep, paths in zip(stevedore_targets, resolved_entry_points, resolved_paths):
+        path = paths.dirs[0]  # just take the first match
+        stevedore_extensions_by_path[path].append(
             (stevedore_extension, resolved_ep)
         )
 
     entry_points_txt_files = []
-    for spec_path, stevedore_extensions in stevedore_extensions_by_spec_path.items():
-        entry_points_txt_path = f"{spec_path}.egg-info/entry_points.txt"
+    for module_path, stevedore_extensions in stevedore_extensions_by_path.items():
+        entry_points_txt_path = f"{module_path}.egg-info/entry_points.txt"
         entry_points_txt_contents = ""
 
         stevedore_extension: StevedoreExtension
