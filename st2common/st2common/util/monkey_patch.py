@@ -55,7 +55,7 @@ def monkey_patch(patch_thread=None):
             port=os.environ.get("ST2_PYCHARM_DEBUG_PORT", 5000),
             stdoutToServer=True,
             stderrToServer=True,
-            patch_multiprocessing=True
+            patch_multiprocessing=True,
         )
 
     import eventlet
@@ -97,7 +97,11 @@ def use_select_poll_workaround(nose_only=True):
     import eventlet
 
     # Work around to get tests to pass with eventlet >= 0.20.0
-    if not nose_only or (nose_only and "nose" in sys.modules.keys()):
+    if not nose_only or (
+        nose_only
+        # sys._called_from_test set in conftest.py for pytest runs
+        and ("nose" in sys.modules.keys() or hasattr(sys, "_called_from_test"))
+    ):
         # Add back blocking poll() to eventlet monkeypatched select
         original_poll = eventlet.patcher.original("select").poll
         select.poll = original_poll

@@ -43,6 +43,8 @@ marker_filenames = [
 # do not use /contrib/* in root_patterns or *_runner imports become ambiguous
 # eg `import noop_runner` should use runners/noop_runner/noop_runner not runners/noop_runner
 root_patterns = [
+  # root conftest.py
+  "/",
   # core libs
   "/st2*",
   # runners

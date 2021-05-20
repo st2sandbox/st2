@@ -20,6 +20,11 @@ python_requirement_library(
 )
 
 python_requirement_library(
-  name = "pydevd-pycharm",
-  requirements=["pydevd-pycharm==211.7142.13"],
+    name = "pydevd-pycharm",
+    requirements=["pydevd-pycharm==211.7142.13"],
+)
+
+python_tests(
+    name="tests",
+    skip_pylint=True,
 )
