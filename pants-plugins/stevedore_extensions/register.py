@@ -11,6 +11,8 @@ from stevedore_extensions import (
 from stevedore_extensions.target_types import StevedoreExtension
 
 
+# TODO: to support poetry + pyproject.toml, add a macro that extracts
+#       details from pyproject.toml and adds the relevent stevedore_extension.
 # TODO: add stevedore_namespaces field to python_library?
 
 
