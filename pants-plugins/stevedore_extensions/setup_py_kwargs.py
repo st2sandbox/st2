@@ -9,6 +9,7 @@ from pants.engine.addresses import Address
 from pants.engine.rules import collect_rules, Get, MultiGet, rule
 from pants.engine.target import Targets
 from pants.util.frozendict import FrozenDict
+from pants.util.logging import LogLevel
 
 from stevedore_extensions.target_types import (
     ResolvedStevedoreEntryPoints,
@@ -22,16 +23,25 @@ from stevedore_extensions.target_types import (
 
 @dataclass(frozen=True)
 class StevedoreSetupKwargs:
+    """
+    kwargs = {"entry_points": {"stevedore.extension.namespace": ("entry = p.o.i.n:t")}
+    """
     kwargs: FrozenDict[str, FrozenDict[str, Tuple[str]]]
 
 
 @dataclass(frozen=True)
 class StevedoreSetupKwargsRequest:
-    """
-    Light wrapper around SetupKwargsRequest to allow composed Kwargs.
+    """Light wrapper around SetupKwargsRequest to allow composed Kwargs."""
+    request: SetupKwargsRequest
 
+
+@rule(desc="Prepare stevedore_extension kwargs (entry_points) for usage in setup.py.", level=LogLevel.DEBUG)
+async def stevedore_kwargs_for_setup_py(
+    stevedore_request: StevedoreSetupKwargsRequest
+) -> StevedoreSetupKwargs:
+    """
     Only one plugin can provide Kwargs for a given setup, so that repo-specific
-    plugin should do something like this:
+    plugin's setup_py rule should do something like this:
 
     custom_args = {...}
     stevedore_kwargs = await Get(StevedoreSetupKwargs, StevedoreSetupKwargsRequest(request))
@@ -42,13 +52,7 @@ class StevedoreSetupKwargsRequest:
         address=address
     )
     """
-    request: SetupKwargsRequest
 
-
-@rule
-async def stevedore_kwargs_for_setup_py(
-    stevedore_request: StevedoreSetupKwargsRequest
-) -> StevedoreSetupKwargs:
     request: SetupKwargsRequest = stevedore_request.request
     address: Address = request.target.address
 
