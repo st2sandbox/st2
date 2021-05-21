@@ -62,18 +62,12 @@ async def generate_entry_points_txt_from_stevedore_extension(
             for entry_point in resolved_ep.val
         } for stevedore_extension, resolved_ep in zip(stevedore_targets, resolved_entry_points)
     ]
-    resolved_paths = []
-    # MultiGet can only do up to 10 at a time
-    batchsize = 10
-    for i in range(0, len(possible_paths), batchsize):
-        resolved_paths.extend(
-            await MultiGet(
-                Get(
-                    Paths,
-                    PathGlobs(module_candidate_paths)
-                ) for module_candidate_paths in possible_paths[i:i+batchsize]
-            )
-        )
+    resolved_paths = await MultiGet(
+        Get(
+            Paths,
+            PathGlobs(module_candidate_paths)
+        ) for module_candidate_paths in possible_paths
+    )
 
     # arrange in sibling groups
     stevedore_extensions_by_path = defaultdict(list)
