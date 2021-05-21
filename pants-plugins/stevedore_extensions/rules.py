@@ -34,9 +34,6 @@ class GenerateEntryPointsTxtFromStevedoreExtensionRequest(PytestPluginSetupReque
 async def generate_entry_points_txt_from_stevedore_extension(
     request: GenerateEntryPointsTxtFromStevedoreExtensionRequest,
 ) -> PytestPluginSetup:
-    # similar to relocate_files, this isn't standard codegen.
-    # It uses the metadata on targets as source instead of source files.
-
     # get all injected dependencies that are StevedoreExtension targets
     dependencies = await Get(
         Targets,
