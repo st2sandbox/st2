@@ -78,6 +78,11 @@ Added
 
   Contributed by @Kami.
 
+* Mask secrets in output of an action execution in the API if the action has an output schema
+  defined and one or more output parameters are marked as secret. #5250
+
+  Contributed by @mahesh-orch.
+
 Changed
 ~~~~~~~
 
@@ -244,6 +249,8 @@ Changed
 
 * Remove duplicate host header in the nginx config for the auth endpoint.
 
+* Update orquesta to v1.4.0.
+
 Improvements
 ~~~~~~~~~~~~
 
@@ -364,6 +371,8 @@ Fixed
   correctly for workflow (orquesta, action chain) actions. #5221 #5227
 
   Contributed by @khushboobhatia01.
+
+* Clean up to remove unused methods in the action execution concurrency policies. #5268
 
 3.4.1 - March 14, 2021
 ----------------------
