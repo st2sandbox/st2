@@ -1,6 +1,5 @@
 *.py[cod]
 *.sqlite
-*.swp
 *.log
 .stamp*
 
@@ -67,3 +66,5 @@ benchmark_histograms/
 # Editor Saves
 *~
 \#*\#
+[._]*.sw[a-p]
+[._]sw[a-p]
