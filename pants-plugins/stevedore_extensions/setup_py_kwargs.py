@@ -26,18 +26,23 @@ class StevedoreSetupKwargs:
     """
     kwargs = {"entry_points": {"stevedore.extension.namespace": ("entry = p.o.i.n:t")}
     """
+
     kwargs: FrozenDict[str, FrozenDict[str, Tuple[str]]]
 
 
 @dataclass(frozen=True)
 class StevedoreSetupKwargsRequest:
     """Light wrapper around SetupKwargsRequest to allow composed Kwargs."""
+
     request: SetupKwargsRequest
 
 
-@rule(desc="Prepare stevedore_extension kwargs (entry_points) for usage in setup.py.", level=LogLevel.DEBUG)
+@rule(
+    desc="Prepare stevedore_extension kwargs (entry_points) for usage in setup.py.",
+    level=LogLevel.DEBUG,
+)
 async def stevedore_kwargs_for_setup_py(
-    stevedore_request: StevedoreSetupKwargsRequest
+    stevedore_request: StevedoreSetupKwargsRequest,
 ) -> StevedoreSetupKwargs:
     """
     Only one plugin can provide Kwargs for a given setup, so that repo-specific
@@ -57,7 +62,8 @@ async def stevedore_kwargs_for_setup_py(
     address: Address = request.target.address
 
     sibling_targets = await Get(
-        Targets, AddressSpecs([SiblingAddresses(address.spec_path)]),
+        Targets,
+        AddressSpecs([SiblingAddresses(address.spec_path)])
     )
     stevedore_targets: List[StevedoreExtension] = [
         tgt for tgt in sibling_targets if tgt.has_field(StevedoreEntryPointsField)

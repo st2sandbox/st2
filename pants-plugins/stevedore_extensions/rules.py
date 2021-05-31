@@ -27,20 +27,26 @@ class GenerateEntryPointsTxtFromStevedoreExtensionRequest(PytestPluginSetupReque
     @classmethod
     def is_applicable(cls, target: Target) -> bool:
         # select python_tests targets with stevedore_namespaces field
-        return target.has_field(StevedoreNamespacesField) and target.get(StevedoreNamespacesField).value is not None
+        return (
+            target.has_field(StevedoreNamespacesField)
+            and target.get(StevedoreNamespacesField).value is not None
+        )
 
 
-@rule(desc="Generate entry_points.txt from stevedore_extension target metadata", level=LogLevel.DEBUG)
+@rule(
+    desc="Generate entry_points.txt from stevedore_extension target metadata",
+    level=LogLevel.DEBUG,
+)
 async def generate_entry_points_txt_from_stevedore_extension(
     request: GenerateEntryPointsTxtFromStevedoreExtensionRequest,
 ) -> PytestPluginSetup:
     # get all injected dependencies that are StevedoreExtension targets
     dependencies = await Get(
-        Targets,
-        DependenciesRequest(request.target.get(PythonTestsDependencies))
+        Targets, DependenciesRequest(request.target.get(PythonTestsDependencies))
     )
     stevedore_targets = [
-        tgt for tgt in dependencies
+        tgt
+        for tgt in dependencies
         if tgt.has_field(StevedoreEntryPointsField)
         and tgt.get(StevedoreEntryPointsField).value is not None
     ]
@@ -57,22 +63,23 @@ async def generate_entry_points_txt_from_stevedore_extension(
         {
             f"{stevedore_extension.address.spec_path}/{entry_point.value.module.split('.')[0]}"
             for entry_point in resolved_ep.val
-        } for stevedore_extension, resolved_ep in zip(stevedore_targets, resolved_entry_points)
+        }
+        for stevedore_extension, resolved_ep in zip(
+            stevedore_targets, resolved_entry_points
+        )
     ]
     resolved_paths = await MultiGet(
-        Get(
-            Paths,
-            PathGlobs(module_candidate_paths)
-        ) for module_candidate_paths in possible_paths
+        Get(Paths, PathGlobs(module_candidate_paths))
+        for module_candidate_paths in possible_paths
     )
 
     # arrange in sibling groups
     stevedore_extensions_by_path = defaultdict(list)
-    for stevedore_extension, resolved_ep, paths in zip(stevedore_targets, resolved_entry_points, resolved_paths):
+    for stevedore_extension, resolved_ep, paths in zip(
+        stevedore_targets, resolved_entry_points, resolved_paths
+    ):
         path = paths.dirs[0]  # just take the first match
-        stevedore_extensions_by_path[path].append(
-            (stevedore_extension, resolved_ep)
-        )
+        stevedore_extensions_by_path[path].append((stevedore_extension, resolved_ep))
 
     entry_points_txt_files = []
     for module_path, stevedore_extensions in stevedore_extensions_by_path.items():
@@ -81,14 +88,18 @@ async def generate_entry_points_txt_from_stevedore_extension(
 
         stevedore_extension: StevedoreExtension
         for stevedore_extension, resolved_ep in stevedore_extensions:
-            namespace: StevedoreNamespaceField = stevedore_extension[StevedoreNamespaceField]
+            namespace: StevedoreNamespaceField = stevedore_extension[
+                StevedoreNamespaceField
+            ]
             entry_points: StevedoreEntryPoints = resolved_ep.val
             if not entry_points:
                 continue
 
             entry_points_txt_contents += f"[{namespace.value}]\n"
             for entry_point in entry_points:
-                entry_points_txt_contents += f"{entry_point.name} = {entry_point.value.spec}\n"
+                entry_points_txt_contents += (
+                    f"{entry_point.name} = {entry_point.value.spec}\n"
+                )
             entry_points_txt_contents += "\n"
 
         entry_points_txt_contents = entry_points_txt_contents.encode("utf-8")
@@ -103,5 +114,8 @@ async def generate_entry_points_txt_from_stevedore_extension(
 def rules():
     return [
         *collect_rules(),
-        UnionRule(PytestPluginSetupRequest, GenerateEntryPointsTxtFromStevedoreExtensionRequest),
+        UnionRule(
+            PytestPluginSetupRequest,
+            GenerateEntryPointsTxtFromStevedoreExtensionRequest,
+        ),
     ]

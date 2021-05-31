@@ -6,7 +6,7 @@ from stevedore_extensions import (
     target_types_rules,
     rules as stevedore_rules,
     pytest_dependency_injection,
-    setup_py_kwargs
+    setup_py_kwargs,
 )
 from stevedore_extensions.target_types import StevedoreExtension
 
