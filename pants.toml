@@ -37,10 +37,10 @@ pants_ignore = [
 ]
 
 [source]
-marker_filenames = [
+#marker_filenames = [
   # packs (primarily for /contrib/* packs)
-  "pack.yaml",
-]
+#  "pack.yaml",
+#]
 # do not use /contrib/* in root_patterns or *_runner imports become ambiguous
 # eg `import noop_runner` should use runners/noop_runner/noop_runner not runners/noop_runner
 root_patterns = [

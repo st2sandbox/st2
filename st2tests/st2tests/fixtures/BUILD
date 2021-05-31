@@ -16,9 +16,6 @@ target(
         "./backstop:metadata",
         "./generic:metadata",
         "./localrunner_pack:metadata",
-        "./packs:packs_metadata",
-        "./packs_1:packs_metadata",
-        "./packs_invalid:packs_metadata",
         "./traces:metadata",
     ],
 )

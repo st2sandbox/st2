@@ -23,6 +23,9 @@ from st2tests.base import IntegrationTestCase
 from st2common.util.shell import run_command
 from st2tests import config as test_config
 from st2tests.fixturesloader import get_fixtures_packs_base_path
+from st2tests.fixtures.packs.dummy_pack_1.fixture import PACK_PATH as DUMMY_PACK_1_PATH
+from st2tests.fixtures.packs.dummy_pack_4.fixture import PACK_PATH as DUMMY_PACK_4_PATH
+from st2tests.fixtures.packs_1.dummy_pack_4.fixture import PACK_PATH as EMPTY_PACK_PATH
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -43,7 +46,7 @@ class ContentRegisterScriptTestCase(IntegrationTestCase):
         test_config.parse_args()
 
     def test_register_from_pack_success(self):
-        pack_dir = os.path.join(get_fixtures_packs_base_path(), "dummy_pack_1")
+        pack_dir = DUMMY_PACK_1_PATH
         runner_dirs = os.path.join(get_fixtures_packs_base_path(), "runners")
 
         opts = [
@@ -82,7 +85,7 @@ class ContentRegisterScriptTestCase(IntegrationTestCase):
 
     def test_register_from_pack_action_metadata_fails_validation(self):
         # No fail on failure flag, should succeed
-        pack_dir = os.path.join(get_fixtures_packs_base_path(), "dummy_pack_4")
+        pack_dir = DUMMY_PACK_4_PATH
         runner_dirs = os.path.join(get_fixtures_packs_base_path(), "runners")
 
         opts = [
@@ -97,7 +100,7 @@ class ContentRegisterScriptTestCase(IntegrationTestCase):
         self.assertEqual(exit_code, 0)
 
         # Fail on failure, should fail
-        pack_dir = os.path.join(get_fixtures_packs_base_path(), "dummy_pack_4")
+        pack_dir = DUMMY_PACK_4_PATH
         opts = [
             "--register-pack=%s" % (pack_dir),
             "--register-fail-on-failure",
@@ -112,6 +115,7 @@ class ContentRegisterScriptTestCase(IntegrationTestCase):
         # dummy_pack_4 only has actions folder, make sure it doesn't throw when
         # sensors and other resource folders are missing
 
+        self.assertIn("fixtures/packs_1/", EMPTY_PACK_PATH)
         # Note: We want to use a different config which sets fixtures/packs_1/
         # dir as packs_base_paths
         cmd = [
@@ -142,7 +146,7 @@ class ContentRegisterScriptTestCase(IntegrationTestCase):
     def test_register_all_and_register_setup_virtualenvs(self):
         # Verify that --register-all works in combinations with --register-setup-virtualenvs
         # Single pack
-        pack_dir = os.path.join(get_fixtures_packs_base_path(), "dummy_pack_1")
+        pack_dir = DUMMY_PACK_1_PATH
         cmd = BASE_CMD_ARGS + [
             "--register-pack=%s" % (pack_dir),
             "--register-all",
@@ -157,7 +161,7 @@ class ContentRegisterScriptTestCase(IntegrationTestCase):
 
     def test_register_setup_virtualenvs(self):
         # Single pack
-        pack_dir = os.path.join(get_fixtures_packs_base_path(), "dummy_pack_1")
+        pack_dir = DUMMY_PACK_1_PATH
 
         cmd = BASE_CMD_ARGS + [
             "--register-pack=%s" % (pack_dir),
@@ -173,7 +177,7 @@ class ContentRegisterScriptTestCase(IntegrationTestCase):
     def test_register_recreate_virtualenvs(self):
         # 1. Register the pack and ensure it exists and doesn't rely on state from previous
         # test methods
-        pack_dir = os.path.join(get_fixtures_packs_base_path(), "dummy_pack_1")
+        pack_dir = DUMMY_PACK_1_PATH
 
         cmd = BASE_CMD_ARGS + [
             "--register-pack=%s" % (pack_dir),
@@ -187,7 +191,7 @@ class ContentRegisterScriptTestCase(IntegrationTestCase):
         self.assertEqual(exit_code, 0)
 
         # 2. Run it again with --register-recreate-virtualenvs flag
-        pack_dir = os.path.join(get_fixtures_packs_base_path(), "dummy_pack_1")
+        pack_dir = DUMMY_PACK_1_PATH
 
         cmd = BASE_CMD_ARGS + [
             "--register-pack=%s" % (pack_dir),

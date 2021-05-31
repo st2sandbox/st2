@@ -32,6 +32,9 @@ from st2common.util.virtualenvs import setup_pack_virtualenv
 from st2tests import config
 from st2tests.base import CleanFilesTestCase
 from st2tests.base import CleanDbTestCase
+from st2tests.fixtures.packs.test_library_dependencies.fixture import (
+    PACK_NAME as TEST_LIBRARY_DEPENDENCIES,
+)
 from st2tests.fixturesloader import get_fixtures_base_path
 
 __all__ = ["PythonRunnerBehaviorTestCase"]
@@ -72,7 +75,7 @@ class PythonRunnerBehaviorTestCase(CleanFilesTestCase, CleanDbTestCase):
         To test above, this uses 'get_library_path.py' action in 'test_library_dependencies' pack.
         This action returns file-path of imported module which is specified by 'module' parameter.
         """
-        pack_name = "test_library_dependencies"
+        pack_name = TEST_LIBRARY_DEPENDENCIES
 
         # Before calling action, this sets up virtualenv for test pack. This pack has
         # requirements.txt wihch only writes 'six' module.
