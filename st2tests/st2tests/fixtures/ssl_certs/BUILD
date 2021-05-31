@@ -1,0 +1,10 @@
+files(
+    sources=[
+        "**/*.cer",
+        "**/*.cnf",
+        "**/*.p12",
+        "**/*.pem",
+        "ca/index.txt*",
+        "ca/serial*",
+    ],
+)
