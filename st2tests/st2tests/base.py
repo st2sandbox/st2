@@ -319,7 +319,9 @@ class DbTestCase(BaseDbTestCase):
         drop_db = True
 
         # TODO: alternate method for pytest?
-        if cls.current_result and (cls.current_result.errors or cls.current_result.failures):
+        if cls.current_result and (
+            cls.current_result.errors or cls.current_result.failures
+        ):
             # Don't drop DB on test failure
             drop_db = False
 

@@ -62,8 +62,7 @@ async def stevedore_kwargs_for_setup_py(
     address: Address = request.target.address
 
     sibling_targets = await Get(
-        Targets,
-        AddressSpecs([SiblingAddresses(address.spec_path)])
+        Targets, AddressSpecs([SiblingAddresses(address.spec_path)])
     )
     stevedore_targets: List[StevedoreExtension] = [
         tgt for tgt in sibling_targets if tgt.has_field(StevedoreEntryPointsField)
