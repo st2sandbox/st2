@@ -1,15 +1,25 @@
 files(
-    name="pack-fixtures",
+    name="registered_content",
     sources=[
-        "./generic/**/*.yaml",
-        "./generic/**/*.sh",
-        "./timers/**/*.yaml",
-        "./rule_enforcements/**/*.yaml",
         "./descendants/**/*.yaml",
-        "./aliases/**/*.yaml",
-        "./traces/**/*.yaml",
-        "./backstop/**/*.yaml",
-        "./packs/orquesta_tests/**/*.yaml",
+        "./rbac/**/*.yaml",
+        "./rbac_invalid/**/*.yaml",
+        "./rule_enforcements/**/*.yaml",
+        "./timers/**/*.yaml",
+    ],
+)
+
+target(
+    name="packs_metadata",
+    dependencies=[
+        "./aliases:metadata",
+        "./backstop:metadata",
+        "./generic:metadata",
+        "./localrunner_pack:metadata",
+        "./packs:packs_metadata",
+        "./packs_1:packs_metadata",
+        "./packs_invalid:packs_metadata",
+        "./traces:metadata",
     ],
 )
 
