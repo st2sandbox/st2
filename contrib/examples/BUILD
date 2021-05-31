@@ -12,3 +12,7 @@ python_requirement_library(
     name="flask",
     requirements=["flask"],
 )
+
+pack_metadata(
+    name="metadata",
+)

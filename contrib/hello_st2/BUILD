@@ -3,3 +3,6 @@
 # So, we explicitly list deps instead.
 #python_requirements()
 
+pack_metadata(
+    name="metadata",
+)

@@ -3,3 +3,6 @@ python_requirements(
     module_mapping={"mail-parser": ["mailparser"]},
 )
 
+pack_metadata(
+    name="metadata",
+)
