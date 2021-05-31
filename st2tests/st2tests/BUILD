@@ -7,5 +7,8 @@ python_library(
     "st2tests/st2tests/resources:packs",
     "st2tests/st2tests/fixtures:packs_metadata",
     "st2tests/st2tests/fixtures:registered_content",
+    "st2tests/st2tests/fixtures/history_views",
+    "st2tests/st2tests/fixtures/specs",
+    "st2tests/st2tests/fixtures/ssl_certs",
   ],
 )
