@@ -38,7 +38,7 @@ pants_ignore = [
 
 [source]
 marker_filenames = [
-  # /contrib/* packs (not any of the st2tests fixture packs)
+  # packs in contrib/ and st2tests/testpacks (not fixtures like /st2tests/st2tests/fixtures/**)
   "PACK_ROOT",
 ]
 # do not use /contrib/* in root_patterns or *_runner imports become ambiguous
@@ -52,8 +52,6 @@ root_patterns = [
   "/contrib/runners/*_runner",
   # odd import in examples.isprime
   "/contrib/examples/lib",
-  # test packs that do not have pack.yaml
-  "/st2tests/testpacks/*",
   # lint plugins
   "/pylint_plugins",
   # pants plugins
