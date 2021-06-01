@@ -172,6 +172,16 @@ def get_resources_base_path():
 def get_pack_fixture_name_and_path_from(fixture_file):
     pack_name = os.path.basename(os.path.dirname(fixture_file))
     pack_path = os.path.join(get_fixtures_packs_base_path(), pack_name)
+    # TODO: instead of passing __file__ to this function, we could use inspect to do:
+    # import inspect
+    # from types import FrameType, ModuleType
+    # currentframe = inspect.currentframe()
+    # assert isinstance(currentframe, FrameType)
+    # caller_frame = currentframe.f_back
+    # caller_module = inspect.getmodule(caller_frame)
+    # assert isinstance(caller_module, ModuleType)
+    # pack_name = caller_module.__package__.split(".")[-1]
+    # pack_path = os.path.abspath(os.path.dirname(caller_module.__file__))
     return pack_name, pack_path
 
 
