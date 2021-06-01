@@ -1,4 +1,4 @@
 python_tests(
     name="tests",
-	skip_pylint=True,
+    skip_pylint=True,
 )

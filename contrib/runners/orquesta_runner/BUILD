@@ -2,16 +2,16 @@ python_library(skip_pylint=True)
 
 stevedore_extension(
     name="runner",
-    namespace = "st2common.runners.runner",
-    entry_points = {
+    namespace="st2common.runners.runner",
+    entry_points={
         "orquesta": "orquesta_runner.orquesta_runner",
     },
 )
 
 stevedore_extension(
     name="orquesta_functions",
-    namespace = "orquesta.expressions.functions",
-    entry_points = {
+    namespace="orquesta.expressions.functions",
+    entry_points={
         "st2kv": "orquesta_functions.st2kv:st2kv_",
         "task": "orquesta_functions.runtime:task",
         "basename": "st2common.expressions.functions.path:basename",

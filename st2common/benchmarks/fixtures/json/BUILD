@@ -1,3 +1,3 @@
 files(
-  sources=["*.json"],
+    sources=["*.json"],
 )

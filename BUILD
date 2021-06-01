@@ -7,20 +7,20 @@ python_requirements(
         "python-statsd": ["statsd"],
         "sseclient-py": ["sseclient"],
         "oslo.config": ["oslo_config"],
-    }
+    },
 )
 
 python_requirement_library(
     name="flex",
     requirements=["flex"],
-    dependencies = [
+    dependencies=[
         # flex uses pkg_resources w/o declaring the dep
         "//:setuptools",
-    ]
+    ],
 )
 
 python_requirement_library(
-    name = "pydevd-pycharm",
+    name="pydevd-pycharm",
     requirements=["pydevd-pycharm==211.7142.13"],
 )
 

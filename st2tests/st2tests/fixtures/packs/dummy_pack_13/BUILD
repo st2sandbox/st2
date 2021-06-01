@@ -3,5 +3,5 @@ pack_metadata(
 )
 
 python_library(
-	dependencies=[":metadata"],
+    dependencies=[":metadata"],
 )

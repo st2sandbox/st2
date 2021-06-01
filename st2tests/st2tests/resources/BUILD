@@ -1,9 +1,9 @@
 resources(
-  name="ssh",
-  sources=["ssh/*"],
+    name="ssh",
+    sources=["ssh/*"],
 )
 
 resources(
-  name="packs",
-  sources=["packs/**"],
+    name="packs",
+    sources=["packs/**"],
 )
