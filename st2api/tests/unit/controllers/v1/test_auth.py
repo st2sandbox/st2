@@ -24,6 +24,7 @@ from st2common.util import date as date_utils
 from st2common.models.db.auth import ApiKeyDB, TokenDB, UserDB
 from st2common.persistence.auth import ApiKey, Token, User
 from st2common.exceptions.auth import TokenNotFoundError
+from st2tests.fixtures.generic.fixture import PACK_NAME as FIXTURES_PACK
 from st2tests.fixturesloader import FixturesLoader
 
 OBJ_ID = bson.ObjectId()
@@ -114,8 +115,6 @@ class TestTokenBasedAuth(FunctionalTest):
         self.assertIn("application/json", response.headers["content-type"])
         self.assertEqual(response.status_int, 401)
 
-
-FIXTURES_PACK = "generic"
 
 TEST_MODELS = {"apikeys": ["apikey1.yaml", "apikey_disabled.yaml"]}
 

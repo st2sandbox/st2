@@ -25,12 +25,11 @@ from st2common.util import isotime
 from st2common.util import date as date_utils
 from st2exporter.worker import ExecutionsExporter
 from st2tests.base import DbTestCase
+from st2tests.fixtures.descendants.fixture import PACK_NAME as DESCENDANTS_PACK
 from st2tests.fixturesloader import FixturesLoader
 import st2tests.config as tests_config
 
 tests_config.parse_args()
-
-DESCENDANTS_PACK = "descendants"
 
 DESCENDANTS_FIXTURES = {
     "executions": [

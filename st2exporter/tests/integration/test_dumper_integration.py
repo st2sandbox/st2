@@ -26,9 +26,8 @@ from st2common.persistence.marker import DumperMarker
 from st2common.util import isotime
 from st2exporter.exporter.dumper import Dumper
 from st2tests.base import DbTestCase
+from st2tests.fixtures.descendants.fixture import PACK_NAME as DESCENDANTS_PACK
 from st2tests.fixturesloader import FixturesLoader
-
-DESCENDANTS_PACK = "descendants"
 
 DESCENDANTS_FIXTURES = {
     "executions": [
