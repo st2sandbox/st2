@@ -8,3 +8,9 @@ files(
     name="logging-conf",
     sources=["logging.*.conf"],
 )
+
+python_library(
+    dependencies=[
+		":st2.tests.conf",
+	],
+)

@@ -40,10 +40,10 @@ sys.path.append(ST2TESTS_PATH)
 from st2actions.notifier import config
 from st2common import log as logging
 from st2common.service_setup import setup as common_setup
+from st2tests.fixtures.conf.fixture import FIXTURE_PATH as CONF_FIXTURES_PATH
 
-FIXTURES_DIR = os.path.join(ST2TESTS_PATH, "st2tests/fixtures")
 ST2_CONFIG_DEBUG_LL_PATH = os.path.join(
-    FIXTURES_DIR, "conf/st2.tests.api.debug_log_level.conf"
+    CONF_FIXTURES_PATH, "st2.tests.api.debug_log_level.conf"
 )
 
 LOG = logging.getLogger(__name__)
