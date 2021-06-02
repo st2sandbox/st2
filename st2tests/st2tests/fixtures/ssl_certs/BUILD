@@ -1,4 +1,5 @@
 files(
+    name="artifacts",
     sources=[
         "**/*.cer",
         "**/*.cnf",
@@ -7,4 +8,8 @@ files(
         "ca/index.txt*",
         "ca/serial*",
     ],
+)
+
+python_library(
+    dependencies=[":artifacts"],
 )
