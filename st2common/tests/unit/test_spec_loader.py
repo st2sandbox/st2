@@ -18,6 +18,8 @@ import unittest2
 import yaml
 
 from st2common.util import spec_loader
+# indicate to pants that this test uses this fixture.
+from st2tests.fixtures.specs import __package__ as specs_fixture_package
 
 
 class SpecLoaderTest(unittest2.TestCase):
@@ -31,6 +33,6 @@ class SpecLoaderTest(unittest2.TestCase):
             yaml.constructor.ConstructorError,
             'found duplicate key "swagger"',
             spec_loader.load_spec,
-            "st2tests.fixtures.specs",
+            specs_fixture_package,
             "openapi.yaml.j2",
         )
