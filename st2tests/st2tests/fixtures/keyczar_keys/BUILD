@@ -1,4 +1,8 @@
 files(
-    name="keyczar_keys",
+    name="artifacts",
     sources=["*.json"],
+)
+
+python_library(
+    dependencies=[":artifacts"],
 )
