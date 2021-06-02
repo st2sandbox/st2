@@ -3,5 +3,8 @@ pack_metadata(
 )
 
 python_library(
-    dependencies=[":metadata"],
+    dependencies=[
+        ":metadata",
+        "st2tests/st2tests/fixtures/packs/configs/dummy_pack_5.yaml",
+    ],
 )
