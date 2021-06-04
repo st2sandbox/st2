@@ -20,13 +20,11 @@ from st2common.bootstrap import runnersregistrar
 
 import st2tests
 from st2tests.api import FunctionalTest
+from st2tests.fixtures.packs.core.fixture import PACK_PATH as CORE_PACK_PATH
 from st2tests.fixtures.packs.orquesta_tests.fixture import PACK_PATH as TEST_PACK_PATH
 
 
-PACKS = [
-    TEST_PACK_PATH,
-    st2tests.fixturesloader.get_fixtures_packs_base_path() + "/core",
-]
+PACKS = [TEST_PACK_PATH, CORE_PACK_PATH]
 
 
 class WorkflowInspectionControllerTest(FunctionalTest, st2tests.WorkflowTestCase):

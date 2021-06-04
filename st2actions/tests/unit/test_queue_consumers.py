@@ -38,9 +38,10 @@ from st2common.transport.publishers import PoolPublisher
 from st2common.util import action_db as action_utils
 from st2common.util import date as date_utils
 from st2tests.base import ExecutionDbTestCase
+from st2tests.fixtures.packs.core.fixture import PACK_PATH as CORE_PACK_PATH
 
 
-PACKS = [st2tests.fixturesloader.get_fixtures_packs_base_path() + "/core"]
+PACKS = [CORE_PACK_PATH]
 
 
 @mock.patch.object(PoolPublisher, "publish", mock.MagicMock())
