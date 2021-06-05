@@ -15,6 +15,12 @@ python_library(
     ],
 )
 
+unmatched_globs(
+    name="git_submodule",
+    dependencies=[":test_content_version", ":metadata"],
+    message_on_error="You need git submodules! Please init ... instructions",
+)
+
 python_library(
-    dependencies=[":test_content_version"],
+    dependencies=[":git_submodule", ":test_content_version"],
 )
