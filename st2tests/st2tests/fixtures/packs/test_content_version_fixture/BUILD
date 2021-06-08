@@ -1,24 +1,24 @@
-pack_metadata(
+GIT_SUBMODULES_INSTRUCTIONS = """
+You need git submodules! Please init ... instructions
+"""
+
+pack_metadata_no_unmatched_globs(
     name="metadata",
     sources=[
         "st2tests/st2tests/fixtures/packs/test_content_version/pack.yaml",
         "st2tests/st2tests/fixtures/packs/test_content_version/**/*.yaml",
         "st2tests/st2tests/fixtures/packs/test_content_version/icon.png",
     ],
+    message_on_unmatched_globs=GIT_SUBMODULES_INSTRUCTIONS,
 )
 
-python_library(
+python_library_no_unmatched_globs(
     name="test_content_version",
     dependencies=[":metadata"],
     sources=[
         "st2tests/st2tests/fixtures/packs/test_content_version/**/*.py",
     ],
-)
-
-unmatched_globs(
-    name="git_submodule",
-    dependencies=[":test_content_version", ":metadata"],
-    message_on_error="You need git submodules! Please init ... instructions",
+    message_on_unmatched_globs=GIT_SUBMODULES_INSTRUCTIONS,
 )
 
 python_library(
