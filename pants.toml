@@ -23,7 +23,6 @@ backend_packages = [
   "uses_services",
   "stevedore_extensions",
   "pack_metadata",
-  "unmatched_globs",
 ]
 plugins = [
   # dependencies for internal plugins
