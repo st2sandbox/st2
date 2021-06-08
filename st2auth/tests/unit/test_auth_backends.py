@@ -19,8 +19,6 @@ import unittest2
 
 from st2auth.backends import get_available_backends
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-
 
 class AuthenticationBackendsTestCase(unittest2.TestCase):
     def test_flat_file_backend_is_available_by_default(self):
