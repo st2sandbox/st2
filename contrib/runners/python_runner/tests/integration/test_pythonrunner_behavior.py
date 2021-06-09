@@ -39,6 +39,7 @@ from st2tests.fixturesloader import get_fixtures_base_path
 
 __all__ = ["PythonRunnerBehaviorTestCase"]
 
+FIXTURES_BASE_PATH = get_fixtures_base_path()
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 WRAPPER_SCRIPT_PATH = os.path.join(
     BASE_DIR, "../../../python_runner/python_runner/python_action_wrapper.py"
@@ -126,7 +127,7 @@ class PythonRunnerBehaviorTestCase(CleanFilesTestCase, CleanDbTestCase):
             setattr(runner, key, value)
 
         runner.entry_point = os.path.join(
-            get_fixtures_base_path(), "packs/%s/actions/%s" % (pack, action)
+            FIXTURES_BASE_PATH, f"packs/{pack}/actions/{action}"
         )
         runner.pre_run()
         return runner.run(params)
