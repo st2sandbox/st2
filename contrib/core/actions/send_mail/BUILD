@@ -1,6 +1,4 @@
-python_library()
-
 shell_library(
-    name="actions0",
+    sources=["send_mail"],
     skip_shellcheck=True,
 )

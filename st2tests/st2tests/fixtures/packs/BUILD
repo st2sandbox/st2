@@ -14,9 +14,20 @@ pack_metadata_in_git_submodule(
     ],
 )
 
+shell_library(
+    name="test_content_version_shell",
+    skip_shellcheck=True,
+    sources=[
+        "test_content_version/**/*.sh",
+    ],
+)
+
 python_library(
     name="test_content_version",
-    dependencies=[":test_content_version_metadata"],
+    dependencies=[
+        ":test_content_version_metadata",
+        ":test_content_version_shell",
+    ],
     sources=[
         "test_content_version/**/*.py",
     ],

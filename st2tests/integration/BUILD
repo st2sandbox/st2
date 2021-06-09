@@ -1,6 +1,9 @@
 python_library()
 
-# run-ssh-test.sh:
-#  dependencies=[
-#    "st2tests/conf:st2.conf",
-#  ],
+shell_library(
+    name="shell",
+    dependencies=[
+        "st2tests/conf:st2.conf",
+    ],
+    skip_shellcheck=True,
+)

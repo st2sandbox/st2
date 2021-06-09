@@ -9,6 +9,7 @@ repo_id = "de0dea7a-9f6a-4c6e-aa20-6ba5ad969b8a"
 pants_version = "2.6.0.dev1"
 pythonpath = ["%(buildroot)s/pants-plugins"]
 backend_packages = [
+  # python
   "pants.backend.python",
   "pants.backend.python.mixed_interpreter_constraints",
   "pants.backend.python.lint.bandit",
@@ -18,6 +19,11 @@ backend_packages = [
 #  "pants.backend.python.lint.isort",
   "pants.backend.python.lint.pylint",
 #  "pants.backend.python.typecheck.mypy",
+
+  # shell
+  "pants.backend.shell",
+#  "pants.backend.shell.lint.shfmt",
+  "pants.backend.shell.lint.shellcheck",
 
   # internal plugins in pants-plugins/
   "uses_services",
