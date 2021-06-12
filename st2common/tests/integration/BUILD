@@ -8,6 +8,11 @@ python_tests(
         "st2common.rbac.backend",
         "st2common.metrics.driver",
     ],
+    dependencies=[
+        # used by test_register_content_script
+        "conf/st2.tests.conf:st2_tests_conf",
+        "conf/st2.tests1.conf:st2_tests_conf",
+    ],
 )
 
 python_library(skip_pylint=True)

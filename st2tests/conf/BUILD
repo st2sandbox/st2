@@ -17,3 +17,8 @@ files(
     name="other-logging-conf",
     sources=["logging.*.conf"],
 )
+
+files(
+    name="vagrant_ssh_key",
+    sources=["vagrant.privkey.insecure"],
+)
