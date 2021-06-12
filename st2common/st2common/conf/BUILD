@@ -3,3 +3,7 @@ resources(
     name="base_logging_conf",
     sources=["base.logging.conf"],
 )
+
+python_library(
+    dependencies=[":base_logging_conf"],
+)
