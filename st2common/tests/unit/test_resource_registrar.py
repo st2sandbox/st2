@@ -15,8 +15,6 @@
 
 from __future__ import absolute_import
 
-import os
-
 import six
 import mock
 from jsonschema import ValidationError

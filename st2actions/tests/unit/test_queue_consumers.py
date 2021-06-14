@@ -15,8 +15,6 @@
 
 from __future__ import absolute_import
 
-import st2tests
-
 import st2tests.config as tests_config
 
 tests_config.parse_args()
