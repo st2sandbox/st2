@@ -1,9 +1,9 @@
 files(
     name="st2.tests.conf",
     sources=[
-		"st2.tests*.conf",
-		"logging.*.conf",  # used by st2.tests*.conf
-	],
+        "st2.tests*.conf",
+        "logging.*.conf",  # used by st2.tests*.conf
+    ],
     dependencies=[
         "st2tests/conf:other-logging-conf"
         # depending on st2auth from st2tests is not nice.

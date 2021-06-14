@@ -43,7 +43,9 @@ from st2tests.base import CleanDbTestCase
 from st2tests.base import blocking_eventlet_spawn
 from st2tests.base import make_mock_stream_readline
 from st2tests.fixtures.packs.dummy_pack_9.fixture import PACK_PATH as DUMMY_PACK_9_PATH
-from st2tests.fixtures.packs.test_content_version_fixture.fixture import PACK_PATH as TEST_CONTENT_VERSION_PATH
+from st2tests.fixtures.packs.test_content_version_fixture.fixture import (
+    PACK_PATH as TEST_CONTENT_VERSION_PATH,
+)
 from st2tests.fixturesloader import assert_submodules_are_checked_out
 import st2tests.base as tests_base
 

@@ -27,8 +27,12 @@ from st2common.bootstrap.sensorsregistrar import SensorsRegistrar
 from st2common.bootstrap.rulesregistrar import RulesRegistrar
 
 from tests.fixtures.packs import PACKS_DIR
-from tests.fixtures.packs.pack_with_rules.fixture import PACK_PATH as PACK_WITH_RULES_PATH
-from tests.fixtures.packs.pack_with_sensor.fixture import PACK_PATH as PACK_WITH_SENSOR_PATH
+from tests.fixtures.packs.pack_with_rules.fixture import (
+    PACK_PATH as PACK_WITH_RULES_PATH,
+)
+from tests.fixtures.packs.pack_with_sensor.fixture import (
+    PACK_PATH as PACK_WITH_SENSOR_PATH,
+)
 
 __all__ = ["SensorRegistrationTestCase", "RuleRegistrationTestCase"]
 

@@ -31,7 +31,7 @@ class PackMetadataInGitSubmoduleSources(PackMetadataSources):
         if not files:
             raise UnmatchedGlobsError(
                 # see: st2tests.fixturesloader.GIT_SUBMODULES_NOT_CHECKED_OUT_ERROR
-                'One or more git submodules is not checked out. Make sure to run '
+                "One or more git submodules is not checked out. Make sure to run "
                 '"git submodule update --init --recursive"'
                 "in the repository root directory to check out all the submodules."
             )

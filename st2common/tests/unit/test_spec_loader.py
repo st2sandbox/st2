@@ -18,6 +18,7 @@ import unittest2
 import yaml
 
 from st2common.util import spec_loader
+
 # indicate to pants that this test uses this fixture.
 from st2tests.fixtures.specs import __package__ as specs_fixture_package
 
