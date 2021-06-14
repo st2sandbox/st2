@@ -54,7 +54,7 @@ async def generate_entry_points_txt_from_stevedore_extension(
     resolved_entry_points = await MultiGet(
         Get(
             ResolvedStevedoreEntryPoints,
-            ResolveStevedoreEntryPointsRequest(tgt[StevedoreEntryPointsField])
+            ResolveStevedoreEntryPointsRequest(tgt[StevedoreEntryPointsField]),
         )
         for tgt in stevedore_targets
     )

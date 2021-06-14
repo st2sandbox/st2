@@ -70,7 +70,7 @@ async def stevedore_kwargs_for_setup_py(
     resolved_entry_points: Tuple[ResolvedStevedoreEntryPoints, ...] = await MultiGet(
         Get(
             ResolvedStevedoreEntryPoints,
-            ResolveStevedoreEntryPointsRequest(tgt[StevedoreEntryPointsField])
+            ResolveStevedoreEntryPointsRequest(tgt[StevedoreEntryPointsField]),
         )
         for tgt in stevedore_targets
     )
