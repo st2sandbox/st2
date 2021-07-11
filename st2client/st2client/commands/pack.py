@@ -22,9 +22,9 @@ import editor
 import warnings
 import yaml
 
-from st2client.models import Config
-from st2client.models import Pack
-from st2client.models import Execution
+from st2client.models.config import Config
+from st2client.models.pack import Pack
+from st2client.models.action import Execution
 from st2client.commands import resource
 from st2client.commands.resource import add_auth_token_to_kwargs_from_cli
 from st2client.commands.action import ActionRunCommandMixin
