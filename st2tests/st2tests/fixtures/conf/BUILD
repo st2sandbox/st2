@@ -5,9 +5,9 @@ files(
         "logging.*.conf",  # used by st2.tests*.conf
     ],
     dependencies=[
-        "st2tests/conf:other-logging-conf"
+        "st2tests/conf:other-logging-conf",
         # depending on st2auth from st2tests is not nice.
-        "st2auth/conf:htpasswd"
+        "st2auth/conf:htpasswd",
     ],
 )
 
