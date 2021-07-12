@@ -80,10 +80,11 @@ jobs:
         with:
           python-version: '${{ matrix.python-version }}'
 
-      - name: Get Pants Cache Merge Base Commit (main branch commit to pull cache from)
+      - name: Get Pants Cache Merge Base Commit (base branch commit to pull cache from)
         id: pants-cache-commit
+        # TODO: switch default base branch from pants to main/master
         run: |
-          COMMIT=$(git merge-base main HEAD | head -n1)
+          COMMIT=$(git merge-base ${GITHUB_BASE_REF:-pants} HEAD | head -n1)
           echo MERGEBASE=${COMMIT}
           echo "::set-output name=MERGEBASE::${COMMIT}"
       - name: Cache Pants Caches
@@ -91,12 +92,12 @@ jobs:
         id: pants-cache
         with:
           path: |
-           ~/.cache/pants/setup
-           ~/.cache/pants/lmdb_store
-           ~/.cache/pants/named_caches
-          key: ${{ runner.os }}-pants-${{ steps.pants-cache-commit.outputs.MERGEBASE }}
-          # TODO: is there a way to make this only take the cache from the main branch?
+            ~/.cache/pants/setup
+            ~/.cache/pants/lmdb_store
+            ~/.cache/pants/named_caches
+          key: ${{ runner.os }}-pants-${{ github.sha }}
           restore-keys: |
+            ${{ runner.os }}-pants-${{ steps.pants-cache-commit.outputs.MERGEBASE }}
             ${{ runner.os }}-pants-
 
       - name: Cache Python Dependencies
