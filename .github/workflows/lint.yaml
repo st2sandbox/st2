@@ -78,6 +78,12 @@ jobs:
         with:
           python-version: '${{ matrix.python-version }}'
 
+      - name: Get Pants Cache Merge Base Commit (main branch commit to pull cache from)
+        id: pants-cache-commit
+        run: |
+          COMMIT=$(git merge-base main HEAD | head -n1)
+          echo MERGEBASE=${COMMIT}
+          echo "::set-output name=MERGEBASE::${COMMIT}"
       - name: Cache Pants Caches
         uses: actions/cache@v2
         id: pants-cache
@@ -86,8 +92,8 @@ jobs:
            ~/.cache/pants/setup
            ~/.cache/pants/lmdb_store
            ~/.cache/pants/named_caches
-          # TODO: better cache key
-          key: ${{ runner.os }}-pants-${{ hashFiles('pants.toml') }}
+          key: ${{ runner.os }}-pants-${{ steps.pants-cache-commit.outputs.MERGEBASE }}
+          # TODO: is there a way to make this only take the cache from the main branch?
           restore-keys: |
             ${{ runner.os }}-pants-
 
