@@ -1,0 +1,136 @@
+---
+name: Pants Lint
+
+on:
+  push:
+    branches:
+      # only on merges to master branch
+      - master
+      - main
+      # and version branches, which only include minor versions (eg: v3.4)
+      - v[0-9]+.[0-9]+
+    tags:
+      # also version tags, which include bugfix releases (eg: v3.4.0)
+      - v[0-9]+.[0-9]+.[0-9]+
+  pull_request:
+    type: [opened, reopened, edited]
+    branches:
+      # Only for PRs targeting those branches
+      - master
+      - main
+      - v[0-9]+.[0-9]+
+#  schedule:
+#    # run every night at midnight
+#    - cron:  '0 0 * * *'
+
+jobs:
+  # Special job which automatically cancels old runs for the same branch, prevents runs for the
+  # same file set which has already passed, etc.
+  pre_job:
+    name: Skip Duplicate Jobs Pre Job
+    runs-on: ubuntu-latest
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@4c656bbdb6906310fa6213604828008bc28fe55d # v3.3.0
+        with:
+          cancel_others: 'true'
+          github_token: ${{ github.token }}
+
+  # Lint checks which don't depend on any service containes, etc. to be running.
+  lint-checks:
+    needs: pre_job
+    # NOTE: We always want to run job on master since we run some additional checks there (code
+    # coverage, etc)
+    if: ${{ needs.pre_job.outputs.should_skip != 'true' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' }}
+    name: '${{ matrix.name }} - Python ${{ matrix.python-version-short }}'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # NOTE: To speed the CI run, we split unit and integration tests into multiple jobs where
+        # each job runs subset of tests.
+        # NOTE: We need to use full Python version as part of Python deps cache key otherwise
+        # setup virtualenv step will fail.
+        include:
+          - name: 'Lint Checks (pants runs: bandit, black, flake8, pylint)'
+            python-version-short: '3.6'
+            python-version: '3.6.13'
+          - name: 'Lint Checks (pants runs: bandit, black, flake8, pylint)'
+            python-version-short: '3.8'
+            python-version: '3.8.10'
+
+    env:
+      COLUMNS: '120'
+      # TODO: do we need any of (some were set in scripts/github/setup-environment.sh):
+      # PYLINT_CONCURRENCY, IS_NIGHTLY_BUILD, ENABLE_COVERAGE, ST2_CI_REPO_PATH
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: 'Set up Python for Pants (3.9)'
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      - name: 'Set up Python (${{ matrix.python-version }})'
+        uses: actions/setup-python@v2
+        with:
+          python-version: '${{ matrix.python-version }}'
+
+      - name: Get Pants Cache Merge Base Commit (main branch commit to pull cache from)
+        id: pants-cache-commit
+        run: |
+          COMMIT=$(git merge-base main HEAD | head -n1)
+          echo MERGEBASE=${COMMIT}
+          echo "::set-output name=MERGEBASE::${COMMIT}"
+      - name: Cache Pants Caches
+        uses: actions/cache@v2
+        id: pants-cache
+        with:
+          path: |
+           ~/.cache/pants/setup
+           ~/.cache/pants/lmdb_store
+           ~/.cache/pants/named_caches
+          key: ${{ runner.os }}-pants-${{ steps.pants-cache-commit.outputs.MERGEBASE }}
+          # TODO: is there a way to make this only take the cache from the main branch?
+          restore-keys: |
+            ${{ runner.os }}-pants-
+
+      - name: Cache Python Dependencies
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.cache/pip
+          key: ${{ runner.os }}-pants-python-${{ matrix.python-version }}-${{ hashFiles('constraints-pants.txt', 'requirements-pants.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pants-python-${{ matrix.python-version }}-
+      #- name: Cache APT Dependencies
+      #  id: cache-apt-deps
+      #  uses: actions/cache@v2
+      #  with:
+      #    path: |
+      #      ~/apt_cache
+      #    key: ${{ runner.os }}-apt-v7-${{ hashFiles('scripts/github/apt-packages.txt') }}
+      #    restore-keys: |
+      #      ${{ runner.os }}-apt-v7-
+      #- name: Install APT Depedencies
+      #  env:
+      #    CACHE_HIT: ${{steps.cache-apt-deps.outputs.cache-hit}}
+      #  run: |
+      #    # install dev dependencies for Python YAML and LDAP packages
+      #    # https://github.com/StackStorm/st2-auth-ldap
+      #    ./scripts/github/install-apt-packages-use-cache.sh
+
+      - name: Bootstrap Pants
+        run: |
+          ./pants --version
+      - name: Lint
+        run: |
+          ./pants lint ::
+      - name: Upload pants log
+        uses: actions/upload-artifact@v2
+        with:
+          name: pants-log
+          path: .pants.d/pants.log
+        if: always()  # We want the log even on failures.
