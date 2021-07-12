@@ -92,10 +92,8 @@ root_patterns = [
 #resolver_version = "pip-2020-resolver"
 requirement_constraints = "constraints-pants.txt"
 interpreter_constraints = [
-  # work around a pants bug. TODO: uncomment this
   "CPython==3.6.*",
-  # we will be targeting 3.8 next (skipping 3.7)
-  #"CPython==3.8.*",
+  "CPython==3.8.*",
 ]
 
 [python-infer]
