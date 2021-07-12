@@ -7,6 +7,7 @@ on:
       # only on merges to master branch
       - master
       - main
+      - pants
       # and version branches, which only include minor versions (eg: v3.4)
       - v[0-9]+.[0-9]+
     tags:
@@ -18,6 +19,7 @@ on:
       # Only for PRs targeting those branches
       - master
       - main
+      - pants
       - v[0-9]+.[0-9]+
 #  schedule:
 #    # run every night at midnight
