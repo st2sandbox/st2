@@ -67,6 +67,10 @@ def _register_sensor_container_opts(ignore_errors=False):
         cfg.Opt(
             "partition_provider",
             type=types.Dict(value_type=types.String()),
+            # TODO: This gets serialized in st2.conf.sample as
+            #       partition_provider = {'name': 'default'}
+            #       But it should be like this instead: 
+            #       partition_provider = name:default
             default={"name": DEFAULT_PARTITION_LOADER},
             help="Provider of sensor node partition config.",
         ),
