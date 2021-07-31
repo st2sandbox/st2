@@ -29,6 +29,7 @@ backend_packages = [
   "uses_services",
   "stevedore_extensions",
   "pack_metadata",
+  "do_invoke",
 ]
 plugins = [
   # dependencies for internal plugins
