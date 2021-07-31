@@ -27,6 +27,8 @@ virtualenv-st2client-osx
 virtualenv-components
 virtualenv-components-osx
 .venv-st2devbox
+/.pex/
+/.cache/
 
 # generated travis conf
 conf/st2.travis.conf
