@@ -27,9 +27,25 @@ from pants.engine.rules import collect_rules, Get, goal_rule, MultiGet
 
 
 class DoInvokeSubsystem(GoalSubsystem):
-    name = "do"
-    help = "Run pyinvoke-based targets (locally; remote execution not supported)"
+    name = "do"  # maybe invoke or inv?
+    options_scope = "invoke"
+    help = "Run python tasks from the 'tasks' directory (via pyinvoke)"
     # TODO: dynamic help pulled from invoke
+
+    @classmethod
+    def register_options(cls, register):
+        super().register_options(register)
+        register(
+            "--args",
+            type=list,
+            member_type=shell_str,
+            passthrough=True,
+            help="Args to pass to invoke",
+        )
+
+    @property
+    def args(self) -> Tuple[str, ...]:
+        return tuple(self.options.args)
 
 
 class DoInvoke(Goal):
