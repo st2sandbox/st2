@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import sys
+
 from pants.backend.python.target_types import EntryPoint
 from pants.backend.python.util_rules.pex import (
     InterpreterConstraints,
@@ -20,6 +22,7 @@ from pants.backend.python.util_rules.pex import (
     PexRequest,
     PexRequirements,
 )
+from pants.engine.environment import CompleteEnvironment
 from pants.engine.fs import AddPrefix, Digest, EMPTY_DIGEST, Workspace
 from pants.engine.goal import Goal, GoalSubsystem
 from pants.engine.process import InteractiveRunner, InteractiveProcess, Process
@@ -44,10 +47,12 @@ class DoInvokeSubsystem(GoalSubsystem):
         #    help="Args to pass to invoke",
         # )
 
+        # TODO: deal with erroring out if invoke is not specified in pants.toml [GLOBAL].plugins
         # late import so that this is only used when pants needs the options
         import invoke
         from invoke.main import program
 
+        # this initialization logic comes from the beginning of program.run()
         program.create_config()
         program.parse_core(argv=[])
         program.parse_collection()
@@ -108,36 +113,21 @@ class DoInvoke(Goal):
 
 @goal_rule
 async def do_invoke(
-    interactive_runner: InteractiveRunner, workspace: Workspace
+    invoke_subsystem: DoInvokeSubsystem,
+    interactive_runner: InteractiveRunner,
+    workspace: Workspace,
+    complete_env: CompleteEnvironment,
 ) -> DoInvoke:
-    invoke_pex = await Get(
-        Pex,
-        PexRequest(
-            output_filename="invoke.pex",
-            internal_only=True,
-            requirements=PexRequirements(["invoke==1.6.0"]),
-            interpreter_constraints=InterpreterConstraints(["CPython>=3.6"]),
-            main=EntryPoint.parse("invoke.main:program.run"),
-        ),
-    )
-    invoke_pex_digest, invoke_pex_process = await MultiGet(
-        Get(Digest, AddPrefix(invoke_pex.digest, ".pex/")),
-        Get(Process, PexProcess(invoke_pex, description="Invoke")),
-    )
-    workspace.write_digest(invoke_pex_digest)
+    invoke_argv = [sys.executable, "-m", "invoke"]
 
-    invoke_argv = [
-        ".pex/invoke.pex" if arg == "invoke.pex" else arg
-        for arg in invoke_pex_process.argv
-    ]
-
-    invoke_argv.extend(["--help"])
-    print(invoke_argv)
+    # invoke is available somewhere on sys.path already because it is included in pants.toml [GLOBAL].plugins
+    env = {**complete_env, "PYTHONPATH": ":".join(sys.path)}
 
     result = interactive_runner.run(
         InteractiveProcess(
             argv=invoke_argv,
-            env=invoke_pex_process.env,
+            #argv=(*invoke_argv, *invoke_subsystem.args),
+            env=env,
             input_digest=EMPTY_DIGEST,  # run_in_workspace requires EMPTY_DIGEST
             run_in_workspace=True,
             forward_signals_to_process=True,
