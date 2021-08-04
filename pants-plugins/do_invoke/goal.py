@@ -45,13 +45,18 @@ class DoInvokeSubsystem(GoalSubsystem):
         # )
 
         # late import so that this is only used when pants needs the options
+        import invoke
         from invoke.main import program
 
         program.create_config()
         program.parse_core(argv=[])
         program.parse_collection()
-        # for flag, arg in program.initial_context.flags.items():
+
+        # In invoke, this "Parser" parses CLI and config options. The context holds available options.
+        context: invoke.ParserContext
         for context in [program.initial_context, *program.collection.to_contexts()]:
+            flag: str
+            arg: invoke.Argument
             for flag, arg in context.flags.items():
                 # skip problematic or unneeded
                 if arg.name in (
