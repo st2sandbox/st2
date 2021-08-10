@@ -28,7 +28,16 @@ from pants.backend.python.util_rules.pex import (
     PexRequirements,
 )
 from pants.engine.environment import CompleteEnvironment
-from pants.engine.fs import AddPrefix, Digest, EMPTY_DIGEST, Workspace
+from pants.engine.fs import (
+    AddPrefix,
+    CreateDigest,
+    Digest,
+    DigestContents,
+    EMPTY_DIGEST,
+    FileContent,
+    PathGlobs,
+    Workspace,
+)
 from pants.engine.goal import Goal, GoalSubsystem
 from pants.engine.process import InteractiveRunner, InteractiveProcess, Process
 from pants.engine.rules import collect_rules, Get, goal_rule, MultiGet
@@ -142,13 +151,14 @@ async def do_invoke(
     #return DoInvoke(exit_code=result.exit_code)
 
     # TODO: is there a way to grab the file contents from GlobalOptions or similar?
-    with open("pants.toml", "r") as f:
-        lines = f.readlines()
+    pants_toml_digest = await Get(Digest, PathGlobs(["pants.toml"]))
+    pants_toml = await Get(DigestContents, Digest, pants_toml_digest)
+    lines = pants_toml[0].content.decode().splitlines()
 
     # INVOKE_WRAPPER=./pants.d/invoke-$( grep -e invoke -e pants_version pants.toml | _checksum )
     pattern = re.compile(r"pants_version|invoke")
     lines = [l for l in lines if pattern.search(l)]
-    grepped = ''.join(lines).encode()
+    grepped = '\n'.join(lines).encode() + b'\n'
     # depending on tooling, we might need one or the other.
     shasum = hashlib.sha1(grepped).hexdigest()
     md5sum = hashlib.md5(grepped).hexdigest()
@@ -164,21 +174,22 @@ async def do_invoke(
         exec {sys.executable} -m invoke $@
         """
     )
+    invoke_digest = await Get(
+        Digest,
+        CreateDigest(
+            [
+                FileContent(
+                    path,
+                    invoke_wrapper.encode(),
+                    is_executable=True,
+                ) for path in invoke_wrapper_paths
+            ]
+        )
+    )
+    workspace.write_digest(invoke_digest)
 
     # TODO: cleanup the .pants.d/invoke directory at some point
-
-    # TODO: use pants primitives to write this digest
-    # workspace.write_digest()
-    for path in invoke_wrapper_paths:
-        path_dir = os.path.dirname(path)
-        if not os.path.isdir(path_dir):
-            if os.path.exists(path_dir):
-                os.unlink(path_dir)
-            os.mkdir(path_dir, mode=0o755)
-        with open(path, "w") as wrapper:
-            wrapper.write(invoke_wrapper)
-        os.chmod(path, 0o755)
-
+ 
     return DoInvoke(exit_code=0)
 
 
