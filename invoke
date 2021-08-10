@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -eou pipefail
+
+function _checksum() {
+  # We do not care which checksum we use.
+  if command -v shasum 2>&1 >/dev/null; then
+    # shasum is on Mac and might be available on linux if installed.
+    shasum -a1 | awk '{ print $1 }'
+  else
+    # md5sum is not on Mac, but is generally installed on linux.
+    md5sum | awk '{ print $1 }'
+  fi
+}
+
+# this checksum ensures that pants.toml changes trigger a link update
+INVOKE_LINK=./pants.d/invoke-$( grep -e invoke -e pants_version pants.toml | _checksum )
+
+if [ ! -L "${INVOKE_LINK}" ] || [ ! -e "${INVOKE_LINK}" ]; then
+  # Pants takes care of initializing a virtualenv or pex for us.
+  echo ./pants initialize-invoke
+fi
+
+exec echo ${INVOKE_LINK} $@
