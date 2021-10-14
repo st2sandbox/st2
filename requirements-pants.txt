@@ -1,5 +1,5 @@
 # Add/remove direct 3rdparty dependencies here as needed, with version constraints if necessary.
-# Then run scripts/generate_constraints.sh to regenerate the lockfile.
+# Then run `./pants generate-user-lockfile ::` to regenerate the lockfile.
 
 apscheduler
 argcomplete
@@ -14,6 +14,7 @@ kombu
 lockfile
 mock
 mongoengine
+# might need to pin networkx + decorator
 networkx
 orjson
 # gitpython & gitdb are used for pack management
@@ -38,6 +39,7 @@ python-editor
 python-statsd
 pytz
 PyYAML
+RandomWords
 requests[security]
 retrying
 routes
@@ -55,6 +57,7 @@ st2-auth-ldap @ git+https://github.com/StackStorm/st2-auth-ldap.git@master
 st2-rbac-backend @ git+https://github.com/StackStorm/st2-rbac-backend.git@master
 # tabulate used by tools/log_watcher.py
 tabulate
+# might need redis backend dep for tooz
 tooz
 udatetime
 ujson

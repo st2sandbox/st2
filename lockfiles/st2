@@ -5,7 +5,7 @@
 # --- BEGIN PANTS LOCKFILE METADATA: DO NOT EDIT OR REMOVE ---
 # {
 #   "version": 1,
-#   "requirements_invalidation_digest": "644edacb1818cdb427a1b40c4c3eb00fc70c8973ad4cabbbc8a8a47b5573ef36",
+#   "requirements_invalidation_digest": "801170d59899127e185f1d8b8a0b465bf95bf39461cbee3be7ab05f54677eed3",
 #   "valid_for_interpreter_constraints": [
 #     "CPython==3.6.*",
 #     "CPython==3.8.*"
@@ -702,6 +702,8 @@ pyyaml==6.0; python_version >= "3.6" \
     --hash=sha256:b5b9eccad747aabaaffbc6064800670f0c297e52c12754eb1d976c57e4f74dcb \
     --hash=sha256:b3d267842bf12586ba6c734f89d1f5b871df0273157918b0ccefa29deb05c21c \
     --hash=sha256:68fb519c14306fec9720a2a5b45bc9f0c8d1b9c72adf45c37baedfcd949c35a2
+randomwords==0.3.0 \
+    --hash=sha256:2a8c8d95bcea31a0da16a84911768f7d6fc0eba861264a72df83deddea0b9326
 repoze.lru==0.7 \
     --hash=sha256:f77bf0e1096ea445beadd35f3479c5cff2aa1efe604a133e67150bc8630a62ea \
     --hash=sha256:0429a75e19380e4ed50c0694e26ac8819b4ea7851ee1fc7583c8572db80aff77
