@@ -112,6 +112,7 @@ args = [
 ]
 
 [black]
+lockfile = "lockfiles/black"
 version = "black==20.8b1"
 
 [flake8]
