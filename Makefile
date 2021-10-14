@@ -253,7 +253,7 @@ check-python-packages:
 	@echo ""
 	@echo "================== CHECK PYTHON PACKAGES ===================="
 	@echo ""
-	test -f $(VIRTUALENV_COMPONENTS_DIR)/bin/activate || virtualenv --python=$(PYTHON_VERSION) $(VIRTUALENV_COMPONENTS_DIR) --system-site-packages
+	test -f $(VIRTUALENV_COMPONENTS_DIR)/bin/activate || $(PYTHON_VERSION) -m venv $(VIRTUALENV_COMPONENTS_DIR) --system-site-packages
 	@for component in $(COMPONENTS_WITHOUT_ST2TESTS); do \
 		echo "==========================================================="; \
 		echo "Checking component:" $$component; \
@@ -269,7 +269,7 @@ check-python-packages-nightly:
 	@echo "================== CHECK PYTHON PACKAGES ===================="
 	@echo ""
 
-	test -f $(VIRTUALENV_COMPONENTS_DIR)/bin/activate || virtualenv --python=$(PYTHON_VERSION) $(VIRTUALENV_COMPONENTS_DIR) --no-download
+	test -f $(VIRTUALENV_COMPONENTS_DIR)/bin/activate || $(PYTHON_VERSION) -m venv $(VIRTUALENV_COMPONENTS_DIR)
 	@for component in $(COMPONENTS_WITHOUT_ST2TESTS); do \
 		echo "==========================================================="; \
 		echo "Checking component:" $$component; \
@@ -393,7 +393,7 @@ black: requirements .black-check
 	. $(VIRTUALENV_DIR)/bin/activate; black --check --config pyproject.toml pylint_plugins/*.py || exit 1;
 
 # Black task which reformats the code using black
-.PHONY: black-format
+.PHONY: black
 black: requirements .black-format
 
 .PHONY: .black-format
@@ -407,7 +407,7 @@ black: requirements .black-format
 		echo "Running black on" $$component; \
 		echo "==========================================================="; \
 		. $(VIRTUALENV_DIR)/bin/activate ; black --config pyproject.toml $$component/ || exit 1; \
-		. $(VIRTUALENV_DIR)/bin/activate ; black $$(grep -rl '^#!/.*python' $$component/bin) || exit 1; \
+		. $(VIRTUALENV_DIR)/bin/activate ; black --config pyproject.toml $$(grep -rl '^#!/.*python' $$component/bin) || exit 1; \
 	done
 	# runner modules and packages
 	@for component in $(COMPONENTS_RUNNERS); do\
@@ -415,7 +415,7 @@ black: requirements .black-format
 		echo "Running black on" $$component; \
 		echo "==========================================================="; \
 		. $(VIRTUALENV_DIR)/bin/activate ; black --config pyproject.toml  $$component/ || exit 1; \
-		. $(VIRTUALENV_DIR)/bin/activate ; black $$(grep -rl '^#!/.*python' $$component/bin) || exit 1; \
+		. $(VIRTUALENV_DIR)/bin/activate ; black --config pyproject.toml $$(grep -rl '^#!/.*python' $$component/bin) || exit 1; \
 	done
 	. $(VIRTUALENV_DIR)/bin/activate; black --config pyproject.toml contrib/ || exit 1;
 	. $(VIRTUALENV_DIR)/bin/activate; black --config pyproject.toml scripts/*.py || exit 1;
@@ -487,7 +487,7 @@ flake8: requirements .flake8
 	@echo
 	@echo "==================== st2client pypi check ===================="
 	@echo
-	test -f $(VIRTUALENV_ST2CLIENT_PYPI_DIR)/bin/activate || virtualenv --python=python3 $(VIRTUALENV_ST2CLIENT_PYPI_DIR) --no-download
+	test -f $(VIRTUALENV_ST2CLIENT_PYPI_DIR)/bin/activate || $(PYTHON_VERSION) -m venv $(VIRTUALENV_ST2CLIENT_PYPI_DIR)
 
 	# Setup PYTHONPATH in bash activate script...
 	# Delete existing entries (if any)
@@ -515,7 +515,7 @@ flake8: requirements .flake8
 	@echo
 	@echo "==================== st2client install check ===================="
 	@echo
-	test -f $(VIRTUALENV_ST2CLIENT_DIR)/bin/activate || virtualenv --python=$(PYTHON_VERSION) $(VIRTUALENV_ST2CLIENT_DIR) --no-download
+	test -f $(VIRTUALENV_ST2CLIENT_DIR)/bin/activate || $(PYTHON_VERSION) -m venv $(VIRTUALENV_ST2CLIENT_DIR)
 
 	# Setup PYTHONPATH in bash activate script...
 	# Delete existing entries (if any)
@@ -741,7 +741,7 @@ virtualenv:
 	@echo
 	@echo "==================== virtualenv ===================="
 	@echo
-	test -f $(VIRTUALENV_DIR)/bin/activate || virtualenv --python=$(PYTHON_VERSION) $(VIRTUALENV_DIR) --no-download
+	test -f $(VIRTUALENV_DIR)/bin/activate || $(PYTHON_VERSION) -m venv $(VIRTUALENV_DIR)
 
 	# Setup PYTHONPATH in bash activate script...
 	# Delete existing entries (if any)

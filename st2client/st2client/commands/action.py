@@ -278,7 +278,33 @@ class ActionDisableCommand(resource.ContentPackResourceDisableCommand):
 
 
 class ActionDeleteCommand(resource.ContentPackResourceDeleteCommand):
-    pass
+    def __init__(self, resource, *args, **kwargs):
+        super(ActionDeleteCommand, self).__init__(resource, *args, **kwargs)
+
+        self.parser.add_argument(
+            "-r",
+            "--remove-files",
+            action="store_true",
+            dest="remove_files",
+            default=False,
+            help="Remove action files from disk.",
+        )
+
+    @add_auth_token_to_kwargs_from_cli
+    def run(self, args, **kwargs):
+        resource_id = getattr(args, self.pk_argument_name, None)
+        instance = self.get_resource(resource_id, **kwargs)
+        remove_files = args.remove_files
+        self.manager.delete_action(instance, remove_files, **kwargs)
+        print('Resource with id "%s" has been successfully deleted.' % (resource_id))
+
+    def run_and_print(self, args, **kwargs):
+        resource_id = getattr(args, self.pk_argument_name)
+
+        try:
+            self.run(args, **kwargs)
+        except ResourceNotFoundError:
+            self.print_not_found(resource_id)
 
 
 class ActionRunCommandMixin(object):
