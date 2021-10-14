@@ -6,7 +6,7 @@ enabled = false
 repo_id = "de0dea7a-9f6a-4c6e-aa20-6ba5ad969b8a"
 
 [GLOBAL]
-pants_version = "2.6.0"
+pants_version = "2.7.1rc1"
 pythonpath = ["%(buildroot)s/pants-plugins"]
 backend_packages = [
   # python
@@ -146,7 +146,7 @@ args = [
 
 [pytest]
 version = "pytest>=6.0.1,<6.3"
-pytest_plugins.add = [
+extra_requirements.add = [
   "pytest-benchmark[histogram]==3.4.1",
   #"pytest-timer[colorama]",  # report test timing (--with-timer ala nose-timer)
   "pytest-icdiff",  # make diff output easier to read
