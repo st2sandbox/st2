@@ -20,7 +20,7 @@ orjson
 # gitpython & gitdb are used for pack management
 gitdb
 gitpython
-orquesta @ git+https://github.com/StackStorm/orquesta.git@v1.3.0
+orquesta @ git+https://github.com/StackStorm/orquesta.git@v1.5.0
 # NOTE: Recent version substantially affect the performance and add big import time overhead
 # See https://github.com/StackStorm/st2/issues/4160#issuecomment-394386433 for details
 oslo.config>=1.12.1,<1.13
