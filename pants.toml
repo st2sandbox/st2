@@ -11,6 +11,7 @@ pythonpath = ["%(buildroot)s/pants-plugins"]
 backend_packages = [
   # python
   "pants.backend.python",
+  "pants.backend.experimental.python",
   "pants.backend.python.mixed_interpreter_constraints",
   "pants.backend.python.lint.bandit",
   "pants.backend.python.lint.black",
@@ -94,7 +95,7 @@ root_patterns = [
 
 [python-setup]
 #resolver_version = "pip-2020-resolver"
-requirement_constraints = "constraints-pants.txt"
+experimental_lockfile = "lockfiles/st2"
 interpreter_constraints = [
   "CPython==3.6.*",
   "CPython==3.8.*",
