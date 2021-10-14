@@ -149,6 +149,7 @@ args = [
 ]
 
 [pytest]
+lockfile = "lockfiles/pytest"
 version = "pytest>=6.0.1,<6.3"
 extra_requirements.add = [
   "pytest-benchmark[histogram]==3.4.1",
