@@ -12,8 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from pants.engine.goal import Goal, GoalSubsystem
-
 from do_invoke.goal import rules as do_invoke_goal_rules
 
 

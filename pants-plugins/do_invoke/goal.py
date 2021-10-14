@@ -13,13 +13,12 @@
 # limitations under the License.
 
 import hashlib
-import os
 import re
 import sys
 
 from textwrap import dedent
 
-from pants.engine.environment import CompleteEnvironment
+# from pants.engine.environment import CompleteEnvironment
 from pants.engine.fs import (
     CreateDigest,
     Digest,
@@ -47,7 +46,7 @@ async def initialize_invoke(
     workspace: Workspace,
     # complete_env: CompleteEnvironment,
 ) -> InitializeInvoke:
-    invoke_argv = [sys.executable, "-m", "invoke"]
+    # invoke_argv = [sys.executable, "-m", "invoke"]
 
     # invoke is available somewhere on sys.path already because it is included in pants.toml [GLOBAL].plugins
     # env = {**complete_env, "PYTHONPATH": ":".join(sys.path)}
@@ -58,7 +57,7 @@ async def initialize_invoke(
 
     # INVOKE_WRAPPER=./pants.d/invoke-$( grep -e invoke -e pants_version pants.toml | _checksum )
     pattern = re.compile(r"pants_version|invoke")
-    lines = [l for l in lines if pattern.search(l)]
+    lines = [line for line in lines if pattern.search(line)]
     grepped = "\n".join(lines).encode() + b"\n"
 
     # depending on tooling, we might need one or the other.
