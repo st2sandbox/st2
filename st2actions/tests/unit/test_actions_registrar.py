@@ -113,7 +113,7 @@ class ActionsRegistrarTest(tests_base.DbTestCase):
             GENERIC_PACK, "actions", "action-with-no-parameters.yaml"
         )
 
-        self.assertEqual(registrar._register_action("dummy", action_file), None)
+        self.assertEqual(registrar._register_action("dummy", action_file), False)
 
     @mock.patch.object(
         action_validator, "_is_valid_pack", mock.MagicMock(return_value=True)
