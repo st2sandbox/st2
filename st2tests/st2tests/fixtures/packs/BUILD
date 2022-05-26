@@ -11,6 +11,7 @@ pack_metadata_in_git_submodule(
         "test_content_version/pack.yaml",
         "test_content_version/**/*.yaml",
         "test_content_version/icon.png",
+        "test_content_version/requirements.txt",
     ],
 )
 

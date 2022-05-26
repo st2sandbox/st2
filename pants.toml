@@ -43,6 +43,17 @@ pants_ignore = [
   # TODO: remove these, replace with pyproject.toml
   "dist_utils.py",
   #"setup.py",
+  # keep tailor from using legacy requirements files (not for pants)
+  "/fixed-requirements.txt",
+  "/requirements.txt",
+  "/test-requirements.txt",
+  "contrib/examples/requirements.txt",
+  "contrib/hello_st2/requirements.txt",
+  "contrib/runners/*/in-requirements.txt",
+  "contrib/runners/*/requirements.txt",
+  "st2*/in-requirements.txt",
+  "st2*/requirements.txt",
+  "st2common/tests/fixtures/requirements-used-for-tests.txt",
 ]
 
 [source]
@@ -93,6 +104,18 @@ root_patterns = [
   "/st2common/benchmarks/micro",
 ]
 
+[tailor]
+ignore_adding_targets = [
+  #"fixed-requirements.txt",
+  #"//:",
+  #"requirements.txt",
+  #"test-requirements.txt",
+  #"st2*/in-requirements.txt",
+  #"st2*/requirements.txt",
+  #"contrib/runners/*/in-requirements.txt",
+  #"contrib/runners/*/requirements.txt",
+]
+
 [python]
 #resolver_version = "pip-2020-resolver"
 experimental_lockfile = "lockfiles/st2"
@@ -100,6 +123,10 @@ interpreter_constraints = [
   "CPython==3.6.*",
   "CPython==3.8.*",
 ]
+# tailor recommends adding a `pex_binary` target for every python
+# file that has an `if __name__ == "__main__":` block.
+# But those are mostly just for testing purposes. So, ignore them for now.
+tailor_pex_binary_targets = false
 
 [python-infer]
 inits = true
