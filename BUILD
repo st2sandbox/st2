@@ -1,4 +1,5 @@
 python_requirements(
+    name="reqs",
     source="requirements-pants.txt",
     module_mapping={
         "gitpython": ["git"],
@@ -15,7 +16,7 @@ python_requirement(
     requirements=["flex"],
     dependencies=[
         # flex uses pkg_resources w/o declaring the dep
-        "//:setuptools",
+        "//:reqs#setuptools",
     ],
 )
 

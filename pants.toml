@@ -55,6 +55,7 @@ pants_ignore = [
   "st2*/requirements.txt",
   "st2common/tests/fixtures/requirements-used-for-tests.txt",
 ]
+use_deprecated_python_macros = false
 
 [source]
 # recording each pack individually under root patterns is not great, but resolves these issues:
