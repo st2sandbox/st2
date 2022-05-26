@@ -11,7 +11,8 @@
 //   ],
 //   "generated_with_requirements": [
 //     "astroid",
-//     "pylint~=2.8.2"
+//     "pylint~=2.8.2",
+//     "setuptools"
 //   ]
 // }
 // --- END PANTS LOCKFILE METADATA ---
@@ -222,6 +223,51 @@
           "artifacts": [
             {
               "algorithm": "sha256",
+              "hash": "4ce92f1e1f8f01233ee9952c04f6b81d1e02939d6e1b488428154974a4d0783e",
+              "url": "https://files.pythonhosted.org/packages/b0/3a/88b210db68e56854d0bcf4b38e165e03be377e13907746f825790f3df5bf/setuptools-59.6.0-py3-none-any.whl"
+            },
+            {
+              "algorithm": "sha256",
+              "hash": "22c7348c6d2976a52632c67f7ab0cdf40147db7789f9aed18734643fe9cf3373",
+              "url": "https://files.pythonhosted.org/packages/6a/fa/5ec0fa9095c9b72cb1c31a8175c4c6745bf5927d1045d7a70df35d54944f/setuptools-59.6.0.tar.gz"
+            }
+          ],
+          "project_name": "setuptools",
+          "requires_dists": [
+            "flake8-2020; extra == \"testing\"",
+            "furo; extra == \"docs\"",
+            "jaraco.envs>=2.2; extra == \"testing\"",
+            "jaraco.packaging>=8.2; extra == \"docs\"",
+            "jaraco.path>=3.2.0; extra == \"testing\"",
+            "jaraco.tidelift>=1.4; extra == \"docs\"",
+            "mock; extra == \"testing\"",
+            "paver; extra == \"testing\"",
+            "pip>=19.1; extra == \"testing\"",
+            "pygments-github-lexers==0.0.5; extra == \"docs\"",
+            "pytest-black>=0.3.7; platform_python_implementation != \"PyPy\" and extra == \"testing\"",
+            "pytest-checkdocs>=2.4; extra == \"testing\"",
+            "pytest-cov; extra == \"testing\"",
+            "pytest-enabler>=1.0.1; extra == \"testing\"",
+            "pytest-flake8; extra == \"testing\"",
+            "pytest-mypy; platform_python_implementation != \"PyPy\" and extra == \"testing\"",
+            "pytest-virtualenv>=1.2.7; extra == \"testing\"",
+            "pytest-xdist; extra == \"testing\"",
+            "pytest>=6; extra == \"testing\"",
+            "rst.linker>=1.9; extra == \"docs\"",
+            "sphinx-inline-tabs; extra == \"docs\"",
+            "sphinx; extra == \"docs\"",
+            "sphinx; extra == \"testing\"",
+            "sphinxcontrib-towncrier; extra == \"docs\"",
+            "virtualenv>=13.0.0; extra == \"testing\"",
+            "wheel; extra == \"testing\""
+          ],
+          "requires_python": ">=3.6",
+          "version": "59.6"
+        },
+        {
+          "artifacts": [
+            {
+              "algorithm": "sha256",
               "hash": "806143ae5bfb6a3c6e736a764057db0e6a0e05e338b5630894a5f779cabb4f9b",
               "url": "https://files.pythonhosted.org/packages/44/6f/7120676b6d73228c96e17f1f794d8ab046fc910d781c8d151120c3f1569e/toml-0.10.2-py2.py3-none-any.whl"
             },
@@ -335,7 +381,8 @@
   "prefer_older_binary": false,
   "requirements": [
     "astroid",
-    "pylint~=2.8.2"
+    "pylint~=2.8.2",
+    "setuptools"
   ],
   "requires_python": [
     "==3.6.*",
