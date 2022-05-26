@@ -23,3 +23,7 @@ python_requirement(
     name="pydevd-pycharm",
     requirements=["pydevd-pycharm==211.7142.13"],
 )
+
+python_test_utils(
+    name="root",
+)

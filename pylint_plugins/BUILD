@@ -5,3 +5,7 @@ python_requirement(
     # requirements=["astroid==2.4.2"],
     requirements=["astroid"],
 )
+
+python_tests(
+    name="tests",
+)
