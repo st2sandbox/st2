@@ -10,6 +10,6 @@ files(
     ],
 )
 
-python_library(
+python_sources(
     dependencies=[":artifacts"],
 )

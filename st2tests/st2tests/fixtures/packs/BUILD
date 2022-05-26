@@ -1,4 +1,4 @@
-python_library()
+python_sources()
 
 # The files in test_content_version* targets are in ./test_content_version
 # which is a git submodule. pack_metadata_in_git_submodule will error with
@@ -14,7 +14,7 @@ pack_metadata_in_git_submodule(
     ],
 )
 
-shell_library(
+shell_sources(
     name="test_content_version_shell",
     skip_shellcheck=True,
     sources=[
@@ -22,7 +22,7 @@ shell_library(
     ],
 )
 
-python_library(
+python_sources(
     name="test_content_version",
     skip_black=True,
     dependencies=[

@@ -3,12 +3,12 @@
 # So, we explicitly list deps instead.
 # python_requirements()
 
-python_requirement_library(
+python_requirement(
     name="beautifulsoup4",
     requirements=["beautifulsoup4"],
 )
 
-python_requirement_library(
+python_requirement(
     name="flask",
     requirements=["flask"],
 )

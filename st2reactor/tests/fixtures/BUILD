@@ -3,4 +3,4 @@ files(
     sources=["*.yaml"],
 )
 
-python_library()
+python_sources()

@@ -3,6 +3,6 @@ files(
     sources=["openapi.yaml.j2"],
 )
 
-python_library(
+python_sources(
     dependencies=[":openapi_specs"],
 )

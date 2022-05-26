@@ -6,7 +6,7 @@ enabled = false
 repo_id = "de0dea7a-9f6a-4c6e-aa20-6ba5ad969b8a"
 
 [GLOBAL]
-pants_version = "2.11.0"
+pants_version = "2.8.1"
 pythonpath = ["%(buildroot)s/pants-plugins"]
 backend_packages = [
   # python
@@ -93,7 +93,7 @@ root_patterns = [
   "/st2common/benchmarks/micro",
 ]
 
-[python-setup]
+[python]
 #resolver_version = "pip-2020-resolver"
 experimental_lockfile = "lockfiles/st2"
 interpreter_constraints = [

@@ -1,4 +1,4 @@
-python_library(
+python_sources(
     dependencies=[
         ":openapi_spec",
     ]

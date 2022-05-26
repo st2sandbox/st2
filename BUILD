@@ -1,5 +1,5 @@
 python_requirements(
-    requirements_relpath="requirements-pants.txt",
+    source="requirements-pants.txt",
     module_mapping={
         "gitpython": ["git"],
         "python-editor": ["editor"],
@@ -10,7 +10,7 @@ python_requirements(
     },
 )
 
-python_requirement_library(
+python_requirement(
     name="flex",
     requirements=["flex"],
     dependencies=[
@@ -19,12 +19,7 @@ python_requirement_library(
     ],
 )
 
-python_requirement_library(
+python_requirement(
     name="pydevd-pycharm",
     requirements=["pydevd-pycharm==211.7142.13"],
-)
-
-python_tests(
-    name="tests",
-    skip_pylint=True,
 )

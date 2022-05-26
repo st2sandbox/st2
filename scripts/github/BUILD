@@ -6,6 +6,6 @@ files(
     ],
 )
 
-shell_library(
+shell_sources(
     dependencies=[":artifacts"],
 )

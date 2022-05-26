@@ -1,5 +1,5 @@
 python_requirements(
-    requirements_relpath="requirements-tests.txt",
+    source="requirements-tests.txt",
     module_mapping={"mail-parser": ["mailparser"]},
 )
 
@@ -7,6 +7,6 @@ pack_metadata(
     name="metadata",
 )
 
-python_library(
+python_sources(
     dependencies=[":metadata"],
 )

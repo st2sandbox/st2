@@ -1,11 +1,9 @@
-python_library(skip_pylint=True)
+python_sources(skip_pylint=True)
 
-python_requirement_library(
+python_requirement(
     name="winrm",
     requirements=["pywinrm"],
-    module_mapping={
-        "pywinrm": ["winrm"],
-    },
+    modules=["winrm"],
 )
 
 stevedore_extension(

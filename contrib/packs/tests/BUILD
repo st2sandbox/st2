@@ -6,6 +6,6 @@ python_tests(
     ],
 )
 
-python_library(
+python_sources(
     name="tests0",
 )

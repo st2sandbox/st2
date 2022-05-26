@@ -12,4 +12,4 @@ python_tests(
     ],
 )
 
-python_library(skip_pylint=True)
+python_sources(skip_pylint=True)

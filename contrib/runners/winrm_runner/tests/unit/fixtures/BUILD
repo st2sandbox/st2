@@ -3,7 +3,7 @@ files(
     sources=["*.ps1"],
 )
 
-python_library(
+python_sources(
     skip_pylint=True,
     dependencies=[":powershell"],
 )

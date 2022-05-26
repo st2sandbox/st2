@@ -1,4 +1,4 @@
-python_library()
+python_sources()
 
 # These are loaded by st2common.bootstrap.policiesregistrar
 resources(

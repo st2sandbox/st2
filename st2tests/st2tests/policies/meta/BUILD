@@ -3,6 +3,6 @@ resources(
     sources=["*.yaml"],
 )
 
-python_library(
+python_sources(
     dependencies=[":policies-meta"],
 )

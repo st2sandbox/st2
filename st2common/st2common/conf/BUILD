@@ -4,6 +4,6 @@ resources(
     sources=["base.logging.conf"],
 )
 
-python_library(
+python_sources(
     dependencies=[":base_logging_conf"],
 )

@@ -3,6 +3,6 @@ resources(
     sources=["runner.yaml"],
 )
 
-python_library(
+python_sources(
     dependencies=[":runner_metadata"],
 )

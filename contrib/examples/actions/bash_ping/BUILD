@@ -1,1 +1,1 @@
-shell_library(skip_shellcheck=True)
+shell_sources(skip_shellcheck=True)

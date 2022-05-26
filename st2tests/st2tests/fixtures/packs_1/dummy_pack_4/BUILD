@@ -2,6 +2,6 @@ pack_metadata(
     name="metadata",
 )
 
-python_library(
+python_sources(
     dependencies=[":metadata"],
 )

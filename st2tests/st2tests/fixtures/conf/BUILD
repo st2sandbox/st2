@@ -11,6 +11,6 @@ files(
     ],
 )
 
-python_library(
+python_sources(
     dependencies=[":st2.tests.conf"],
 )

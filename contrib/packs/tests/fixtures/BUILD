@@ -1,4 +1,4 @@
-python_library(
+python_sources(
     dependencies=[
         "./stackstorm-test:metadata",
         "./stackstorm-test2:metadata",

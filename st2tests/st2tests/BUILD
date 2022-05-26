@@ -1,4 +1,4 @@
-python_library(
+python_sources(
     dependencies=[
         "st2tests/conf:st2.conf",
         "st2tests/conf:st2_kvstore_tests.crypto.key.json",
