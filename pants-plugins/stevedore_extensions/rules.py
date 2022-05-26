@@ -17,7 +17,7 @@ from pants.backend.python.goals.pytest_runner import (
     PytestPluginSetupRequest,
     PytestPluginSetup,
 )
-from pants.backend.python.target_types import PythonTestsDependencies
+from pants.backend.python.target_types import PythonTestsDependenciesField
 from pants.engine.fs import CreateDigest, Digest, FileContent, PathGlobs, Paths
 from pants.engine.rules import Get, MultiGet, collect_rules, rule
 from pants.engine.target import DependenciesRequest, Target, Targets
@@ -54,7 +54,7 @@ async def generate_entry_points_txt_from_stevedore_extension(
 ) -> PytestPluginSetup:
     # get all injected dependencies that are StevedoreExtension targets
     dependencies = await Get(
-        Targets, DependenciesRequest(request.target.get(PythonTestsDependencies))
+        Targets, DependenciesRequest(request.target.get(PythonTestsDependenciesField))
     )
     stevedore_targets = [
         tgt
