@@ -54,6 +54,7 @@ pants_ignore = [
   "st2*/in-requirements.txt",
   "st2*/requirements.txt",
   "st2common/tests/fixtures/requirements-used-for-tests.txt",
+  "*.swp", # vim temp files
 ]
 
 [source]
@@ -102,18 +103,6 @@ root_patterns = [
   "/tools",
   # benchmarks
   "/st2common/benchmarks/micro",
-]
-
-[tailor]
-ignore_adding_targets = [
-  #"fixed-requirements.txt",
-  #"//:",
-  #"requirements.txt",
-  #"test-requirements.txt",
-  #"st2*/in-requirements.txt",
-  #"st2*/requirements.txt",
-  #"contrib/runners/*/in-requirements.txt",
-  #"contrib/runners/*/requirements.txt",
 ]
 
 [python]
