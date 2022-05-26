@@ -119,6 +119,7 @@ ignore_adding_targets = [
 [python]
 #resolver_version = "pip-2020-resolver"
 enable_resolves = true
+lockfile_generator = "pex"
 interpreter_constraints = [
   "CPython==3.6.*",
   "CPython==3.8.*",
