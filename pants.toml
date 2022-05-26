@@ -145,7 +145,7 @@ args = [
 
 [black]
 lockfile = "lockfiles/black"
-version = "black==20.8b1"
+version = "black==22.3.0"
 
 [flake8]
 lockfile = "lockfiles/flake8"
