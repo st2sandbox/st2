@@ -158,7 +158,7 @@ config = "lint-configs/python/.flake8"
 
 [pylint]
 lockfile = "lockfiles/pylint"
-version = "pylint~=2.7.4"
+version = "pylint~=2.8.2"
 # < 2.7 doesn't work with the version of astroid pinned for the plugin
 config = "lint-configs/python/.pylintrc"
 source_plugins = [
