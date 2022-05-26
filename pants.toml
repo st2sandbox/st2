@@ -6,7 +6,7 @@ enabled = false
 repo_id = "de0dea7a-9f6a-4c6e-aa20-6ba5ad969b8a"
 
 [GLOBAL]
-pants_version = "2.9.2"
+pants_version = "2.10.1"
 pythonpath = ["%(buildroot)s/pants-plugins"]
 backend_packages = [
   # python
@@ -118,7 +118,7 @@ ignore_adding_targets = [
 
 [python]
 #resolver_version = "pip-2020-resolver"
-experimental_lockfile = "lockfiles/st2"
+enable_resolves = true
 interpreter_constraints = [
   "CPython==3.6.*",
   "CPython==3.8.*",
@@ -127,6 +127,9 @@ interpreter_constraints = [
 # file that has an `if __name__ == "__main__":` block.
 # But those are mostly just for testing purposes. So, ignore them for now.
 tailor_pex_binary_targets = false
+
+[python.resolves]
+python-default = "lockfiles/st2"
 
 [python-infer]
 inits = true
