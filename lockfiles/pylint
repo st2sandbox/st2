@@ -10,7 +10,7 @@
 //     "CPython==3.8.*"
 //   ],
 //   "generated_with_requirements": [
-//     "astroid",
+//     "astroid==2.5.6",
 //     "pylint~=2.8.2",
 //     "setuptools"
 //   ]
@@ -380,7 +380,7 @@
   "pex_version": "2.1.84",
   "prefer_older_binary": false,
   "requirements": [
-    "astroid",
+    "astroid==2.5.6",
     "pylint~=2.8.2",
     "setuptools"
   ],
