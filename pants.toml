@@ -35,7 +35,7 @@ backend_packages = [
 plugins = [
   # dependencies for internal plugins
   #"distro",  # dep of the pex
-  "invoke==1.6.0",
+  "invoke==1.7.1",
 ]
 pants_ignore = [
   ".*/",  # . directories
