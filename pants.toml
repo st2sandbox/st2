@@ -117,6 +117,8 @@ interpreter_constraints = [
 # file that has an `if __name__ == "__main__":` block.
 # But those are mostly just for testing purposes. So, ignore them for now.
 tailor_pex_binary_targets = false
+# Any solitary __init__.py files we have are empty. So, leave the default (true).
+#tailor_ignore_solitary_init_files = true
 
 [python.resolves]
 python-default = "lockfiles/st2"
