@@ -13,6 +13,9 @@ backend_packages = [
   "pants.backend.python",
   "pants.backend.experimental.python",
   "pants.backend.python.mixed_interpreter_constraints",
+# if enabled, autoflake and pyupgrade should be before black and isort
+#  "pants.backend.experimental.python.lint.autoflake",
+#  "pants.backend.experimental.python.lint.pyupgrade",
   "pants.backend.python.lint.bandit",
   "pants.backend.python.lint.black",
 #  "pants.backend.python.lint.docformatter",
