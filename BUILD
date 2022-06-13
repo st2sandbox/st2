@@ -22,7 +22,7 @@ python_requirement(
 
 python_requirement(
     name="pydevd-pycharm",
-    requirements=["pydevd-pycharm==211.7142.13"],
+    requirements=["pydevd-pycharm==221.5080.212"],
 )
 
 python_test_utils(

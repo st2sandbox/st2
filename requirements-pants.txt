@@ -1,5 +1,5 @@
 # Add/remove direct 3rdparty dependencies here as needed, with version constraints if necessary.
-# Then run `./pants generate-user-lockfile ::` to regenerate the lockfile.
+# Then run `./pants generate-lockfiles --resolve=python-default` to regenerate the lockfile.
 
 apscheduler
 argcomplete
