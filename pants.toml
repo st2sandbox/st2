@@ -122,6 +122,7 @@ tailor_pex_binary_targets = false
 
 [python.resolves]
 python-default = "lockfiles/st2"
+pylint_plugins = "lockfiles/pylint" # same as pylint tool lockfile
 
 [python-infer]
 inits = true

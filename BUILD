@@ -9,15 +9,14 @@ python_requirements(
         "oslo.config": ["oslo_config"],
         "RandomWords": ["random_words"],
     },
-)
-
-python_requirement(
-    name="flex",
-    requirements=["flex"],
-    dependencies=[
+    overrides={
         # flex uses pkg_resources w/o declaring the dep
-        "//:reqs#setuptools",
-    ],
+        "flex": {
+            "dependencies": [
+                "//:reqs#setuptools",
+            ]
+        },
+    },
 )
 
 python_requirement(

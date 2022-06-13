@@ -5,7 +5,7 @@ apscheduler
 argcomplete
 cryptography
 eventlet
-# flex dep declared in BUILD; it depends on setuptools w/o declaring it
+flex
 gunicorn
 jinja2
 jsonpath-rw
