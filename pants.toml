@@ -113,6 +113,7 @@ root_patterns = [
 #resolver_version = "pip-2020-resolver"
 enable_resolves = true
 lockfile_generator = "pex"
+default_resolve = "st2"
 interpreter_constraints = [
   "CPython==3.6.*",
   "CPython==3.8.*",
@@ -125,8 +126,8 @@ tailor_pex_binary_targets = false
 #tailor_ignore_solitary_init_files = true
 
 [python.resolves]
-python-default = "lockfiles/st2"
-pylint_plugins = "lockfiles/pylint" # same as pylint tool lockfile
+st2 = "lockfiles/st2"
+pylint_plugins = "lockfiles/pylint_plugins" # lockfiles/pylint should have same contents
 pants-plugins = "lockfiles/pants-plugins"
 
 [python.resolves_to_interpreter_constraints]
