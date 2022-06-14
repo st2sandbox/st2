@@ -30,6 +30,7 @@ backend_packages = [
   "pants.backend.shell.lint.shellcheck",
 
   # internal plugins in pants-plugins/
+  "pants.backend.plugin_development",
   "uses_services",
   "stevedore_extensions",
   "pack_metadata",
@@ -126,6 +127,15 @@ tailor_pex_binary_targets = false
 [python.resolves]
 python-default = "lockfiles/st2"
 pylint_plugins = "lockfiles/pylint" # same as pylint tool lockfile
+pants-plugins = "lockfiles/pants-plugins"
+
+[python.resolves_to_interpreter_constraints]
+pants-plugins = [
+  # See: https://www.pantsbuild.org/docs/prerequisites
+  "CPython==3.7.*",
+  "CPython==3.8.*",
+  "CPython==3.9.*",
+]
 
 [python-infer]
 inits = true

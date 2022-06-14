@@ -1,2 +1,14 @@
-# pants needs python 3.7+, but we're using 3.6 for st2, so don't include this for now
-# pants_requirement(name="pants", dist="pantsbuild.pants")
+# only one of these targets should be uncommented (pants_ or python_requirement)
+
+#pants_requirements(
+#    name="pants",
+#    resolve="pants-plugins",
+#    testutil=False,
+#)
+
+# this is a more restricted version of the above.
+python_requirement(
+    name="pants",
+    resolve="pants-plugins",
+    requirements=["pantsbuild.pants==2.11.0"],
+)
