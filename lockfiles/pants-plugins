@@ -11,7 +11,7 @@
 //     "CPython==3.9.*"
 //   ],
 //   "generated_with_requirements": [
-//     "pantsbuild.pants==2.11.0"
+//     "pantsbuild.pants<2.12,>=2.11.0rc0"
 //   ]
 // }
 // --- END PANTS LOCKFILE METADATA ---
@@ -327,38 +327,38 @@
           "artifacts": [
             {
               "algorithm": "sha256",
-              "hash": "86cc2f2691487cd76c094058d26ac33aa41d2941e124488833bb03cb4a0f65dd",
-              "url": "https://files.pythonhosted.org/packages/ec/86/db43ecd754ab33422b67cbe626e214bcd6e8a56e7640d9aedbc54c66550d/pantsbuild.pants-2.11.0-cp39-cp39-manylinux2014_x86_64.whl"
+              "hash": "99823cee2fc251039ca395c5be469d22d77d169621f648fa8effb295876d6477",
+              "url": "https://files.pythonhosted.org/packages/06/41/b20218aa9eeb2a1996cc9b1d78966293a10451b7766705edbd1ceb9b8da0/pantsbuild.pants-2.11.1rc2-cp39-cp39-manylinux2014_x86_64.whl"
             },
             {
               "algorithm": "sha256",
-              "hash": "5c9ec0bc521e54e58daa8c3dba0a5dc2ebd47311496e2cbd57b5b01f765f2648",
-              "url": "https://files.pythonhosted.org/packages/02/63/95a20aa6cfad9330b488d1b9e72f957f9c57af51c67f3bca3b9817bdac7b/pantsbuild.pants-2.11.0-cp38-cp38-manylinux2014_x86_64.whl"
+              "hash": "c60738d585200e8a956992c46b62337dc408331231a6f58eaaa28e1a003d3e30",
+              "url": "https://files.pythonhosted.org/packages/39/f5/19e2f794f7a75cbbcf973150c40ea01a688d8869b34d08489ae1bf211800/pantsbuild.pants-2.11.1rc2-cp39-cp39-macosx_11_0_arm64.whl"
             },
             {
               "algorithm": "sha256",
-              "hash": "3f3ed0116a32a8f302f7907d728d95445cda43917f4bf8efb52fb6b381591387",
-              "url": "https://files.pythonhosted.org/packages/11/4d/2f8f3c70bf855af319acdbfef7ab8e62b52c7dd3e496d641df35cdbd1ff1/pantsbuild.pants-2.11.0-cp38-cp38-macosx_10_15_x86_64.whl"
+              "hash": "08581aff8d75fd42e728a2c0220a00bf0c2ee886fd3ef5e95d027b0f0d348c68",
+              "url": "https://files.pythonhosted.org/packages/67/9b/1750a0a2a4796c1b95f9033763e790d74202ae14b16dd6c30a92255f8d04/pantsbuild.pants-2.11.1rc2-cp38-cp38-manylinux2014_x86_64.whl"
             },
             {
               "algorithm": "sha256",
-              "hash": "d86cb2a86908f4884982386c7f9b466aa20e26a53e830f0119ececc608e7b317",
-              "url": "https://files.pythonhosted.org/packages/6b/90/72f75d05f21b26cc6713c270867507e12d1f5e1719724a617e799b996d59/pantsbuild.pants-2.11.0-cp37-cp37m-macosx_10_15_x86_64.whl"
+              "hash": "cbb9b677d5f454166c4b83df9d9eec201d89b233d1f9ba59d1d35897d18d64fc",
+              "url": "https://files.pythonhosted.org/packages/81/f0/2f9fc8f627ed93adb648a19eda0ed8314812f69315c958a1d565c7210756/pantsbuild.pants-2.11.1rc2-cp39-cp39-macosx_10_15_x86_64.whl"
             },
             {
               "algorithm": "sha256",
-              "hash": "1bbacab72e16b338098c5d6c74bbae099cc1b25a5e1efc3c5fd786af73297c06",
-              "url": "https://files.pythonhosted.org/packages/ca/2a/c402456cba14963b671ad654ecc98f4b4522dfe6ae8726040d129756eae4/pantsbuild.pants-2.11.0-cp39-cp39-macosx_11_0_arm64.whl"
+              "hash": "3d1d48f519cb522bd3f31f18c3ec9596dbe14cebfb9e8db82c3865da0a9e3e1b",
+              "url": "https://files.pythonhosted.org/packages/83/3c/1c67d5cbb4fdd182fa56df763643376fbf14263b869548084dcb7d3a112a/pantsbuild.pants-2.11.1rc2-cp37-cp37m-macosx_10_15_x86_64.whl"
             },
             {
               "algorithm": "sha256",
-              "hash": "3519e280adfdfd8dd0d2689f3f2344e8b1225efcfa2b456cf65be2dadbe7ff7d",
-              "url": "https://files.pythonhosted.org/packages/ec/9c/d1feda49db2d44f163a733d434ad324021a9bd05c9e510ce94fd4712951f/pantsbuild.pants-2.11.0-cp39-cp39-macosx_10_15_x86_64.whl"
+              "hash": "19cfd7cc1a84f93996d5ef15f47a363aa51ae07aaafea5c2b036a992014b81f3",
+              "url": "https://files.pythonhosted.org/packages/97/15/def30bf67c4d1d5b668c96153536560b4135da7f194944d943921eea785e/pantsbuild.pants-2.11.1rc2-cp38-cp38-macosx_10_15_x86_64.whl"
             },
             {
               "algorithm": "sha256",
-              "hash": "cef9095a05b6dbbf1ae70619bc3093107b4d08be6932b6cfbac9adba1cf521bc",
-              "url": "https://files.pythonhosted.org/packages/f0/ef/28d95116f72a2cabb5dd44671281e584b7493384a73e3c9fdb3881a70bfe/pantsbuild.pants-2.11.0-cp37-cp37m-manylinux2014_x86_64.whl"
+              "hash": "07d2dd760e1b216fd2cec54e17debbc2b21e5a83165d749e006a5845b6c1926e",
+              "url": "https://files.pythonhosted.org/packages/aa/3e/fc5674dec6d72583bb3cefd25f016e188b384bc2a5a936a3f87bb1314e3f/pantsbuild.pants-2.11.1rc2-cp37-cp37m-manylinux2014_x86_64.whl"
             }
           ],
           "project_name": "pantsbuild-pants",
@@ -369,7 +369,7 @@
             "humbug==0.2.7",
             "ijson==3.1.4",
             "packaging==21.3",
-            "pex==2.1.84",
+            "pex==2.1.90",
             "psutil==5.9.0",
             "python-lsp-jsonrpc==1.0.0",
             "setproctitle==1.2.2",
@@ -381,27 +381,27 @@
             "typing-extensions==4.0.1"
           ],
           "requires_python": null,
-          "version": "2.11"
+          "version": "2.11.1rc2"
         },
         {
           "artifacts": [
             {
               "algorithm": "sha256",
-              "hash": "7785d2d79633906c692db272d7299530505403415256a9c5c892883a4c057aa4",
-              "url": "https://files.pythonhosted.org/packages/e4/17/68b51b61b24f5d7056a0c8d1758d576c21e0d6a6e43d449d7dc0bfa3b131/pex-2.1.84-py2.py3-none-any.whl"
+              "hash": "a1c00bb8ca43a44a76ed2b3c6b9acfd2804630d704c788e41474843d6250fb83",
+              "url": "https://files.pythonhosted.org/packages/b6/3b/95bfd873b10b15fb5ea5bcdad444803d4af4d2e3c967ab47d8adbd5c7730/pex-2.1.90-py2.py3-none-any.whl"
             },
             {
               "algorithm": "sha256",
-              "hash": "b633e32f334e3bf3d453a108b4b632430f8a3de908c1ba13067f7c4fcc07a47c",
-              "url": "https://files.pythonhosted.org/packages/82/e3/a019f70b60596782d22382d5593124d9782a9554271248afb099cfc009ae/pex-2.1.84.tar.gz"
+              "hash": "17d929929d59ef44d666383ded7d191cca269acc23d3bb09c505e22953cc9d15",
+              "url": "https://files.pythonhosted.org/packages/2b/8e/da8f418efa126a862c3165458777dec24995615f0a1b65c3f7caec1123d8/pex-2.1.90.tar.gz"
             }
           ],
           "project_name": "pex",
           "requires_dists": [
             "subprocess32>=3.2.7; extra == \"subprocess\" and python_version < \"3\""
           ],
-          "requires_python": "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,<3.11,>=2.7",
-          "version": "2.1.84"
+          "requires_python": "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,<3.12,>=2.7",
+          "version": "2.1.90"
         },
         {
           "artifacts": [
@@ -1166,10 +1166,10 @@
     }
   ],
   "path_mappings": {},
-  "pex_version": "2.1.84",
+  "pex_version": "2.1.90",
   "prefer_older_binary": false,
   "requirements": [
-    "pantsbuild.pants==2.11.0"
+    "pantsbuild.pants<2.12,>=2.11.0rc0"
   ],
   "requires_python": [
     "==3.7.*",
