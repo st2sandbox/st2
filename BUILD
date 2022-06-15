@@ -16,7 +16,27 @@ python_requirements(
                 "//:reqs#setuptools",
             ]
         },
+        # stevedore uses pkg_resources w/o declaring the dep
+        "stevedore": {
+            "dependencies": [
+                "//:reqs#setuptools",
+            ]
+        },
+		# make sure anything that uses st2-auth-ldap gets the st2auth constant
+		"st2-auth-ldap": {
+            "dependencies": [
+                "st2auth/st2auth/backends/constants.py",
+            ]
+		}
     },
+)
+
+target(
+    name="auth_backends",
+    dependencies=[
+        "//:reqs#st2-auth-backend-flat-file",
+        "//:reqs#st2-auth-ldap",
+    ],
 )
 
 python_requirement(
