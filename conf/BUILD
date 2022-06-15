@@ -3,10 +3,14 @@ files(
     sources=["st2rc.sample.ini"],
 )
 
-files(
+sample_conf(
     name="st2_sample_config",
-    sources=["st2.conf.sample"],
+    # source="st2.conf.sample",
 )
+#file(
+#    name="st2_sample_config",
+#    source="st2.conf.sample",
+#)
 
 files(
     name="logrotate",
