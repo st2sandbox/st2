@@ -4,7 +4,7 @@ files(
 )
 
 sample_conf(  # defined in pants-plugins/sample_conf
-    name="st2_conf_sample",
+    name="st2.conf.sample",
     source="st2.conf.sample",
     dependencies=[
         "tools/config_gen.py",
