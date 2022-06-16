@@ -21,6 +21,7 @@ from __future__ import absolute_import
 
 import json
 import os
+import sys
 
 from st2common.models.api import action as action_models
 from st2common.models.api import pack as pack_models
@@ -62,7 +63,9 @@ def write_schemas(schemas_dir):
             f.write("\n")
 
 
-def main(argv):
+def main():
+    argv = sys.argv[1:]
+
     # 1st positional parameter is the destination directory
     schemas_dir = argv[0] if argv else default_schemas_dir
 

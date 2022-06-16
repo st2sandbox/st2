@@ -33,6 +33,7 @@ backend_packages = [
   "pants.backend.plugin_development",
   "uses_services",
   "sample_conf",
+  "schemas",
   "stevedore_extensions",
   "pack_metadata",
   "do_invoke",

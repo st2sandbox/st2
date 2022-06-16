@@ -42,4 +42,4 @@ def init():
 
 if __name__ == "__main__":
     init()
-    sys.exit(generate_schemas.main(sys.argv[1:]))
+    sys.exit(generate_schemas.main())
