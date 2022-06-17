@@ -16,6 +16,12 @@ python_requirements(
                 "//:reqs#setuptools",
             ]
         },
+        # do not use the prance[flex] extra as that pulls in an old version of flex
+        "prance": {
+            "dependencies": [
+                "//:reqs#flex",
+            ]
+        },
         # stevedore uses pkg_resources w/o declaring the dep
         "stevedore": {
             "dependencies": [

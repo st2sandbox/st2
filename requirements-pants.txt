@@ -5,6 +5,7 @@ apscheduler
 argcomplete
 cryptography
 eventlet
+# flex parses the openapi 2 spec in our router
 flex
 gunicorn
 jinja2
@@ -27,6 +28,8 @@ oslo.config>=1.12.1,<1.13
 paramiko
 # pika used by tools/direct_queue_publisher.py
 pika
+# prance is used by st2-validate-api-spec to validate the openapi spec
+# prance needs flex, but do not use the extra as that gets an old version.
 prance
 prettytable
 # For st2client: prompt-toolkit v2+ does not have prompt_toolkit.token.Token
