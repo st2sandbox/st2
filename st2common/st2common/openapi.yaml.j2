@@ -1915,6 +1915,7 @@ paths:
         '200':
           description: Pack index.
           schema:
+            # this return object only has properties: status, index
             $ref: '#/definitions/PackIndex'
           examples:
             application/json:
@@ -1994,7 +1995,7 @@ paths:
           schema:
             type: array
             items:
-              $ref: '#/definitions/PackView'
+              $ref: '#/definitions/DataFilesSubSchema'
           examples:
             application/json:
               ref: 'core.local'
@@ -2237,7 +2238,7 @@ paths:
         '200':
           description: Config schema for a particular pack.
           schema:
-            $ref: '#/definitions/PackConfigView'
+            $ref: '#/definitions/PackConfigView' # TODO: Schema not Config
           examples:
             application/json:
               ref: 'core.local'
@@ -2387,7 +2388,7 @@ paths:
           description: User performing the operation.
       responses:
         '200':
-          description: Policy created successfully.
+          description: Policy list
           schema:
             type: array
             items:
@@ -3070,7 +3071,7 @@ paths:
           description: User performing the operation.
       responses:
         '200':
-          description: List of rules
+          description: List of runner types
           schema:
             type: array
             items:
@@ -4721,9 +4722,11 @@ definitions:
       - $ref: '#/definitions/Action'
       - $ref: '#/definitions/DataFilesSubSchema'
   ActionDeleteRequest:
+    # x-api-model: # TODO: API model does not exist yet.
     allOf:
       - $ref: '#/definitions/ActionDeleteSchema'
   ActionCloneRequest:
+    # x-api-model: # TODO: API model does not exist yet.
     allOf:
       - $ref: '#/definitions/ActionCloneSchema'
   ActionParameters:
@@ -4735,6 +4738,7 @@ definitions:
     x-api-model: st2common.models.api.action:ActionAliasAPI
     type: object
   ActionAliasRequest:
+    # TODO: delete this unused definition
     type: object
     required:
         - name
@@ -4764,6 +4768,7 @@ definitions:
         description: Enable or disable the action from invocation.
         default: True
   ActionAliasMatchRequest:
+      # x-api-model: # TODO: API model does not exist yet.
       type: object
       required:
         - command
@@ -4772,8 +4777,21 @@ definitions:
           description: Command string to try to match the aliases against.
           type: string
   ActionAliasMatch:
+      # x-api-model: # TODO: API model does not exist yet.
       type: object
+      properties:
+        actionalias:
+          $ref: '#/definitions/ActionAlias'
+        display:
+          type: string
+          description: Display string of alias format
+        representation:
+          type: array
+          description: Alias format representations
+          items:
+            type: string
   ActionAliasHelp:
+    # x-api-model: # TODO: API model does not exist yet.
     type: object
     properties:
       avaliable:
@@ -4879,7 +4897,7 @@ definitions:
         type: object
         description: Execution result
         properties:
-          $ref: '#/definitions/Execution'
+          $ref: '#/definitions/Execution/properties'
       message:
         type: string
   AliasMatchAndExecuteInputAPI:
@@ -4908,6 +4926,7 @@ definitions:
         description: StackStorm notification route to use to respond
         default: ""
   Execution:
+    x-api-model: st2common.models.api.execution:ActionExecutionAPI
     title: ActionExecution
     description: Record of the execution of an action.
     type: object
@@ -4928,9 +4947,9 @@ definitions:
         $ref: '#/definitions/RunnerType'
       liveaction:
         $ref: '#/definitions/LiveAction'
-      task_execution:
+      task_execution: # TODO: not in API model?
         type: string
-      workflow_execution:
+      workflow_execution: # TODO: not in API model?
         type: string
       status:
         description: The current status of the action execution.
@@ -5005,6 +5024,7 @@ definitions:
       - id
     additionalProperties: False
   ExecutionRequest:
+    # x-api-model: # TODO: API model does not exist yet.
     allOf:
       - $ref: '#/definitions/LiveAction'
       - type: object
@@ -5015,6 +5035,7 @@ definitions:
             description: User context under which action should run (admins only)
             default: ''
   ExecutionUpdateRequest:
+    # x-api-model: # TODO: API model does not exist yet.
     type: object
     properties:
       status:
@@ -5025,8 +5046,13 @@ definitions:
         type: object
     additionalProperties: False
   ExecutionFilters:
+    # x-api-model: # TODO: API model does not exist yet.
     type: object
+    #patternProperties:
+    #  ^\w+$: # one of SUPPORTED_FILTERS
+    #    $ref: '#/definitions/Execution'
   Inquiry:
+    x-api-model: st2common.models.api.inquiry:InquiryResponseAPI
     type: object
     required:
       - id
@@ -5059,6 +5085,7 @@ definitions:
         description: Time (in minutes) that an unacknowledged Inquiry is cleaned up
         type: integer
   InquiryResponseResult:
+    # x-api-model: # TODO: API model does not exist yet.
     type: object
     required:
       - id
@@ -5071,8 +5098,10 @@ definitions:
         description: response data
         type: object
   KeyValuePair:
+    #x-api-model: st2common.models.api.keyvalue:KeyValuePairAPI
     type: object
   KeyValuePairRequest:
+    #x-api-model: st2common.models.api.keyvalue:KeyValuePairSetAPI
     type: object
     required:
       - name
@@ -5101,8 +5130,19 @@ definitions:
         type: string
         x-nullable: true
   PacksList:
+    #x-api-model: st2common.models.api.pack:PackAPI
     type: object
     properties:
+      #id:
+      #uid:
+      #stackstorm_version:
+      #python_versions:
+      #email:
+      #contributors:
+      #files:
+      #dependencies:
+      #system:
+      #path:
       author:
         description: Author of the pack.
         type: string
@@ -5127,10 +5167,11 @@ definitions:
         type: array
         items:
           type: string
-      repo_url:
+      repo_url: # not in PackAPI
         description: "URL of the Pack's repo."
         type: string
   PackView:
+    # PacksList and PackView are implmented with the same PackAPI model
     type: object
     properties:
       author:
@@ -5154,6 +5195,7 @@ definitions:
         description: Version of the pack.
         type: string
   PacksInstall:
+    x-api-model: st2common.models.api.pack:PackInstallRequestAPI
     type: object
     properties:
       packs:
@@ -5168,9 +5210,11 @@ definitions:
       skip_dependencies:
         type: boolean
         description: Set to True to skip pack dependency installations.
-        required: false
         default: false
+    required:
+      - packs
   PacksUninstall:
+    x-api-model: st2common.models.api.pack:PackInstallRequestAPI
     type: object
     properties:
       ref_or_id:
@@ -5182,6 +5226,7 @@ definitions:
         items:
           type: string
   PacksRegister:
+    x-api-model: st2common.models.api.pack:PackRegisterRequestAPI
     type: object
     properties:
       packs:
@@ -5194,7 +5239,12 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/PacksContentRegisterType'
+      fail_on_failure:
+        type: boolean
+        description: True to fail on failure
+        default: true
   PacksContentRegisterType:
+          # x-api-model: # TODO: API model does not exist yet.
           type: string
           enum: ['all',
                   'runner',
@@ -5217,6 +5267,8 @@ definitions:
                   'config',
                   'configs']
   PacksSearchShow:
+    # TODO: update to match model's oneOf schema
+    #x-api-model: st2common.models.api.pack:PackSearchRequestAPI
     type: object
     properties:
       pack:
@@ -5226,6 +5278,7 @@ definitions:
         description: Search query.
         type: string
   PackIndex:
+    # x-api-model: # TODO: API model does not exist yet.
     type: object
     properties:
       indexes:
@@ -5251,48 +5304,73 @@ definitions:
         description: Number of packs in the index.
         type: object
   PackConfig:
+    # ConfigAPI is for the inner object. TODO: cleanup PackConfig usage in spec
+    #x-api-model: st2common.models.api.pack:ConfigAPI
     type: array
     items:
       type: object
+      #properties:
+      #  id:
+      #  pack:
+      #  values:
   PackConfigView:
+    #x-api-model: st2common.models.api.pack:ConfigAPI
     type: object
   PackConfigContent:
+    # schema is defined by the pack. This can't have x-api-model.
     type: object
   PackConfigCreate:
+    #x-api-model: st2common.models.api.pack:ConfigAPI
     type: object
   PolicyTypeList:
+    x-api-model: st2common.models.api.policy:PolicyTypeAPI
     type: object
   PolicyList:
+    x-api-model: st2common.models.api.policy:PolicyAPI
     type: object
   PolicyCreate:
     x-api-model: st2common.models.api.policy:PolicyAPI
     type: object
   RunnerType:
+    x-api-model: st2common.models.api.action:RunnerTypeAPI
     type: object
   Rule:
     x-api-model: st2common.models.api.rule:RuleAPI
     type: object
   RuleType:
+    x-api-model: st2common.models.api.rule:RuleTypeAPI
     type: object
   RuleEnforcementsList:
+    # TODO: disambiguate this
+    #x-api-model: st2common.models.api.rule_enforcement:RuleEnforcementAPI
+    #x-api-model: st2common.models.api.rule_enforcement:RuleEnforcementViewAPI
     type: object
   SensorType:
+    x-api-model: st2common.models.api.sensor:SensorTypeAPI
     type: object
   TimersList:
+    x-api-model: st2common.models.api.trigger:TriggerAPI
     type: object
   TracesList:
+    x-api-model: st2common.models.api.trace:TraceAPI
     type: object
   Trigger:
+    x-api-model: st2common.models.api.trigger:TriggerAPI
     type: object
   TriggerRequest:
+    #x-api-model: st2common.models.api.trigger:TriggerAPI
     type: object
   TriggerType:
+    x-api-model: st2common.models.api.trigger:TriggerTypeAPI
     type: object
   TriggerTypeRequest:
+    #x-api-model: st2common.models.api.trigger:TriggerTypeAPI
     type: object
   TriggerInstance:
+    x-api-model: st2common.models.api.trigger:TriggerInstanceAPI
     type: object
   LiveAction:
+    x-api-model: st2common.models.api.action:LiveActionAPI
     title: liveaction
     description: An execution of an action.
     type: object
@@ -5361,6 +5439,7 @@ definitions:
     required:
       - action
   Webhook:
+    #x-api-model: st2common.models.api.trigger:TriggerAPI
     type: object
   WebhookBody:
     description: Given support of Content-Type header, that could be anything.
@@ -5369,6 +5448,7 @@ definitions:
       - object
       - array
   ActionParametersSubSchema:
+    # x-api-model: null # does not make sense here
     type: object
     description: Input parameters for the action.
     # patternProperties:
@@ -5378,6 +5458,7 @@ definitions:
     x-additional-check: st2api.controllers.resource:parameter_validation
     default: {}
   AsyncRequest:
+    x-api-model: st2common.models.api.pack:PackAsyncAPI
     type: object
     properties:
       execution_id:
@@ -5386,6 +5467,7 @@ definitions:
       - execution_id
     additionalProperties: false
   DataFilesSubSchema:
+    # x-api-model: # TODO: API model does not exist yet.
     type: object
     properties:
       data_files:
@@ -5407,6 +5489,7 @@ definitions:
         default: []
     # additionalProperties: false
   ActionCloneSchema:
+    # x-api-model: # TODO: API model does not exist yet.
     type: object
     properties:
       dest_pack:
@@ -5424,6 +5507,7 @@ definitions:
       - dest_action
     additionalProperties: false
   NotificationPropertySubSchema:
+    # x-api-model: # TODO: API model does not exist yet.
     type: object
     properties:
       message:
@@ -5444,6 +5528,7 @@ definitions:
           type: string
     additionalProperties: false
   ActionDeleteSchema:
+    # x-api-model: # TODO: API model does not exist yet.
     type: object
     properties:
       remove_files:
@@ -5452,6 +5537,7 @@ definitions:
         default: false
     additionalProperties: false
   TokenRequest:
+    # x-api-model: # TODO: API model does not exist yet.
     type: object
     properties:
       ttl:
@@ -5460,6 +5546,7 @@ definitions:
           - 'null'
         minimum: 1
   Token:
+    x-api-model: st2common.models.api.auth:TokenAPI
     type: object
     properties:
       expiry:
@@ -5475,6 +5562,7 @@ definitions:
       user:
         type: string
   TokenValidationRequest:
+    # x-api-model: # TODO: API model does not exist yet.
     type: object
     properties:
       token:
@@ -5482,11 +5570,13 @@ definitions:
           - string
           - 'null'
   TokenValidationResult:
+    # x-api-model: # TODO: API model does not exist yet.
     type: object
     properties:
       valid:
         type: boolean
   SSOEnabledResult:
+    # x-api-model: # TODO: API model does not exist yet.
     type: object
     properties:
       enabled:
@@ -5514,6 +5604,7 @@ definitions:
         default: True
 
   WorkflowInspectionError:
+    # x-api-model: # TODO: API model does not exist yet.
     type: object
     properties:
       type:
@@ -5529,11 +5620,14 @@ definitions:
       spec_path:
         type: string
   WorkflowInspectionErrors:
+    # x-api-model: null # does not make sense here
     type: array
     items:
       $ref: '#/definitions/WorkflowInspectionError'
 
   ValidationError:
+    # x-api-model: null # does not make sense here
+    # TODO: Delete this. This is unused.
     type: object
     properties:
       type:
@@ -5543,6 +5637,7 @@ definitions:
       message:
         type: string
   Error:
+    # x-api-model: null # does not make sense here
     type: object
     properties:
       faultstring:
