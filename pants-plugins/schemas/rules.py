@@ -75,14 +75,6 @@ async def generate_schemas_via_fmt(
     # There will only be one target+field_set, but we iterate
     # to satisfy how fmt expects that there could be more than one.
 
-    # Find all the dependencies of our target
-    transitive_targets = await Get(
-        TransitiveTargets,
-        TransitiveTargetsRequest(
-            [field_set.address for field_set in request.field_sets]
-        ),
-    )
-
     # actually generate it with an external script.
     # Generation cannot be inlined here because it needs to import the st2 code.
     pex = await Get(
@@ -107,11 +99,11 @@ async def generate_schemas_via_fmt(
         FallibleProcessResult,
         VenvPexProcess(
             pex,
+            argv=(output_directory,),
             input_digest=request.snapshot.digest,
             output_directories=[output_directory],
             description=f"Regenerating st2 metadata schemas in contrib/schemas",
             level=LogLevel.DEBUG,
-            argv=(output_directory,),
         ),
     )
 
