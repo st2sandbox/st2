@@ -34,6 +34,7 @@ backend_packages = [
   "uses_services",
   "sample_conf",
   "schemas",
+  "api_spec",
   "stevedore_extensions",
   "pack_metadata",
   "do_invoke",
