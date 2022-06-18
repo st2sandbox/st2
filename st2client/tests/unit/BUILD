@@ -7,10 +7,7 @@ python_tests(
     skip_pylint=True,
     tags=["unit"],
     overrides={
-        (
-            "test_execution_tail_command.py",
-            "test_commands.py",
-        ): {
+        ("test_execution_tail_command.py", "test_commands.py"): {
             "dependencies": [
                 "st2client/tests/base.py",
             ],
