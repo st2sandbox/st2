@@ -80,3 +80,6 @@ root_patterns = [
   # benchmarks
   "/st2common/benchmarks/micro",
 ]
+
+[regex-lint]
+config = "@lint-configs/regex-lint.yaml"
