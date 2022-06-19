@@ -93,14 +93,14 @@ async def stevedore_kwargs_for_setup_py(
         entry_points: StevedoreEntryPoints = resolved_ep.val
 
         for entry_point in entry_points:
-            entry_points_kwargs[namespace].append(
+            entry_points_kwargs[namespace.value].append(
                 f"{entry_point.name} = {entry_point.value.spec}\n"
             )
     return StevedoreSetupKwargs(
         FrozenDict(
             {
                 "entry_points": FrozenDict(
-                    (k, tuple(v)) for k, v in sorted(entry_points_kwargs)
+                    (k, tuple(v)) for k, v in sorted(entry_points_kwargs.items())
                 )
             }
         )
