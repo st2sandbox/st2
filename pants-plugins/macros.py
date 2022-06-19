@@ -21,10 +21,6 @@ def st2_runner_python_distribution(**kwargs):
         name=f"stackstorm-runner-{runner_name.replace('_', '-')}",
         description=description,
         # version=__version__, # TODO: from action_chain_runner import __version__
-        author="StackStorm",
-        author_email="info@stackstorm.com",
-        license="Apache License (2.0)",
-        url="https://stackstorm.com/",
         # test_suite="tests",
         # zip_safe=False,
     )
@@ -34,8 +30,6 @@ def st2_runner_python_distribution(**kwargs):
         if dep not in dependencies:
             dependencies.append(dep)
     kwargs["dependencies"] = dependencies
-
-    # TODO: grab entry_points from stevedore_extension
 
     python_distribution(**kwargs)
 
@@ -50,10 +44,6 @@ def st2_component_python_distribution(**kwargs):
         name=st2_component,
         description=description,
         # version=get_version_string(INIT_FILE)  # TODO
-        author="StackStorm",
-        author_email="info@stackstorm.com",
-        license="Apache License (2.0)",
-        url="https://stackstorm.com/",
         # test_suite=st2_component,
         # zip_safe=False,
     )
