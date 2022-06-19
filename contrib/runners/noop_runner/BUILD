@@ -10,7 +10,5 @@ stevedore_extension(
 
 st2_runner_python_distribution(
     runner_name="noop",
-    description=(
-        "No-Op action runner for StackStorm event-driven automation platform"
-    ),
+    description="No-Op action runner for StackStorm event-driven automation platform",
 )

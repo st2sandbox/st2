@@ -12,3 +12,8 @@ pants_requirements(
 #    resolve="pants-plugins",
 #    requirements=["pantsbuild.pants==2.11.0"],
 # )
+
+python_sources(
+    resolve="pants-plugins",
+    skip_pylint=True,
+)

@@ -123,7 +123,7 @@ default_resolve = "st2"
 interpreter_constraints = [
   # python_distributions needs a single constraint.
   "CPython>=3.6,!=3.7.*,<3.9",
-  #"CPython>=3.6.*",
+  #"CPython==3.6.*",
   #"CPython==3.8.*",
 ]
 # tailor recommends adding a `pex_binary` target for every python
@@ -169,10 +169,9 @@ args = [
 [black]
 lockfile = "lockfiles/black"
 version = "black==22.3.0"
-# hack due to temp lockfile error
 interpreter_constraints = [
-  "CPython>=3.6.*",
-  "CPython==3.8.*",
+  # pants default constraints for black
+  "CPython<4,>=3.7",
 ]
 
 [flake8]
