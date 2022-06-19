@@ -1,4 +1,4 @@
-python_sources(skip_pylint=True)
+# python_sources(skip_pylint=True)  # setup.py
 
 stevedore_extension(
     name="runner",
@@ -6,6 +6,13 @@ stevedore_extension(
     entry_points={
         "orquesta": "orquesta_runner.orquesta_runner",
     },
+)
+
+st2_runner_python_distribution(
+    runner_name="orquesta",
+    description=(
+        "Orquesta workflow runner for StackStorm event-driven automation platform"
+    ),
 )
 
 stevedore_extension(

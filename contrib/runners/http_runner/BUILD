@@ -1,4 +1,4 @@
-python_sources(skip_pylint=True)
+# python_sources(skip_pylint=True)  # setup.py
 
 stevedore_extension(
     name="runner",
@@ -6,4 +6,11 @@ stevedore_extension(
     entry_points={
         "http-request": "http_runner.http_runner",
     },
+)
+
+st2_runner_python_distribution(
+    runner_name="http",
+    description=(
+        "HTTP(s) action runner for StackStorm event-driven automation platform"
+    ),
 )

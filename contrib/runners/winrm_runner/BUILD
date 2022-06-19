@@ -1,4 +1,4 @@
-python_sources(skip_pylint=True)
+# python_sources(skip_pylint=True)  # setup.py
 
 python_requirement(
     name="winrm",
@@ -14,4 +14,12 @@ stevedore_extension(
         "winrm-ps-cmd": "winrm_runner.winrm_ps_command_runner",
         "winrm-ps-script": "winrm_runner.winrm_ps_script_runner",
     },
+)
+
+st2_runner_python_distribution(
+    runner_name="winrm",
+    description=(
+        "WinRM shell command and PowerShell script action runner for"
+        " the StackStorm event-driven automation platform"
+    ),
 )

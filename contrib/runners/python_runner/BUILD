@@ -1,4 +1,4 @@
-python_sources(skip_pylint=True)
+# python_sources(skip_pylint=True)  # setup.py
 
 stevedore_extension(
     name="runner",
@@ -6,4 +6,11 @@ stevedore_extension(
     entry_points={
         "python-script": "python_runner.python_runner",
     },
+)
+
+st2_runner_python_distribution(
+    runner_name="python",
+    description=(
+        "Python action runner for StackStorm event-driven automation platform"
+    ),
 )
