@@ -3,8 +3,6 @@
 st2_component_python_distribution(
     component_name="st2common",
     dependencies=[
-        ":metrics_drivers",
-        ":rbac_backend",
         "./st2common",
         "./st2common/bootstrap",
         "./st2common/callback",

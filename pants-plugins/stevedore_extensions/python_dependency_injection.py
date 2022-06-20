@@ -16,11 +16,12 @@ from dataclasses import dataclass
 from typing import List, Mapping, Tuple
 
 from pants.backend.python.target_types import (
+    PythonDistributionDependenciesField,
     PythonTestTarget,
     PythonTestsGeneratorTarget,
     PythonTestsDependenciesField,
 )
-from pants.base.specs import AddressSpecs, DescendantAddresses
+from pants.base.specs import AddressSpecs, DescendantAddresses, SiblingAddresses
 from pants.engine.addresses import Address
 from pants.engine.rules import collect_rules, Get, rule, UnionRule
 from pants.engine.target import (
@@ -35,6 +36,7 @@ from pants.util.ordered_set import OrderedSet
 
 from stevedore_extensions.target_types import (
     StevedoreDependenciesField,
+    StevedoreEntryPointsField,
     StevedoreExtension,
     StevedoreNamespaceField,
     StevedoreNamespacesField,
@@ -73,7 +75,7 @@ class InjectStevedoreNamespaceDependencies(InjectDependenciesRequest):
     desc="Inject stevedore_extension target dependencies for python_tests based on namespace list.",
     level=LogLevel.DEBUG,
 )
-async def inject_stevedore_dependencies(
+async def inject_stevedore_namespace_dependencies(
     request: InjectStevedoreNamespaceDependencies,
     stevedore_extensions: StevedoreExtensions,
 ) -> InjectedDependencies:
@@ -93,10 +95,40 @@ async def inject_stevedore_dependencies(
     return InjectedDependencies(sorted(result))
 
 
+class InjectSiblingStevedoreExtensionDependencies(InjectDependenciesRequest):
+    inject_for = PythonDistributionDependenciesField
+
+
+@rule(
+    desc="Inject stevedore_extension target dependencies for python_tests based on namespace list.",
+    level=LogLevel.DEBUG,
+)
+async def inject_sibling_stevedore_extension_dependencies(
+    request: InjectSiblingStevedoreExtensionDependencies,
+) -> InjectedDependencies:
+    sibling_targets = await Get(
+        Targets, AddressSpecs([SiblingAddresses(request.dependencies_field.address.spec_path)])
+    )
+    stevedore_targets: List[StevedoreExtension] = [
+        tgt for tgt in sibling_targets if tgt.has_field(StevedoreEntryPointsField)
+    ]
+
+    if not stevedore_targets:
+        return InjectedDependencies()
+
+    original_tgt: WrappedTarget
+    original_tgt = await Get(WrappedTarget, Address, request.dependencies_field.address)
+
+    addresses = [extension_tgt.address for extension_tgt in stevedore_targets]
+    result: OrderedSet[Address] = OrderedSet(addresses)
+    return InjectedDependencies(sorted(result))
+
+
 def rules():
     return [
         *collect_rules(),
         PythonTestsGeneratorTarget.register_plugin_field(StevedoreNamespacesField),
         PythonTestTarget.register_plugin_field(StevedoreNamespacesField),
         UnionRule(InjectDependenciesRequest, InjectStevedoreNamespaceDependencies),
+        UnionRule(InjectDependenciesRequest, InjectSiblingStevedoreExtensionDependencies),
     ]
