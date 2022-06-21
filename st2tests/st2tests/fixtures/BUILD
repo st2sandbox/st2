@@ -19,7 +19,7 @@ target(
         "./descendants",
         "./generic",
         "./localrunner_pack",
-        "./rule_enforcements",
+        "./rule_enforcements",  # not exactly a pack
         "./timers",
         "./traces",
     ],

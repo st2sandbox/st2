@@ -5,5 +5,5 @@ resources(
 
 resources(
     name="packs",
-    sources=["packs/**"],
+    sources=["packs/**", "!packs/**/BUILD"],
 )

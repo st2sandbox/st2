@@ -7,6 +7,7 @@ files(
         "**/*.pem",
         "ca/index.txt*",
         "ca/serial*",
+        "README.md",
     ],
 )
 
