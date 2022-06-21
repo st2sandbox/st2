@@ -13,41 +13,25 @@
 # limitations under the License.
 from dataclasses import dataclass
 
-from pants.backend.python.target_types import ConsoleScript, EntryPoint
+from pants.backend.python.target_types import EntryPoint
 from pants.backend.python.util_rules.pex import (
-    PexRequest,
     VenvPex,
     VenvPexProcess,
 )
 from pants.backend.python.util_rules.pex_from_targets import PexFromTargetsRequest
-from pants.backend.python.util_rules.python_sources import (
-    PythonSourceFiles,
-    PythonSourceFilesRequest,
-)
 from pants.core.goals.fmt import FmtResult, FmtRequest
-from pants.core.util_rules.source_files import SourceFiles, SourceFilesRequest
 from pants.engine.addresses import Address
 from pants.engine.fs import (
-    CreateDigest,
     Digest,
-    FileContent,
     Snapshot,
 )
 from pants.engine.process import FallibleProcessResult
-from pants.engine.rules import Get, MultiGet, collect_rules, rule
-from pants.engine.target import (
-    FieldSet,
-    SourcesField,
-    TransitiveTargets,
-    TransitiveTargetsRequest,
-)
+from pants.engine.rules import Get, collect_rules, rule
+from pants.engine.target import FieldSet
 from pants.engine.unions import UnionRule
 from pants.util.logging import LogLevel
 
-from schemas.target_types import (
-    SchemasSourcesField,
-    Schemas,
-)
+from schemas.target_types import SchemasSourcesField
 
 
 CMD = "generate_schemas"
@@ -66,7 +50,7 @@ class GenerateSchemasViaFmtRequest(FmtRequest):
 
 
 @rule(
-    desc=f"Update contrib/schemas/*.json with st2-generate-schemas",
+    desc="Update contrib/schemas/*.json with st2-generate-schemas",
     level=LogLevel.DEBUG,
 )
 async def generate_schemas_via_fmt(
@@ -102,7 +86,7 @@ async def generate_schemas_via_fmt(
             argv=(output_directory,),
             input_digest=request.snapshot.digest,
             output_directories=[output_directory],
-            description=f"Regenerating st2 metadata schemas in contrib/schemas",
+            description="Regenerating st2 metadata schemas in contrib/schemas",
             level=LogLevel.DEBUG,
         ),
     )

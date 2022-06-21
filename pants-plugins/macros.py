@@ -17,7 +17,7 @@ def st2_runner_python_distribution(**kwargs):
     runner_name = kwargs.pop("runner_name")
     description = kwargs.pop("description")
 
-    kwargs["provides"] = python_artifact(
+    kwargs["provides"] = python_artifact(  # noqa: F821
         name=f"stackstorm-runner-{runner_name.replace('_', '-')}",
         description=description,
         # version=__version__, # TODO: from action_chain_runner import __version__
@@ -31,7 +31,7 @@ def st2_runner_python_distribution(**kwargs):
             dependencies.append(dep)
     kwargs["dependencies"] = dependencies
 
-    python_distribution(**kwargs)
+    python_distribution(**kwargs)  # noqa: F821
 
 
 def st2_component_python_distribution(**kwargs):
@@ -42,7 +42,7 @@ def st2_component_python_distribution(**kwargs):
 
     scripts = kwargs.pop("scripts", [])
 
-    kwargs["provides"] = python_artifact(
+    kwargs["provides"] = python_artifact(  # noqa: F821
         name=st2_component,
         description=description,
         scripts=[
@@ -68,7 +68,7 @@ def st2_component_python_distribution(**kwargs):
 
     kwargs["dependencies"] = dependencies
 
-    python_distribution(**kwargs)
+    python_distribution(**kwargs)  # noqa: F821
 
 
 def st2_shell_sources_and_resources(**kwargs):
@@ -78,9 +78,9 @@ def st2_shell_sources_and_resources(**kwargs):
     are silently ignored. So, we also need the resources target
     to allow depending on them.
     """
-    shell_sources(**kwargs)
+    shell_sources(**kwargs)  # noqa: F821
 
     kwargs.pop("skip_shellcheck")
 
     kwargs["name"] += "_resources"
-    resources(**kwargs)
+    resources(**kwargs)  # noqa: F821

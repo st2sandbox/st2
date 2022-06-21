@@ -117,9 +117,6 @@ async def inject_sibling_stevedore_extension_dependencies(
     if not stevedore_targets:
         return InjectedDependencies()
 
-    original_tgt: WrappedTarget
-    original_tgt = await Get(WrappedTarget, Address, request.dependencies_field.address)
-
     addresses = [extension_tgt.address for extension_tgt in stevedore_targets]
     result: OrderedSet[Address] = OrderedSet(addresses)
     return InjectedDependencies(sorted(result))
