@@ -22,9 +22,9 @@ st2_shell_sources_and_resources(
                 # TODO: dep on st2client cli?
             ],
         },
-		# st2-run-pack-tests creates its own virtualenv on the fly and
-		# installs its dependencies, so they don't need to be listed here.
-		# It can optionally use the deps installed with st2tests package.
+        # st2-run-pack-tests creates its own virtualenv on the fly and
+        # installs its dependencies, so they don't need to be listed here.
+        # It can optionally use the deps installed with st2tests package.
         # "st2-run-pack-tests": {},
     },
 )

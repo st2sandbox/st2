@@ -3,7 +3,7 @@
 st2_component_python_distribution(
     component_name="st2common",
     dependencies=[
-		# public API (not imported directly by any st2common entry points)
+        # public API (not imported directly by any st2common entry points)
         "./st2common/callback/base.py",
         "./st2common/constants/garbage_collection.py",
         "./st2common/constants/policy.py",
@@ -22,7 +22,6 @@ st2_component_python_distribution(
         "./st2common/policies/concurrency.py",
         "./st2common/transport/consumers.py",
         "./st2common/validators/api/misc.py",
-
         "./st2common/services/datastore.py",
         "./st2common/services/inquiry.py",
         "./st2common/services/policies.py",
@@ -36,26 +35,20 @@ st2_component_python_distribution(
         "./st2common/util/sandboxing.py",
         "./st2common/util/service.py",
         "./st2common/util/wsgi.py",
-
         # public API: used by all of our logging conf files
         "./st2common/logging",
-
         # public API: used by runners and python actions
         "./st2common/runners",
-
         # API: used by st2auth, st2api, st2stream
         "./st2common/middleware",
         # API: used by st2stream
         "./st2common/stream",
-
         # TODO: missing st2common/bin/st2-purge-inquiries
         "./st2common/garbage_collection/inquiries.py",
-
         # these convenience imports can probably be removed
         # once persistence.reactor usages are replaced
         "./st2common/models/db/reactor.py",  # dead code / unused
         "./st2common/persistence/reactor.py",
-
         # dead code (nothing imports it)
         # "./st2common/constants/scheduler.py",
         # "./st2common/content/validators.py",
@@ -68,7 +61,7 @@ st2_component_python_distribution(
         # "./st2common/validators/workflow",
     ],
     scripts=[
-		# some scripts in bin are only for development and should not be included.
+        # some scripts in bin are only for development and should not be included.
         "bin/st2-bootstrap-rmq",
         "bin/st2-cleanup-db",
         "bin/st2-register-content",
@@ -86,12 +79,10 @@ st2_component_python_distribution(
         "bin/st2-pack-download",
         "bin/st2-pack-setup-virtualenv",
         "bin/migrations/v3.5/st2-migrate-db-dict-field-values",
-
         "bin/st2-run-pack-tests:shell",
         "bin/st2ctl:shell",
         "bin/st2-self-check:shell",
-
-		# dev scripts we might want to include
+        # dev scripts we might want to include
         # "bin/st2-generate-schemas",
     ],
 )
