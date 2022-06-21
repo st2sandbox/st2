@@ -53,3 +53,8 @@ python_requirement(
 python_test_utils(
     name="root",
 )
+
+file(
+    name="license",
+    source="LICENSE",
+)
