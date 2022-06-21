@@ -40,18 +40,24 @@ def st2_component_python_distribution(**kwargs):
         f"{st2_component} StackStorm event-driven automation platform component"
     )
 
+    scripts = kwargs.pop("scripts", [])
+
     kwargs["provides"] = python_artifact(
         name=st2_component,
         description=description,
+        scripts=[
+            script[:-6] if script.endswith(":shell") else script
+            for script in scripts
+        ],
         # version=get_version_string(INIT_FILE)  # TODO
         # test_suite=st2_component,
         # zip_safe=False,
     )
 
     dependencies = kwargs.pop("dependencies", [])
-    for dep in [f"./{st2_component}"]:
+    for dep in [st2_component] + scripts:
         if dep not in dependencies:
-            dependencies.append(dep)
+            dependencies.append(f"./{dep}")
     kwargs["dependencies"] = dependencies
 
     python_distribution(**kwargs)

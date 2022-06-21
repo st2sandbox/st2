@@ -69,6 +69,7 @@ from st2common.exceptions import db as db_exc
 
 LOG = logging.getLogger(__name__)
 
+# make sure to also update the list in BUILD
 MODEL_MODULE_NAMES = [
     "st2common.models.db.auth",
     "st2common.models.db.action",
@@ -90,6 +91,7 @@ MODEL_MODULE_NAMES = [
     "st2common.models.db.trigger",
     "st2common.models.db.webhook",
     "st2common.models.db.workflow",
+    "st2common.models.db.marker",  # TODO: drop with st2exporter removal
 ]
 
 # A list of model names for which we don't perform extra index cleanup

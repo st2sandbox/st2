@@ -2,4 +2,5 @@
 
 st2_component_python_distribution(
     component_name="st2exporter",
+    scripts=["bin/st2exporter"],
 )
