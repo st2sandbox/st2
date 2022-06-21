@@ -40,7 +40,6 @@ def st2_runner_python_distribution(**kwargs):
         description=description,
         # version=__version__, # TODO: from action_chain_runner import __version__
         # test_suite="tests",
-        # zip_safe=False,
     )
 
     dependencies = kwargs.pop("dependencies", [])
@@ -71,7 +70,6 @@ def st2_component_python_distribution(**kwargs):
         ],
         # version=get_version_string(INIT_FILE)  # TODO
         # test_suite=st2_component,
-        # zip_safe=False,
     )
 
     dependencies = kwargs.pop("dependencies", [])
