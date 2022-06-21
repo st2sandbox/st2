@@ -87,9 +87,13 @@ async def setup_kwargs_plugin(request: StackStormSetupKwargsRequest) -> SetupKwa
     )
 
     version_file_contents = version_digest_contents[0].content.decode()
-    version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]", version_file_contents, re.M)
+    version_match = re.search(
+        r"^__version__ = ['\"]([^'\"]*)['\"]", version_file_contents, re.M
+    )
     if not version_match:
-        raise ValueError(f"Could not find the __version__ in {request.target.address.spec_path}/{version_file}\n{version_file_contents}")
+        raise ValueError(
+            f"Could not find the __version__ in {request.target.address.spec_path}/{version_file}\n{version_file_contents}"
+        )
 
     # Hardcode certain kwargs and validate that they weren't already set.
     hardcoded_kwargs = dict(
@@ -113,7 +117,9 @@ async def setup_kwargs_plugin(request: StackStormSetupKwargsRequest) -> SetupKwa
         zip_safe=True,  # TODO: is there any reason to set this to False? It used to be false.
     )
 
-    long_description = readme_digest_contents[0].content.decode() if readme_digest_contents else ""
+    long_description = (
+        readme_digest_contents[0].content.decode() if readme_digest_contents else ""
+    )
     if long_description:
         hardcoded_kwargs["long_description_content_type"] = "text/x-rst"
         hardcoded_kwargs["long_description"] = long_description
