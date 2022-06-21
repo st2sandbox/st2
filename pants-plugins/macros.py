@@ -46,8 +46,7 @@ def st2_component_python_distribution(**kwargs):
         name=st2_component,
         description=description,
         scripts=[
-            script[:-6] if script.endswith(":shell") else script
-            for script in scripts
+            script[:-6] if script.endswith(":shell") else script for script in scripts
         ],
         # version=get_version_string(INIT_FILE)  # TODO
         # test_suite=st2_component,

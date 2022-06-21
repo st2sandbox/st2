@@ -23,7 +23,10 @@ from pants.engine.target import Target
 from pants.backend.python.goals.setup_py import SetupKwargs
 from pants.engine.rules import collect_rules, Get, rule, UnionRule
 
-from stevedore_extensions.setup_py_kwargs import StevedoreSetupKwargs, StevedoreSetupKwargsRequest
+from stevedore_extensions.setup_py_kwargs import (
+    StevedoreSetupKwargs,
+    StevedoreSetupKwargsRequest,
+)
 
 
 class StackStormSetupKwargsRequest(SetupKwargsRequest):
@@ -84,7 +87,9 @@ async def setup_kwargs_plugin(request: StackStormSetupKwargsRequest) -> SetupKwa
         license="Apache License, Version 2.0",
         zip_safe=True,
     )
-    conflicting_hardcoded_kwargs = set(kwargs.keys()).intersection(hardcoded_kwargs.keys())
+    conflicting_hardcoded_kwargs = set(kwargs.keys()).intersection(
+        hardcoded_kwargs.keys()
+    )
     if conflicting_hardcoded_kwargs:
         raise ValueError(
             f"These kwargs should not be set in the `provides` field for {request.target.address} "
@@ -94,7 +99,9 @@ async def setup_kwargs_plugin(request: StackStormSetupKwargsRequest) -> SetupKwa
     kwargs.update(hardcoded_kwargs)
 
     # stevedore extensions define most of our setup.py "entry_points"
-    stevedore_kwargs = await Get(StevedoreSetupKwargs, StevedoreSetupKwargsRequest(request))
+    stevedore_kwargs = await Get(
+        StevedoreSetupKwargs, StevedoreSetupKwargsRequest(request)
+    )
     kwargs["entry_points"] = {
         **stevedore_kwargs.kwargs["entry_points"],
         **kwargs.get("entry_points", {}),

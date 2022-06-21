@@ -107,7 +107,8 @@ async def inject_sibling_stevedore_extension_dependencies(
     request: InjectSiblingStevedoreExtensionDependencies,
 ) -> InjectedDependencies:
     sibling_targets = await Get(
-        Targets, AddressSpecs([SiblingAddresses(request.dependencies_field.address.spec_path)])
+        Targets,
+        AddressSpecs([SiblingAddresses(request.dependencies_field.address.spec_path)]),
     )
     stevedore_targets: List[StevedoreExtension] = [
         tgt for tgt in sibling_targets if tgt.has_field(StevedoreEntryPointsField)
@@ -130,5 +131,7 @@ def rules():
         PythonTestsGeneratorTarget.register_plugin_field(StevedoreNamespacesField),
         PythonTestTarget.register_plugin_field(StevedoreNamespacesField),
         UnionRule(InjectDependenciesRequest, InjectStevedoreNamespaceDependencies),
-        UnionRule(InjectDependenciesRequest, InjectSiblingStevedoreExtensionDependencies),
+        UnionRule(
+            InjectDependenciesRequest, InjectSiblingStevedoreExtensionDependencies
+        ),
     ]
