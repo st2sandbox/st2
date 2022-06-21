@@ -7,6 +7,7 @@ st2_component_python_distribution(
         "bin/st2notifier",
         "bin/st2workflowengine",
         "bin/st2scheduler",
+
         "bin/runners.sh:shell",  # used by service files installed by st2-packaging
 
 		# policies get wired up by metadata in st2common/st2common/policies/meta/*.yaml

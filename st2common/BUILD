@@ -78,10 +78,7 @@ st2_component_python_distribution(
         "bin/st2-purge-trigger-instances",
         "bin/st2-purge-traces",
         "bin/st2-purge-rule-enforcements",
-        "bin/st2-run-pack-tests:shell",
-        "bin/st2ctl:shell",
         "bin/st2-generate-symmetric-crypto-key",
-        "bin/st2-self-check:shell",
         "bin/st2-track-result",
         "bin/st2-validate-pack",
         "bin/st2-validate-pack-config",
@@ -89,6 +86,11 @@ st2_component_python_distribution(
         "bin/st2-pack-download",
         "bin/st2-pack-setup-virtualenv",
         "bin/migrations/v3.5/st2-migrate-db-dict-field-values",
+
+        "bin/st2-run-pack-tests:shell",
+        "bin/st2ctl:shell",
+        "bin/st2-self-check:shell",
+
 		# dev scripts we might want to include
         # "bin/st2-generate-schemas",
     ],

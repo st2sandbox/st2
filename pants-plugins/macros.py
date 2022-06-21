@@ -55,9 +55,33 @@ def st2_component_python_distribution(**kwargs):
     )
 
     dependencies = kwargs.pop("dependencies", [])
+
     for dep in [st2_component] + scripts:
+        dep = f"./{dep}"
         if dep not in dependencies:
-            dependencies.append(f"./{dep}")
+            dependencies.append(dep)
+
+        # see st2_shell_sources_and_resources below
+        if dep.endswith(":shell"):
+            dep_res = f"{dep}_resources"
+            if dep_res not in dependencies:
+                dependencies.append(dep_res)
+
     kwargs["dependencies"] = dependencies
 
     python_distribution(**kwargs)
+
+
+def st2_shell_sources_and_resources(**kwargs):
+    """This creates a shell_sources and a resources target.
+
+    This is needed because python_sources dependencies on shell_sources
+    are silently ignored. So, we also need the resources target
+    to allow depending on them.
+    """
+    shell_sources(**kwargs)
+
+    kwargs.pop("skip_shellcheck")
+
+    kwargs["name"] += "_resources"
+    resources(**kwargs)
