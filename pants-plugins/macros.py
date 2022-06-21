@@ -38,7 +38,7 @@ def st2_runner_python_distribution(**kwargs):
     kwargs["provides"] = python_artifact(  # noqa: F821
         name=f"stackstorm-runner-{runner_name.replace('_', '-')}",
         description=description,
-        # version=__version__, # TODO: from action_chain_runner import __version__
+        version_file=f"{runner_name}_runner/__init__.py",  # custom for our release plugin
         # test_suite="tests",
     )
 
@@ -68,7 +68,7 @@ def st2_component_python_distribution(**kwargs):
         scripts=[
             script[:-6] if script.endswith(":shell") else script for script in scripts
         ],
-        # version=get_version_string(INIT_FILE)  # TODO
+        version_file=f"{st2_component}/__init__.py",  # custom for our release plugin
         # test_suite=st2_component,
     )
 
