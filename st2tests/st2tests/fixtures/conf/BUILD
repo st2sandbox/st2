@@ -1,4 +1,4 @@
-files(
+resources(
     name="st2.tests.conf",
     sources=[
         "st2.tests*.conf",

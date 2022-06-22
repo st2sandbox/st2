@@ -1,4 +1,4 @@
-file(
+resource(
     name="pack_requirements",
     source="requirements.txt",
 )

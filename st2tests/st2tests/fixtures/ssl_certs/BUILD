@@ -1,4 +1,4 @@
-files(
+resources(
     name="artifacts",
     sources=[
         "**/*.cer",
