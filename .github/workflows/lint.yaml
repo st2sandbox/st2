@@ -90,7 +90,7 @@ jobs:
           COMMIT=$(git merge-base ${GITHUB_BASE_REF:-pants} HEAD | head -n1)
           echo MERGEBASE=${COMMIT}
           echo "::set-output name=MERGEBASE::${COMMIT}"
-      - name: Cache Pants Caches
+      - name: Cache Pants Caches (Python ${{ matrix.python-version }})
         uses: actions/cache@v2
         id: pants-cache
         with:
@@ -98,10 +98,10 @@ jobs:
             ~/.cache/pants/setup
             ~/.cache/pants/lmdb_store
             ~/.cache/pants/named_caches
-          key: ${{ runner.os }}-pants-${{ github.sha }}
+          key: ${{ runner.os }}-pants-py${{ matrix.python-version }}-${{ github.sha }}
           restore-keys: |
-            ${{ runner.os }}-pants-${{ steps.pants-cache-commit.outputs.MERGEBASE }}
-            ${{ runner.os }}-pants-
+            ${{ runner.os }}-pants-py${{ matrix.python-version }}-${{ steps.pants-cache-commit.outputs.MERGEBASE }}
+            ${{ runner.os }}-pants-py${{ matrix.python-version }}-
 
       - name: Cache Python Dependencies
         uses: actions/cache@v2
