@@ -40,7 +40,9 @@ def st2_runner_python_distribution(**kwargs):
         description=description,
         version_file=f"{runner_name}_runner/__init__.py",  # custom for our release plugin
         # test_suite="tests",
-        zip_safe=kwargs.pop("zip_safe", True),  # most runners are safe to run from a zipapp
+        zip_safe=kwargs.pop(
+            "zip_safe", True
+        ),  # most runners are safe to run from a zipapp
     )
 
     dependencies = kwargs.pop("dependencies", [])
