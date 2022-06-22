@@ -164,6 +164,7 @@ args = [
   "-lll",  # only HIGH severity level
   "--exclude",
   "build,dist",
+  "--quiet",  # only show output in the case of an error
 ]
 
 [black]
