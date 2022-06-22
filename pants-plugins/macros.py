@@ -51,6 +51,12 @@ def st2_runner_python_distribution(**kwargs):
             dependencies.append(dep)
     kwargs["dependencies"] = dependencies
 
+    repositories = kwargs.pop("repositories", [])
+    for repo in ["@pypi"]:
+        if repo not in repositories:
+            repositories.append(repo)
+    kwargs["repositories"] = repositories
+
     python_distribution(**kwargs)  # noqa: F821
 
 
@@ -90,6 +96,12 @@ def st2_component_python_distribution(**kwargs):
                 dependencies.append(dep_res)
 
     kwargs["dependencies"] = dependencies
+
+    repositories = kwargs.pop("repositories", [])
+    for repo in ["@pypi"]:
+        if repo not in repositories:
+            repositories.append(repo)
+    kwargs["repositories"] = repositories
 
     python_distribution(**kwargs)  # noqa: F821
 

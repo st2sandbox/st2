@@ -230,6 +230,10 @@ args = [
 ]
 execution_slot_var = "ST2TESTS_PARALLEL_SLOT"
 
+[twine]
+lockfile = "lockfiles/twine"
+version = "twine>=3.7.1,<3.8"
+
 [subprocess-environment]
 env_vars.add = [
   # vars to trigger injecting pydevd-pycharm
