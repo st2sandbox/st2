@@ -114,7 +114,6 @@ async def setup_kwargs_plugin(request: StackStormSetupKwargsRequest) -> SetupKwa
             "Bug Reports": "https://github.com/StackStorm/st2/issues",
         },
         license="Apache License, Version 2.0",
-        zip_safe=True,  # TODO: is there any reason to set this to False? It used to be false.
     )
 
     long_description = (
