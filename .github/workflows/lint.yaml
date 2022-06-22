@@ -120,13 +120,14 @@ jobs:
       #    key: ${{ runner.os }}-apt-v7-${{ hashFiles('scripts/github/apt-packages.txt') }}
       #    restore-keys: |
       #      ${{ runner.os }}-apt-v7-
-      #- name: Install APT Depedencies
-      #  env:
-      #    CACHE_HIT: ${{steps.cache-apt-deps.outputs.cache-hit}}
-      #  run: |
-      #    # install dev dependencies for Python YAML and LDAP packages
-      #    # https://github.com/StackStorm/st2-auth-ldap
-      #    ./scripts/github/install-apt-packages-use-cache.sh
+      - name: Install APT Depedencies
+        env:
+          CACHE_HIT: 'false' # cache doesn't work
+          #CACHE_HIT: ${{steps.cache-apt-deps.outputs.cache-hit}}
+        run: |
+          # install dev dependencies for Python YAML and LDAP packages
+          # https://github.com/StackStorm/st2-auth-ldap
+          ./scripts/github/install-apt-packages-use-cache.sh
 
       - name: Bootstrap Pants
         run: |
