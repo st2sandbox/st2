@@ -16,7 +16,7 @@ from dataclasses import dataclass
 from typing import List, Tuple
 
 from pants.backend.python.goals.setup_py import SetupKwargsRequest
-from pants.base.specs import AddressSpecs, SiblingAddresses
+from pants.base.specs import DirGlobSpec, RawSpecs
 from pants.engine.addresses import Address
 from pants.engine.rules import collect_rules, Get, MultiGet, rule
 from pants.engine.target import Targets
@@ -74,7 +74,8 @@ async def stevedore_kwargs_for_setup_py(
     address: Address = request.target.address
 
     sibling_targets = await Get(
-        Targets, AddressSpecs([SiblingAddresses(address.spec_path)])
+        Targets,
+        RawSpecs(dir_globs=(DirGlobSpec(address.spec_path),)),
     )
     stevedore_targets: List[StevedoreExtension] = [
         tgt for tgt in sibling_targets if tgt.has_field(StevedoreEntryPointsField)
