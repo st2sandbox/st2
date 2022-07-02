@@ -8,6 +8,7 @@ repo_id = "de0dea7a-9f6a-4c6e-aa20-6ba5ad969b8a"
 [GLOBAL]
 pants_version = "2.13.0a1"
 use_deprecated_directory_cli_args_semantics = false
+use_deprecated_pex_binary_run_semantics = false
 pythonpath = ["%(buildroot)s/pants-plugins"]
 build_file_prelude_globs = ["pants-plugins/macros.py"]
 backend_packages = [

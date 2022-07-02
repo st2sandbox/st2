@@ -75,7 +75,10 @@ async def stevedore_kwargs_for_setup_py(
 
     sibling_targets = await Get(
         Targets,
-        RawSpecs(dir_globs=(DirGlobSpec(address.spec_path),)),
+        RawSpecs(
+            dir_globs=(DirGlobSpec(address.spec_path),),
+            description_of_origin="stevedore_kwargs_for_setup_py",
+        ),
     )
     stevedore_targets: List[StevedoreExtension] = [
         tgt for tgt in sibling_targets if tgt.has_field(StevedoreEntryPointsField)
