@@ -1,7 +1,8 @@
+__defaults__({python_tests: dict(tags=["integration"])})
+
 python_tests(
     name="tests",
     skip_pylint=True,
-    tags=["integration"],
     stevedore_namespaces=[
         "orquesta.expressions.functions",
         "st2common.runners.runner",

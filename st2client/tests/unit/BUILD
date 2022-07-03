@@ -1,3 +1,5 @@
+__defaults__({python_tests: dict(tags=["unit"])})
+
 python_tests(
     name="tests",
     timeout=120,
@@ -7,7 +9,6 @@ python_tests(
         "st2client/tests/base.py",
     ],
     skip_pylint=True,
-    tags=["unit"],
 )
 
 python_sources(skip_pylint=True)
