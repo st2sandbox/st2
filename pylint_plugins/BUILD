@@ -1,6 +1,10 @@
-python_sources(
-    resolve="pylint_plugins",
+__defaults__(
+    all=dict(
+        resolve="pylint_plugins",
+    )
 )
+
+python_sources()
 
 python_requirement(
     name="pylint",
@@ -10,19 +14,16 @@ python_requirement(
         # other requirements in [pylint].extra_requirements in pants.toml
         "setuptools",
     ],
-    resolve="pylint_plugins",
 )
 
 python_requirement(
     name="astroid",
     # The version of astroid is constrained by the pylint version above
     requirements=["astroid"],
-    resolve="pylint_plugins",
 )
 
 python_tests(
     name="tests",
-    resolve="pylint_plugins",
     dependencies=[
         "!//conftest.py:root",
     ],
