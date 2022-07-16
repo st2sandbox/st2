@@ -6,7 +6,7 @@ enabled = false
 repo_id = "de0dea7a-9f6a-4c6e-aa20-6ba5ad969b8a"
 
 [GLOBAL]
-pants_version = "2.14.0.dev0"
+pants_version = "2.14.0.dev2"
 pythonpath = ["%(buildroot)s/pants-plugins"]
 build_file_prelude_globs = ["pants-plugins/macros.py"]
 backend_packages = [
@@ -128,7 +128,7 @@ interpreter_constraints = [
 # tailor recommends adding a `pex_binary` target for every python
 # file that has an `if __name__ == "__main__":` block.
 # But those are mostly just for testing purposes. So, ignore them for now.
-tailor_pex_binary_targets = false
+# tailor_pex_binary_targets = false # defaults to false from 2.14.0.dev1
 # Any solitary __init__.py files we have are empty. So, leave the default (true).
 #tailor_ignore_solitary_init_files = true
 
