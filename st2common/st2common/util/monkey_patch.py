@@ -45,9 +45,14 @@ def monkey_patch(patch_thread=None):
                          patched unless debugger is used.
     :type patch_thread: ``bool``
     """
-    os.environ["GEVENT_SUPPORT"] = "True"
+    use_debugger = is_use_debugger_flag_provided()
 
-    if os.environ.get("ST2_PYCHARM_DEBUG", False):
+    if use_debugger and os.environ.get("ST2_PYCHARM_DEBUG", False):
+
+        # pydevd_pycharm uses this to save copies of stdlib modules before
+        # eventlet monkey patches them, or the debugger will not work.
+        # see: https://intellij-support.jetbrains.com/hc/en-us/community/posts/360000333980
+        os.environ["GEVENT_SUPPORT"] = "True"
 
         import pydevd_pycharm
 
@@ -68,7 +73,7 @@ def monkey_patch(patch_thread=None):
     from socket import timeout
 
     if patch_thread is None:
-        patch_thread = not is_use_debugger_flag_provided()
+        patch_thread = not use_debugger
 
     eventlet.monkey_patch(
         os=True, select=True, socket=True, thread=patch_thread, time=True
