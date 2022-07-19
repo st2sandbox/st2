@@ -30,6 +30,7 @@ __all__ = [
 
 USE_DEBUGGER_FLAG = "--use-debugger"
 PARENT_ARGS_FLAG = "--parent-args="
+USE_DEBUGGER_ENV_VAR = "ST2_USE_DEBUGGER"
 
 
 def monkey_patch(patch_thread=None):
@@ -136,8 +137,8 @@ def is_use_debugger_flag_provided():
         if arg.startswith(PARENT_ARGS_FLAG) and USE_DEBUGGER_FLAG in arg:
             return True
 
-    # 3. Check for ST2_PYCHARM_DEBUG env var
-    if os.environ.get("ST2_PYCHARM_DEBUG", False):
+    # 3. Check for ST2_USE_DEBUGGER env var
+    if os.environ.get(USE_DEBUGGER_ENV_VAR, False):
         return True
 
     return False
