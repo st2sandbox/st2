@@ -91,7 +91,6 @@ MODEL_MODULE_NAMES = [
     "st2common.models.db.trigger",
     "st2common.models.db.webhook",
     "st2common.models.db.workflow",
-    "st2common.models.db.marker",
 ]
 
 # A list of model names for which we don't perform extra index cleanup

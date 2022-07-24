@@ -18,7 +18,6 @@ st2_component_python_distribution(
         "./st2common/models/system/paramiko_command_action.py",
         "./st2common/models/system/paramiko_script_action.py",
         "./st2common/persistence/execution_queue.py",
-        "./st2common/persistence/marker.py",  # TODO: drop with st2exporter removal
         "./st2common/policies/concurrency.py",
         "./st2common/transport/consumers.py",
         "./st2common/validators/api/misc.py",

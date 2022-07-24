@@ -19,6 +19,11 @@ Fixed
 
   Contributed by @S-T-A-R-L-O-R-D
 
+
+* Fixed ``st2client/st2client/base.py`` file to use ``https_proxy``(not ``http_proxy``) to check HTTPS_PROXY environment variables.
+
+  Contributed by @wfgydbu
+
 Added
 ~~~~~
 
@@ -27,6 +32,9 @@ Added
 
 * Add ``ST2_USE_DEBUGGER`` env var as alternative to the ``--use-debugger`` cli flag. #5675
   Contributed by @cognifloyd
+
+* Added purging of old tokens. #56791
+  Contributed by Amanda McGuinness (@amanda11 intive)
 
 Changed
 ~~~~~~~
@@ -65,6 +73,19 @@ Changed
 
   #5319
 
+  Contributed by @cognifloyd
+
+* Changed the `X-XSS-Protection` HTTP header from `1; mode=block` to `0` in the `conf/nginx/st2.conf` to align with the OWASP security standards. #5298
+
+  Contributed by @LiamRiddell
+
+Removed
+~~~~~~~
+
+* Removed st2exporter service. It is unmaintained and does not get installed. It was
+  originally meant to help with analytics by exporting executions as json files that
+  could be imported into something like elasticsearch. Our code is now instrumented
+  to make a wider variety of stats available to metrics drivers. #5676
   Contributed by @cognifloyd
 
 3.7.0 - May 05, 2022

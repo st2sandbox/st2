@@ -23,7 +23,6 @@ python_sources(
                 "./trigger.py",
                 "./webhook.py",
                 "./workflow.py",
-                "./marker.py",  # TODO: drop with st2exporter removal
                 # these are not included on purpose
                 # "./reactor.py",  # convenience imports (no models)
                 # "./timer.py",  # meta model that is not persisted in db
