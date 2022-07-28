@@ -13,7 +13,7 @@ Fixed
   or arrays using ``additionalItems`` schema(s) can use encrypted datastore keys and have their
   default values applied correctly. #5321
 
-  Contributed by @cognifloyd.
+  Contributed by @cognifloyd
 
 * Fixed ``st2client/st2client/base.py`` file to check for http_proxy and https_proxy environment variables for both lower and upper cases.
 
@@ -23,6 +23,9 @@ Fixed
 * Fixed ``st2client/st2client/base.py`` file to use ``https_proxy``(not ``http_proxy``) to check HTTPS_PROXY environment variables.
 
   Contributed by @wfgydbu
+
+* Fixed schema utils to more reliably handle schemas that define nested arrays (object-array-object-array-string) as discovered in some
+  of the ansible installer RBAC tests (see #5684). This includes a test that reproduced the error so we don't hit this again. #5685
 
 Added
 ~~~~~
@@ -78,6 +81,11 @@ Changed
 * Changed the `X-XSS-Protection` HTTP header from `1; mode=block` to `0` in the `conf/nginx/st2.conf` to align with the OWASP security standards. #5298
 
   Contributed by @LiamRiddell
+
+* Use PEP 440 direct reference requirements instead of legacy PIP VCS requirements. Now, our ``*.requirements.txt`` files use
+  ``package-name@ git+https://url@version ; markers`` instead of ``git+https://url@version#egg=package-name ; markers``. #5673
+
+  Contributed by @cognifloyd
 
 Removed
 ~~~~~~~
