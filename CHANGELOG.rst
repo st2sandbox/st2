@@ -27,6 +27,8 @@ Fixed
 * Fixed schema utils to more reliably handle schemas that define nested arrays (object-array-object-array-string) as discovered in some
   of the ansible installer RBAC tests (see #5684). This includes a test that reproduced the error so we don't hit this again. #5685
 
+* Fixed eventlet monkey patching so more of the unit tests work under pytest. #5689
+
 Added
 ~~~~~
 
@@ -36,7 +38,7 @@ Added
 * Add ``ST2_USE_DEBUGGER`` env var as alternative to the ``--use-debugger`` cli flag. #5675
   Contributed by @cognifloyd
 
-* Added purging of old tokens. #56791
+* Added purging of old tokens. #5679
   Contributed by Amanda McGuinness (@amanda11 intive)
 
 Changed
@@ -84,7 +86,12 @@ Changed
 
 * Use PEP 440 direct reference requirements instead of legacy PIP VCS requirements. Now, our ``*.requirements.txt`` files use
   ``package-name@ git+https://url@version ; markers`` instead of ``git+https://url@version#egg=package-name ; markers``. #5673
+  Contributed by @cognifloyd
 
+* Move from udatetime to ciso8601 for date functionality ahead of supporting python3.9 #5692
+  Contributed by Amanda McGuinness (@amanda11 intive)
+
+* Refactor tests to use python imports to identify test fixtures. #5699 #5702 #5703
   Contributed by @cognifloyd
 
 Removed
