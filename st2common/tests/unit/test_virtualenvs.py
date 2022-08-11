@@ -33,6 +33,11 @@ import st2common.util.virtualenvs as virtualenvs
 from st2common.util.virtualenvs import install_requirement
 from st2common.util.virtualenvs import install_requirements
 from st2common.util.virtualenvs import setup_pack_virtualenv
+from st2tests.fixtures.packs.dummy_pack_1.fixture import PACK_NAME as DUMMY_PACK_1
+from st2tests.fixtures.packs.dummy_pack_2.fixture import PACK_NAME as DUMMY_PACK_2
+from st2tests.fixtures.packs.pack_invalid_requirements.fixture import (
+    PACK_NAME as PACK_INVALID_REQUIREMENTS,
+)
 
 
 __all__ = ["VirtualenvUtilsTestCase"]
