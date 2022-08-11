@@ -43,7 +43,7 @@ from st2common.transport import liveaction as lv_ac_xport
 from st2common.transport import publishers
 from st2tests.fixtures.packs.core.fixture import PACK_PATH as CORE_PACK_PATH
 from st2tests.fixtures.packs.dummy_pack_7.fixture import (
-    PACK_NAME as PACK_7,
+    PACK_DIR_NAME as PACK_7,
     PACK_PATH as PACK_7_PATH,
 )
 from st2tests.fixtures.packs.orquesta_tests.fixture import PACK_PATH as TEST_PACK_PATH

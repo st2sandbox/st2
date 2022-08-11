@@ -1,4 +1,4 @@
-# Copyright 2021 The StackStorm Authors.
+# Copyright 2022 The StackStorm Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,4 +13,5 @@
 # limitations under the License.
 from st2tests import fixturesloader
 
-PACK_NAME, PACK_PATH = fixturesloader.get_fixture_name_and_path(__file__)
+PACK_NAME = "pack_name_not_the_same_as_dir_name"
+PACK_DIR_NAME, PACK_PATH = fixturesloader.get_fixture_name_and_path(__file__)
