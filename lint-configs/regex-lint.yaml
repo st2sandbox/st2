@@ -41,7 +41,7 @@ required_matches:
     # In router.py, "st2stream" is a string, not an import.
     - must_not_import_st2stream
 
-path_patterns: 
+path_patterns:
   #- name: python_source
   #  pattern: (?<!__init__)\.py$
   #- name: build_files
@@ -57,7 +57,7 @@ path_patterns:
 
   - name: st2common_except_router
     pattern: st2common/st2common/(?!router\.py).*\.py$
-  
+
 content_patterns:
   #- name: python_header
   #  pattern: |+
