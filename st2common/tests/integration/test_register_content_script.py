@@ -33,6 +33,7 @@ from st2tests.fixtures.packs_1.dummy_pack_4.fixture import PACK_PATH as EMPTY_PA
 # import this so that pants can infer dependencies for the glob below
 from st2tests.fixtures.packs.dummy_pack_1.fixture import PACK_PATH as DUMMY_PACK_1_PATH
 from st2tests.fixtures.packs.dummy_pack_4.fixture import PACK_PATH as DUMMY_PACK_4_PATH
+from st2tests.fixtures.packs.runners.fixture import FIXTURE_PATH as RUNNER_DIRS
 from st2tests.fixtures.packs_1.dummy_pack_4.fixture import PACK_PATH as EMPTY_PACK_PATH
 
 

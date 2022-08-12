@@ -1,4 +1,4 @@
-# Copyright 2021 The StackStorm Authors.
+# Copyright 2022 The StackStorm Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,6 +11,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-from st2tests import fixturesloader
+import os
 
-FIXTURE_NAME, FIXTURE_PATH = fixturesloader.get_fixture_name_and_path(__file__)
+# Warning: Do not import fixturesloader to avoid breaking
+#   st2common/tests/integration/log_unicode_data.py
+FIXTURE_PATH = os.path.dirname(__file__)
