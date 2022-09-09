@@ -1,0 +1,48 @@
+---
+name: Initialize Pantsbuild Environment
+description: |
+  Install pants and its dependencies and prepare pants caches.
+author: StackStorm
+
+inputs:
+  pants-python-version:
+    required: false
+    default: '3.9'
+  base-branch:
+    required: false
+    default: master
+  gha-cache-key:
+    required: true
+    # generally the matrix.python-version used for st2 itself
+
+runs:
+  using: "composite"
+  steps:
+    - name: 'Set up Python for Pants (${{ inputs.pants-python-version }})'
+      uses: actions/setup-python@v2
+      with:
+        python-version: '${{ inputs.pants-python-version }}'
+
+    - name: Get Pants Cache Merge Base Commit (base branch commit to pull cache from)
+      id: pants-cache-commit
+      run: |
+        COMMIT=$(git merge-base ${GITHUB_BASE_REF:-${{ inputs.base-branch }}} HEAD | head -n1)
+        echo MERGEBASE=${COMMIT}
+        echo "::set-output name=MERGEBASE::${COMMIT}"
+
+    - name: Cache Pants Caches (${{ inputs.gha-cache-key }})
+      uses: actions/cache@v2
+      id: pants-cache
+      with:
+        path: |
+          ~/.cache/pants/setup
+          ~/.cache/pants/lmdb_store
+          ~/.cache/pants/named_caches
+        key: ${{ runner.os }}-pants-${{ inputs.gha-cache-key }}-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-pants-${{ inputs.gha-cache-key }}-${{ steps.pants-cache-commit.outputs.MERGEBASE }}
+          ${{ runner.os }}-pants-${{ inputs.gha-cache-key }}-
+
+      - name: Bootstrap Pants
+        run: |
+          ./pants --version
