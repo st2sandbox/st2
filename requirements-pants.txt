@@ -26,8 +26,6 @@ orquesta @ git+https://github.com/StackStorm/orquesta.git@v1.5.0
 # See https://github.com/StackStorm/st2/issues/4160#issuecomment-394386433 for details
 oslo.config>=1.12.1,<1.13
 paramiko
-# pika used by tools/direct_queue_publisher.py
-pika
 # prance is used by st2-validate-api-spec to validate the openapi spec
 # prance needs flex, but do not use the extra as that gets an old version.
 prance
