@@ -6,7 +6,7 @@ enabled = false
 repo_id = "de0dea7a-9f6a-4c6e-aa20-6ba5ad969b8a"
 
 [GLOBAL]
-pants_version = "2.14.0.dev2"
+pants_version = "2.14.0rc1"
 pythonpath = ["%(buildroot)s/pants-plugins"]
 build_file_prelude_globs = ["pants-plugins/macros.py"]
 backend_packages = [
@@ -47,16 +47,12 @@ plugins = [
   #"distro",  # dep of the pex
   "invoke==1.7.1",
 ]
-pants_ignore = [
-  ".*/",  # . directories
-  "/dist/",
-  # TODO: remove these, replace with pyproject.toml
+# pants ignores files in .gitignore, .*/ directories, /dist/ directory, and __pycache__.
+pants_ignore.add = [
+  # TODO: remove these once we start building wheels with pants.
   "dist_utils.py",
   "setup.py",
   # keep tailor from using legacy requirements files (not for pants)
-  "/fixed-requirements.txt",
-  "/requirements.txt",
-  "/test-requirements.txt",
   "contrib/examples/requirements.txt",
   "contrib/hello_st2/requirements.txt",
   "contrib/runners/*/in-requirements.txt",
@@ -64,6 +60,11 @@ pants_ignore = [
   "st2*/in-requirements.txt",
   "st2*/requirements.txt",
   "st2common/tests/fixtures/requirements-used-for-tests.txt",
+  "/fixed-requirements.txt",
+  "/test-requirements.txt",
+  # keep requirements.txt for now. We might ignore it if we need an alternate interrim
+  # file that is decoupled from our legacy requirements files generation.
+  "/requirements.txt",
 ]
 
 [source]
