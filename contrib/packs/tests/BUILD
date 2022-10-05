@@ -5,7 +5,3 @@ python_tests(
         "./fixtures",
     ],
 )
-
-python_sources(
-    name="tests0",
-)

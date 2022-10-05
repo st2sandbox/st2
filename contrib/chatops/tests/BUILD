@@ -4,9 +4,7 @@ files(
 )
 
 python_tests(
-    name="tests0",
+    name="tests",
     dependencies=[":fixtures"],
     skip_pylint=True,
 )
-
-python_sources(skip_pylint=True)
