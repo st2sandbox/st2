@@ -1,4 +1,4 @@
-shell_sources(
-    sources=["send_mail"],
+shell_source(
+    source="send_mail",
     skip_shellcheck=True,
 )

@@ -6,5 +6,5 @@ python_sources(skip_pylint=True)
 #   - version_file.py
 
 shell_sources(
-    name="fixtures0",
+    name="shell",
 )
