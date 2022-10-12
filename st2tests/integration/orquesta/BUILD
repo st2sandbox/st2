@@ -4,4 +4,7 @@ python_tests(
     tags=["integration"],
 )
 
-python_sources(skip_pylint=True)
+python_test_utils(
+    sources=["*.py", "!test_*.py"],
+    skip_pylint=True,
+)
