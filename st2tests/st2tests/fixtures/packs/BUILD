@@ -1,5 +1,3 @@
-python_sources()
-
 # The files in test_content_version* targets are in ./test_content_version
 # which is a git submodule. pack_metadata_in_git_submodule will error with
 # instructions on how to checkout the submodules if they are not checked out.
@@ -37,7 +35,7 @@ python_sources(
 )
 
 # Please make sure to register all of the packs in this dir.
-# For each pack, depend on the python_library target (which depends on pack_metadata).
+# For each pack, depend on the python_source targets (which depends on pack_metadata).
 target(
     name="all_packs",
     dependencies=[

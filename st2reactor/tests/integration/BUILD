@@ -8,5 +8,3 @@ python_tests(
         "conf/st2.tests2.conf:st2_tests_conf",
     ],
 )
-
-python_sources(skip_pylint=True)

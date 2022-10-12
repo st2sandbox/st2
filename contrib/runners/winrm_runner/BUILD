@@ -1,5 +1,3 @@
-# python_sources(skip_pylint=True)  # setup.py
-
 python_requirement(
     name="winrm",
     requirements=["pywinrm"],

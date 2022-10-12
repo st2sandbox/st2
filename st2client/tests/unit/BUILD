@@ -10,5 +10,3 @@ python_tests(
     ],
     skip_pylint=True,
 )
-
-python_sources(skip_pylint=True)

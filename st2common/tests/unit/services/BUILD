@@ -9,5 +9,3 @@ python_tests(
         "st2common.metrics.driver",
     ],
 )
-
-python_sources(skip_pylint=True)

@@ -7,5 +7,3 @@ python_tests(
         "conf/st2.tests.conf:st2_tests_conf",
     ],
 )
-
-python_sources(skip_pylint=True)

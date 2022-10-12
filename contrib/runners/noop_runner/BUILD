@@ -1,5 +1,3 @@
-# python_sources(skip_pylint=True)  # setup.py
-
 stevedore_extension(
     name="runner",
     namespace="st2common.runners.runner",
