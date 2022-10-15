@@ -19,7 +19,6 @@ python_sources(
                 "st2api/st2api/config.py",
                 "st2auth/st2auth/config.py",
                 "st2common/st2common/config.py",
-                "st2exporter/st2exporter/config.py",
                 "st2reactor/st2reactor/garbage_collector/config.py",
                 "st2reactor/st2reactor/timer/config.py",
                 "st2reactor/st2reactor/sensor/config.py",

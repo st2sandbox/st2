@@ -34,7 +34,6 @@ files(
     dependencies=[
         "st2auth/conf:htpasswd",
         "st2actions/conf:logging",
-        "st2exporter/conf:logging",
         "st2reactor/conf:logging",
         "st2tests/conf:other-logging-conf",
     ],
@@ -51,7 +50,6 @@ files(
         "st2actions/conf:logging",
         "st2api/conf:logging",
         "st2auth/conf:logging",
-        "st2exporter/conf:logging",
         "st2reactor/conf:logging",
         "st2stream/conf:logging",
     ],
