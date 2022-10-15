@@ -27,7 +27,6 @@ required_matches:
     - must_not_import_st2reactor
     - must_not_import_st2api
     - must_not_import_st2auth
-    - must_not_import_st2exporter
     #- must_not_import_st2actions
     #- must_not_import_st2stream
   st2common_except_services_inquiry:
@@ -99,8 +98,5 @@ content_patterns:
 
   - name: must_not_import_st2stream
     pattern: st2stream
-    inverted: true
 
-  - name: must_not_import_st2exporter
-    pattern: st2exporter
     inverted: true
