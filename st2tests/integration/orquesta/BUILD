@@ -1,6 +1,5 @@
 python_tests(
     name="tests",
-    tags=["integration"],
 )
 
 python_test_utils(
