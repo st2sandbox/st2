@@ -52,6 +52,7 @@ python_requirement(
 
 python_test_utils(
     name="root",
+    skip_pylint=True,
 )
 
 file(

@@ -3,7 +3,3 @@ __defaults__(
         skip_pylint=True,
     )
 )
-
-python_test_utils(
-    sources=["*.py"],
-)
