@@ -1,6 +1,5 @@
 python_tests(
     name="tests",
-    skip_pylint=True,
     uses=["mongo"],
     stevedore_namespaces=[
         "orquesta.expressions.functions",

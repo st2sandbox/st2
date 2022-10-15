@@ -9,6 +9,5 @@ resources(
 )
 
 python_sources(
-    skip_pylint=True,
     dependencies=[":execution_fixtures"],
 )

@@ -4,6 +4,5 @@ files(
 )
 
 python_sources(
-    skip_pylint=True,
     dependencies=[":powershell"],
 )

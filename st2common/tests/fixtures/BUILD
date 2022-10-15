@@ -1,4 +1,4 @@
-python_sources(skip_pylint=True)
+python_sources()
 
 # Ignore dist_utils with pants.
 # These files are only needed for tests/unit/test_dist_utils.py
