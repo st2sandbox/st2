@@ -116,22 +116,13 @@ root_patterns = [
 ]
 
 [python]
-#resolver_version = "pip-2020-resolver"
+# resolver_version is always "pip-2020-resolver". legacy is not supported.
 enable_resolves = true
-lockfile_generator = "pex"
 default_resolve = "st2"
 interpreter_constraints = [
   # python_distributions needs a single constraint.
   "CPython>=3.6,!=3.7.*,<3.9",
-  #"CPython==3.6.*",
-  #"CPython==3.8.*",
 ]
-# tailor recommends adding a `pex_binary` target for every python
-# file that has an `if __name__ == "__main__":` block.
-# But those are mostly just for testing purposes. So, ignore them for now.
-# tailor_pex_binary_targets = false # defaults to false from 2.14.0.dev1
-# Any solitary __init__.py files we have are empty. So, leave the default (true).
-#tailor_ignore_solitary_init_files = true
 
 [python.resolves]
 st2 = "lockfiles/st2"
