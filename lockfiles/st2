@@ -27,7 +27,7 @@
 //     "jsonschema",
 //     "kombu",
 //     "lockfile",
-//     "logshipper@ git+https://github.com/StackStorm/logshipper.git@stackstorm_patched;platform_system==\"Linux\"",
+//     "logshipper@ git+https://github.com/StackStorm/logshipper.git@stackstorm_patched ; platform_system==\"Linux\"",
 //     "mail-parser==3.15.0",
 //     "mock",
 //     "mongoengine",
@@ -1513,7 +1513,7 @@
           "requires_dists": [
             "eventlet",
             "pika",
-            "pyinotify",
+            "pyinotify; platform_system == \"Linux\"",
             "python-dateutil",
             "python-statsd",
             "pytz",
@@ -3655,7 +3655,7 @@
           "artifacts": [
             {
               "algorithm": "sha256",
-              "hash": "6847dc7e75bc67b12f854f26bc0075a37423ae6250b8c93a610ddcba8c4d4092",
+              "hash": "03816bc31278cbaec2570af359a4f04d3a6548515eec5734ff43e02f60dd5a57",
               "url": "git+https://github.com/StackStorm/st2-auth-ldap.git@master"
             }
           ],
@@ -4605,7 +4605,7 @@
     "jsonschema",
     "kombu",
     "lockfile",
-    "logshipper",
+    "logshipper; platform_system == \"Linux\"",
     "mail-parser==3.15.0",
     "mock",
     "mongoengine",
