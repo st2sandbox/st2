@@ -148,7 +148,9 @@ pants-plugins = [
 generate_setup_default = true # true by default
 
 [setuptools]
-lockfile = "lockfiles/setuptools"
+# setuptools 59.7 (at least) does not support python 3.6
+version = "setuptools>=50.3.0,<59.0"
+lockfile = "lockfiles/setuptools.lock"
 
 [bandit]
 lockfile = "lockfiles/bandit.lock"
