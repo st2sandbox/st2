@@ -127,7 +127,7 @@ interpreter_constraints = [
 [python.resolves]
 st2 = "lockfiles/st2.lock"
 pylint_plugins = "lockfiles/pylint_plugins.lock" # lockfiles/pylint.lock should have same contents
-pants-plugins = "lockfiles/pants-plugins"
+pants-plugins = "lockfiles/pants-plugins.lock"
 
 [python.resolves_to_constraints_file]
 # Our direct requirements are in requirements-pants.txt;
