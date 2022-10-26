@@ -212,8 +212,8 @@ args = [
 ]
 
 [pytest]
-lockfile = "lockfiles/pytest"
-version = "pytest>=6.0.1,<6.3"
+lockfile = "lockfiles/pytest.lock"
+version = "pytest==7.0.1"  # copied from https://www.pantsbuild.org/v2.14/docs/reference-pytest#version
 extra_requirements.add = [
   "pytest-benchmark[histogram]==3.4.1",
   #"pytest-timer[colorama]",  # report test timing (--with-timer ala nose-timer)
@@ -222,10 +222,11 @@ extra_requirements.add = [
 
   # other possible plugins
   #"pytest-timeout",  # time limit on tests
-  #"pytest-cov",  # coverage
   #"pytest-mock",  # more convenient mocking
 
-  # do not add: xdist (pants runs tests in parallel already)
+  # included by default with pants
+  #"pytest-cov",  # coverage
+  #"pytest-xdist",  # parallel test runs (part of how pants' manages parallelization)
 ]
 args = [
   "--no-header",  # don't print pytest version for every tested file
