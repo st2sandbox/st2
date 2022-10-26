@@ -126,7 +126,7 @@ interpreter_constraints = [
 
 [python.resolves]
 st2 = "lockfiles/st2.lock"
-pylint_plugins = "lockfiles/pylint_plugins" # lockfiles/pylint should have same contents
+pylint_plugins = "lockfiles/pylint_plugins.lock" # lockfiles/pylint.lock should have same contents
 pants-plugins = "lockfiles/pants-plugins"
 
 [python.resolves_to_constraints_file]
@@ -184,7 +184,7 @@ extra_requirements = [
 config = "lint-configs/python/.flake8"
 
 [pylint]
-lockfile = "lockfiles/pylint"
+lockfile = "lockfiles/pylint.lock"
 version = "pylint~=2.8.2"
 # < 2.7 doesn't work with the version of astroid pinned for the plugin
 extra_requirements = [
