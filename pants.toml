@@ -125,7 +125,7 @@ interpreter_constraints = [
 ]
 
 [python.resolves]
-st2 = "lockfiles/st2"
+st2 = "lockfiles/st2.lock"
 pylint_plugins = "lockfiles/pylint_plugins" # lockfiles/pylint should have same contents
 pants-plugins = "lockfiles/pants-plugins"
 
