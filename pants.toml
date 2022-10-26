@@ -129,6 +129,11 @@ st2 = "lockfiles/st2"
 pylint_plugins = "lockfiles/pylint_plugins" # lockfiles/pylint should have same contents
 pants-plugins = "lockfiles/pants-plugins"
 
+[python.resolves_to_constraints_file]
+# Our direct requirements are in requirements-pants.txt;
+# put indirect/transitive version constraints here:
+st2 = "lockfiles/st2-constraints.txt"
+
 [python.resolves_to_interpreter_constraints]
 pants-plugins = [
   # See: https://www.pantsbuild.org/docs/prerequisites
