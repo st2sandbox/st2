@@ -32,7 +32,6 @@ backend_packages = [
 
   # internal plugins in pants-plugins/
   "pants.backend.plugin_development",
-  # TODO: move these under a plugins namespace so they're not top-level
   "uses_services",
   "sample_conf",
   "schemas",
