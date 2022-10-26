@@ -15,6 +15,7 @@ pack_metadata_in_git_submodule(
 
 st2_shell_sources_and_resources(
     name="test_content_version_shell",
+    # do not check across git submodule boundary
     skip_shellcheck=True,
     sources=[
         "test_content_version/**/*.sh",
@@ -23,6 +24,7 @@ st2_shell_sources_and_resources(
 
 python_sources(
     name="test_content_version",
+    # do not fmt across git submodule boundary
     skip_black=True,
     dependencies=[
         ":test_content_version_metadata",
