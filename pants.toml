@@ -234,7 +234,7 @@ args = [
 execution_slot_var = "ST2TESTS_PARALLEL_SLOT"
 
 [twine]
-lockfile = "lockfiles/twine"
+lockfile = "lockfiles/twine.lock"
 version = "twine>=3.7.1,<3.8"
 
 [subprocess-environment]
