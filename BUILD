@@ -4,6 +4,7 @@ python_requirements(
     module_mapping={
         "gitpython": ["git"],
         "python-editor": ["editor"],
+        "python-json-logger": ["pythonjsonlogger"],
         "python-statsd": ["statsd"],
         "sseclient-py": ["sseclient"],
         "oslo.config": ["oslo_config"],
@@ -26,6 +27,13 @@ python_requirements(
         "stevedore": {
             "dependencies": [
                 "//:reqs#setuptools",
+            ]
+        },
+		# tooz needs one or more backends (tooz is used by the st2 coordination backend)
+        "tooz": {
+            "dependencies": [
+                "//:reqs#redis",
+                "//:reqs#zake",
             ]
         },
         # make sure anything that uses st2-auth-ldap gets the st2auth constant
