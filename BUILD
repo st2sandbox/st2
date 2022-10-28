@@ -2,7 +2,6 @@ python_requirements(
     name="reqs",
     source="requirements-pants.txt",
     module_mapping={
-        "gitpython": ["git"],
         "python-editor": ["editor"],
         "python-json-logger": ["pythonjsonlogger"],
         "python-statsd": ["statsd"],
@@ -11,8 +10,8 @@ python_requirements(
         "RandomWords": ["random_words"],
     },
     overrides={
-        # flex uses pkg_resources w/o declaring the dep
-        "flex": {
+        # flex and stevedore uses pkg_resources w/o declaring the dep
+        ("flex", "stevedore"): {
             "dependencies": [
                 "//:reqs#setuptools",
             ]
@@ -23,13 +22,7 @@ python_requirements(
                 "//:reqs#flex",
             ]
         },
-        # stevedore uses pkg_resources w/o declaring the dep
-        "stevedore": {
-            "dependencies": [
-                "//:reqs#setuptools",
-            ]
-        },
-		# tooz needs one or more backends (tooz is used by the st2 coordination backend)
+        # tooz needs one or more backends (tooz is used by the st2 coordination backend)
         "tooz": {
             "dependencies": [
                 "//:reqs#redis",
