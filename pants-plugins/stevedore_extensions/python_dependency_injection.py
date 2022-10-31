@@ -125,7 +125,7 @@ async def infer_sibling_stevedore_extension_dependencies(
     ]
 
     if not stevedore_targets:
-        return InferredDependencies()
+        return InferredDependencies(())
 
     addresses = [extension_tgt.address for extension_tgt in stevedore_targets]
     result: OrderedSet[Address] = OrderedSet(addresses)
