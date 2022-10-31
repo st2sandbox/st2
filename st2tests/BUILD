@@ -5,7 +5,6 @@ st2_component_python_distribution(
         "./st2tests/policies/meta",
         "./st2tests/mocks",
         "./st2tests/mocks/runners",
-        "./st2tests/fixtures",
         # fixture packs
         "./st2tests/fixtures/child_packs_glob",  # provides get_fixtures_base_path()
         "./st2tests/fixtures:rbac_fixtures",
