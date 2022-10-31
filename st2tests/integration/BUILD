@@ -1,4 +1,9 @@
-__defaults__({python_tests: dict(tags=["integration"])})
+__defaults__(
+    {python_tests: dict(tags=["integration"])},
+    all=dict(
+        skip_pylint=True,
+    ),
+)
 
 shell_sources(
     name="shell",

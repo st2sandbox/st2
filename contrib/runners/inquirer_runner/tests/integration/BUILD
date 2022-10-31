@@ -1,1 +1,4 @@
-__defaults__({python_tests: dict(tags=["integration"])})
+__defaults__(
+    {python_tests: dict(tags=["integration"])},
+    extend=True,
+)
