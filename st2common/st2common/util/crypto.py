@@ -364,9 +364,15 @@ def keyczar_symmetric_encrypt(encrypt_key, plaintext):
 
     :rtype: ``str``
     """
-    from keyczar.keys import AesKey as KeyczarAesKey  # pylint: disable=import-error
-    from keyczar.keys import HmacKey as KeyczarHmacKey  # pylint: disable=import-error
-    from keyczar.keyinfo import GetMode  # pylint: disable=import-error
+    from keyczar.keys import (  # pylint: disable=import-error
+        AesKey as KeyczarAesKey,  # pants: no-infer-dep
+    )
+    from keyczar.keys import (  # pylint: disable=import-error
+        HmacKey as KeyczarHmacKey,  # pants: no-infer-dep
+    )
+    from keyczar.keyinfo import (  # pylint: disable=import-error
+        GetMode,  # pants: no-infer-dep
+    )
 
     encrypt_key = KeyczarAesKey(
         encrypt_key.aes_key_string,
@@ -392,9 +398,15 @@ def keyczar_symmetric_decrypt(decrypt_key, ciphertext):
 
     :rtype: ``str``
     """
-    from keyczar.keys import AesKey as KeyczarAesKey  # pylint: disable=import-error
-    from keyczar.keys import HmacKey as KeyczarHmacKey  # pylint: disable=import-error
-    from keyczar.keyinfo import GetMode  # pylint: disable=import-error
+    from keyczar.keys import (  # pylint: disable=import-error
+        AesKey as KeyczarAesKey,  # pants: no-infer-dep
+    )
+    from keyczar.keys import (  # pylint: disable=import-error
+        HmacKey as KeyczarHmacKey,  # pants: no-infer-dep
+    )
+    from keyczar.keyinfo import (  # pylint: disable=import-error
+        GetMode,  # pants: no-infer-dep
+    )
 
     decrypt_key = KeyczarAesKey(
         decrypt_key.aes_key_string,
