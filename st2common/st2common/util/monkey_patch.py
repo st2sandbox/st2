@@ -75,6 +75,7 @@ def monkey_patch(patch_thread=None):
     if patch_thread is None:
         patch_thread = not use_debugger
 
+    # TODO: support gevent.patch_all if .concurrency.CONCURRENCY_LIBRARY = "gevent"
     eventlet.monkey_patch(
         os=True, select=True, socket=True, thread=patch_thread, time=True
     )
