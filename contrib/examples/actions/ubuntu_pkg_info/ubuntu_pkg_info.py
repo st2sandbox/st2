@@ -19,7 +19,8 @@ import sys
 import subprocess
 
 import six
-import lib.datatransformer as transformer
+# TODO: figure out how to handle the pack PYTHONPATH manipulation in pants
+import lib.datatransformer as transformer  # pants: no-infer-dep
 
 
 def main(args):
