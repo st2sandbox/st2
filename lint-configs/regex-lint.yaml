@@ -98,5 +98,4 @@ content_patterns:
 
   - name: must_not_import_st2stream
     pattern: st2stream
-
     inverted: true
