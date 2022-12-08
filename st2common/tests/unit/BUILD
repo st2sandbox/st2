@@ -5,7 +5,10 @@ __defaults__(
 
 python_tests(
     name="tests",
-    dependencies=["st2common/tests/unit/base.py"],
+    dependencies=[
+        # several files import tests.unit.base which is ambiguous. Tell pants which one to use.
+        "st2common/tests/unit/base.py",
+    ],
     uses=["mongo"],
     stevedore_namespaces=[
         "orquesta.expressions.functions",

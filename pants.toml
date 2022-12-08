@@ -157,11 +157,6 @@ unowned_dependency_behavior = "ignore"
 # by default, generate a setup.py file for use with setuptools.
 generate_setup_default = true # true by default
 
-[setuptools]
-# setuptools 59.7 (at least) does not support python 3.6
-version = "setuptools>=50.3.0,<59.0"
-lockfile = "lockfiles/setuptools.lock"
-
 [bandit]
 lockfile = "lockfiles/bandit.lock"
 version = "bandit==1.7.0"
@@ -224,7 +219,7 @@ args = [
 lockfile = "lockfiles/pytest.lock"
 version = "pytest==7.0.1"  # copied from https://www.pantsbuild.org/v2.14/docs/reference-pytest#version
 extra_requirements.add = [
-  "pytest-benchmark[histogram]==3.4.1",
+  "pytest-benchmark[histogram]==3.4.1",  # used for st2common/benchmarks
   #"pytest-timer[colorama]",  # report test timing (--with-timer ala nose-timer)
   "pytest-icdiff",  # make diff output easier to read
   "pygments",  # highlight code in tracebacks
@@ -235,16 +230,20 @@ extra_requirements.add = [
 
   # included by default with pants
   #"pytest-cov",  # coverage
-  #"pytest-xdist",  # parallel test runs (part of how pants' manages parallelization)
+  #"pytest-xdist",  # parallel test runs (pants uses this if [pytest].xdist_enabled)
 ]
 args = [
   "--no-header",  # don't print pytest version for every tested file
 ]
 execution_slot_var = "ST2TESTS_PARALLEL_SLOT"
 
-[twine]
-lockfile = "lockfiles/twine.lock"
-version = "twine>=3.7.1,<3.8"
+[regex-lint]
+config = "@lint-configs/regex-lint.yaml"
+
+[setuptools]
+# setuptools 59.7 (at least) does not support python 3.6
+version = "setuptools>=50.3.0,<59.0"
+lockfile = "lockfiles/setuptools.lock"
 
 [subprocess-environment]
 env_vars.add = [
@@ -257,5 +256,6 @@ env_vars.add = [
   "ARCHFLAGS",
 ]
 
-[regex-lint]
-config = "@lint-configs/regex-lint.yaml"
+[twine]
+lockfile = "lockfiles/twine.lock"
+version = "twine>=3.7.1,<3.8"
