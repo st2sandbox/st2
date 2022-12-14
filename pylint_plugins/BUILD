@@ -6,6 +6,13 @@ __defaults__(
 
 python_sources()
 
+python_tests(
+    name="tests",
+    dependencies=[
+        "!//conftest.py:test_utils",
+    ],
+)
+
 python_requirement(
     name="pylint",
     requirements=[
@@ -20,11 +27,4 @@ python_requirement(
     name="astroid",
     # The version of astroid is constrained by the pylint version above
     requirements=["astroid"],
-)
-
-python_tests(
-    name="tests",
-    dependencies=[
-        "!//conftest.py:root",
-    ],
 )

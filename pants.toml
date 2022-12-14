@@ -192,7 +192,6 @@ config = "lint-configs/python/.flake8"
 [pylint]
 lockfile = "lockfiles/pylint.lock"
 version = "pylint~=2.8.2"
-# < 2.7 doesn't work with the version of astroid pinned for the plugin
 extra_requirements = [
   "setuptools", # includes pkg_resources
 ]
@@ -202,11 +201,6 @@ source_plugins = [
   "pylint_plugins",
 ]
 args = [
-  # concurrency is not handled by pants for linters (yet)
-  # using 0 allows pylint to auto-detect the number of available processors.
-  # if needed (eg in CI) use an env var like this to override the jobs count:
-  #   PANTS_PYLINT_ARGS='+["--jobs=4"]'
-  "--jobs=0",
   # match the current Makefile usage with -E (TODO: drop this)
   "--errors-only",
   # needed in st2* components, runners, packs

@@ -54,7 +54,7 @@ python_requirement(
 )
 
 python_test_utils(
-    name="root",
+    name="test_utils",
     skip_pylint=True,
 )
 
