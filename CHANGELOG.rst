@@ -7,11 +7,17 @@ in development
 Added
 ~~~~~
 
+* Error on `st2ctl status` when running in Kubernetes. #5851
+  Contributed by @mamercad
+
 * Continue introducing `pants <https://www.pantsbuild.org/docs>`_ to improve DX (Developer Experience)
   working on StackStorm, improve our security posture, and improve CI reliability thanks in part
   to pants' use of PEX lockfiles. This is not a user-facing addition.
-  #5778 #5789 #5817 #5795 #5830 #5833 #5834 #5841 #5840 #5838 #5842 #5837
+  #5778 #5789 #5817 #5795 #5830 #5833 #5834 #5841 #5840 #5838 #5842 #5837 #5849 #5850
+  #5846 #5853
   Contributed by @cognifloyd
+
+* Added a joint index to solve the problem of slow mongo queries for scheduled executions. #5805
 
 
 3.8.0 - November 18, 2022
@@ -75,8 +81,7 @@ Added
 
 * Begin introducing `pants <https://www.pantsbuild.org/docs>`_ to improve DX (Developer Experience)
   working on StackStorm, improve our security posture, and improve CI reliability thanks in part
-  to pants' use of PEX lockfiles. This is not a user-facing addition. #5713 #5724 #5726 #5725 #5732
-  #5733 #5737 #5738 #5758 #5751 #5774 #5776 #5777 #5782 #5789 #5795
+  to pants' use of PEX lockfiles. This is not a user-facing addition. #5713 #5724 #5726 #5725 #5732 #5733 #5737 #5738 #5758 #5751 #5774 #5776 #5777 #5782
   Contributed by @cognifloyd
 
 Changed

@@ -1,7 +1,9 @@
 __defaults__(
-    {python_tests: dict(tags=["integration"])},
+    {(python_test, python_tests): dict(tags=["integration"])},
     extend=True,
 )
+
+python_sources()
 
 python_tests(
     name="tests",
@@ -17,5 +19,3 @@ python_tests(
         "conf/st2.tests1.conf:st2_tests_conf",
     ],
 )
-
-python_sources()

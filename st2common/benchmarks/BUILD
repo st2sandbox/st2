@@ -1,6 +1,3 @@
 __defaults__(
-    {python_tests: dict(tags=["benchmarks"])},
-    all=dict(
-        skip_pylint=True,
-    ),
+    {(python_test, python_tests): dict(tags=["benchmarks"])},
 )

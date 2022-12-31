@@ -1,5 +1,5 @@
 resources(
-    name="artifacts",
+    name="assets",
     sources=[
         "**/*.cer",
         "**/*.cnf",
@@ -12,5 +12,5 @@ resources(
 )
 
 python_sources(
-    dependencies=[":artifacts"],
+    dependencies=[":assets"],
 )

@@ -1,19 +1,19 @@
-files(
+file(
     name="logging_console",
-    sources=["console.conf"],
+    source="console.conf",
 )
 
-files(
+file(
     name="logging",
-    sources=["logging.conf"],
+    source="logging.conf",
 )
 
-files(
+file(
     name="logging_gunicorn",
-    sources=["logging.gunicorn.conf"],
+    source="logging.gunicorn.conf",
 )
 
-files(
+file(
     name="logging_syslog",
-    sources=["syslog.conf"],
+    source="syslog.conf",
 )

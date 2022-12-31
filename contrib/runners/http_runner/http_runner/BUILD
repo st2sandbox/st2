@@ -1,6 +1,6 @@
-resources(
+resource(
     name="runner_metadata",
-    sources=["runner.yaml"],
+    source="runner.yaml",
 )
 
 python_sources(

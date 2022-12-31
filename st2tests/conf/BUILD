@@ -1,24 +1,24 @@
-files(
+file(
     name="st2.conf",
-    sources=["st2.conf"],
+    source="st2.conf",
 )
 
-files(
+file(
     name="st2_kvstore_tests.crypto.key.json",
-    sources=["st2_kvstore_tests.crypto.key.json"],
+    source="st2_kvstore_tests.crypto.key.json",
 )
 
-files(
+file(
     name="logging.conf",
-    sources=["logging.conf"],
+    source="logging.conf",
 )
 
 files(
-    name="other-logging-conf",
+    name="other_logging_conf",
     sources=["logging.*.conf"],
 )
 
-files(
+file(
     name="vagrant_ssh_key",
-    sources=["vagrant.privkey.insecure"],
+    source="vagrant.privkey.insecure",
 )

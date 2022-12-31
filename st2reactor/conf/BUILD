@@ -1,6 +1,6 @@
-files(
+file(
     name="logging_console",
-    sources=["console.conf"],
+    source="console.conf",
 )
 
 files(

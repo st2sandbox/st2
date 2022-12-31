@@ -3,7 +3,7 @@ python_sources(
         "st2tests/conf:st2.conf",
         "st2tests/conf:st2_kvstore_tests.crypto.key.json",
         "st2tests/conf:logging.conf",
-        "st2tests/st2tests/resources:ssh",
-        "st2tests/st2tests/resources:packs",
+        "./resources:ssh",
+        "./resources:packs",
     ],
 )

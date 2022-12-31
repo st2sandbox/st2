@@ -1,6 +1,6 @@
-resources(
+resource(
     name="openapi_specs",
-    sources=["openapi.yaml.j2"],
+    source="openapi.yaml.j2",
 )
 
 python_sources(

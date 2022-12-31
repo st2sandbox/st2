@@ -1,5 +1,5 @@
 resources(
-    name="policies-meta",
+    name="policies_meta",
     sources=["*.yaml"],
 )
 
