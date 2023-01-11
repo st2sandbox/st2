@@ -32,10 +32,10 @@ backend_packages = [
 
   # internal plugins in pants-plugins/
   "pants.backend.plugin_development",
-  "uses_services",
+  "api_spec",
   "sample_conf",
   "schemas",
-  "api_spec",
+  "uses_services",
   "stevedore_extensions",
   "pack_metadata",
   "do_invoke",

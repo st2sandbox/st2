@@ -1,4 +1,4 @@
-# Copyright 2021 The StackStorm Authors.
+# Copyright 2023 The StackStorm Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
 from dataclasses import dataclass
 
 from pants.backend.python.target_types import EntryPoint
+from pants.backend.python.util_rules import pex, pex_from_targets
 from pants.backend.python.util_rules.pex import (
     VenvPex,
     VenvPexProcess,
@@ -36,6 +37,8 @@ from pants.util.logging import LogLevel
 from sample_conf.target_types import SampleConfSourceField
 
 
+# these constants are also used in the tests.
+SCRIPT_DIR = "tools"
 SCRIPT = "config_gen"
 
 
@@ -52,7 +55,7 @@ class GenerateSampleConfViaFmtTargetsRequest(FmtTargetsRequest):
 
 
 @rule(
-    desc="Update conf/st2.conf.sample with tools/config_gen.py",
+    desc=f"Update conf/st2.conf.sample with {SCRIPT_DIR}/{SCRIPT}.py",
     level=LogLevel.DEBUG,
 )
 async def generate_sample_conf_via_fmt(
@@ -67,7 +70,13 @@ async def generate_sample_conf_via_fmt(
     pex = await Get(
         VenvPex,
         PexFromTargetsRequest(
-            [Address("tools", target_name="tools", relative_file_path=f"{SCRIPT}.py")],
+            [
+                Address(
+                    SCRIPT_DIR,
+                    target_name=SCRIPT_DIR,
+                    relative_file_path=f"{SCRIPT}.py",
+                )
+            ],
             output_filename=f"{SCRIPT}.pex",
             internal_only=True,
             main=EntryPoint(SCRIPT),
@@ -99,4 +108,6 @@ def rules():
     return [
         *collect_rules(),
         UnionRule(FmtTargetsRequest, GenerateSampleConfViaFmtTargetsRequest),
+        *pex.rules(),
+        *pex_from_targets.rules(),
     ]

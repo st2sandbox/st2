@@ -25,3 +25,34 @@ These StackStorm-specific plugins are probably only useful for the st2 repo.
 - `sample_conf`
 - `schemas`
 - `macros.py` (not a plugin - see pants.toml `[GLOBAL].build_file_prelude_globs`)
+
+### `api_spec` plugin
+
+This plugin wires up pants to make sure `st2common/st2common/openapi.yaml`
+gets regenerated if needed. Now, whenever someone runs the `fmt` goal
+(eg `./pants fmt st2common/st2common/openapi.yaml`), the api spec will
+be regenerated if any of the files used to generate it has changed.
+Also, running the `lint` goal will fail if the schemas need to be
+regenerated.
+
+This plugin also wires up pants so that the `lint` goal runs additional
+api spec validation on `st2common/st2common/openapi.yaml` with something
+like `./pants lint st2common/st2common/openapi.yaml`.
+
+### `sample_conf` plugin
+
+This plugin wires up pants to make sure `conf/st2.conf.sample` gets
+regenerated whenever the source files change. Now, whenever someone runs
+the `fmt` goal (eg `./pants fmt conf/st2.conf.sample`), the sample will
+be regenerated if any of the files used to generate it have changed.
+Also, running the `lint` goal will fail if the sample needs to be
+regenerated.
+
+### `schemas` plugin
+
+This plugin wires up pants to make sure `contrib/schemas/*.json` gets
+regenerated whenever the source files change. Now, whenever someone runs
+the `fmt` goal (eg `./pants fmt contrib/schemas::`), the schemas will
+be regenerated if any of the files used to generate them have changed.
+Also, running the `lint` goal will fail if the schemas need to be
+regenerated.

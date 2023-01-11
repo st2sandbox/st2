@@ -1,4 +1,4 @@
-# Copyright 2021 The StackStorm Authors.
+# Copyright 2023 The StackStorm Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,6 +14,7 @@
 from dataclasses import dataclass
 
 from pants.backend.python.target_types import EntryPoint
+from pants.backend.python.util_rules import pex, pex_from_targets
 from pants.backend.python.util_rules.pex import (
     VenvPex,
     VenvPexProcess,
@@ -45,15 +46,12 @@ from pants.util.logging import LogLevel
 from api_spec.target_types import APISpecSourceField
 
 
-GENERATE_SCRIPT = "generate_api_spec"
-VALIDATE_SCRIPT = "validate_api_spec"
-
-SPEC_HEADER = b"""\
-# NOTE: This file is auto-generated - DO NOT EDIT MANUALLY
-# Edit st2common/st2common/openapi.yaml.j2 and then run
-# ./pants fmt st2common/st2common/openapi.yaml
-# to generate the final spec file
-"""
+# these constants are also used in the tests
+CMD_SOURCE_ROOT = "st2common"
+CMD_DIR = "st2common/st2common/cmd"
+CMD_MODULE = "st2common.cmd"
+GENERATE_CMD = "generate_api_spec"
+VALIDATE_CMD = "validate_api_spec"
 
 
 @dataclass(frozen=True)
@@ -65,12 +63,12 @@ class APISpecFieldSet(FieldSet):
 
 class GenerateAPISpecViaFmtTargetsRequest(FmtTargetsRequest):
     field_set_type = APISpecFieldSet
-    name = GENERATE_SCRIPT
+    name = GENERATE_CMD
 
 
 class ValidateAPISpecRequest(LintTargetsRequest):
     field_set_type = APISpecFieldSet
-    name = VALIDATE_SCRIPT
+    name = VALIDATE_CMD
 
 
 @rule(
@@ -99,7 +97,6 @@ async def generate_api_spec_via_fmt(
                 tgt.get(SourcesField) for tgt in transitive_targets.dependencies
             ],
             for_sources_types=(FileSourceField, ResourceSourceField),
-            # enable_codegen=True,
         ),
     )
 
@@ -115,14 +112,14 @@ async def generate_api_spec_via_fmt(
         PexFromTargetsRequest(
             [
                 Address(
-                    "st2common/st2common/cmd",
+                    CMD_DIR,
                     target_name="cmd",
-                    relative_file_path=f"{GENERATE_SCRIPT}.py",
+                    relative_file_path=f"{GENERATE_CMD}.py",
                 ),
             ],
-            output_filename=f"{GENERATE_SCRIPT}.pex",
+            output_filename=f"{GENERATE_CMD}.pex",
             internal_only=True,
-            main=EntryPoint.parse(f"st2common.cmd.{GENERATE_SCRIPT}:main"),
+            main=EntryPoint.parse(f"{CMD_MODULE}.{GENERATE_CMD}:main"),
         ),
     )
 
@@ -158,13 +155,14 @@ async def generate_api_spec_via_fmt(
     contents = [
         FileContent(
             f"{field_set.address.spec_path}/{field_set.source.value}",
-            SPEC_HEADER + result.stdout,
+            result.stdout,
         )
         for field_set in request.field_sets
     ]
 
     output_digest = await Get(Digest, CreateDigest(contents))
     output_snapshot = await Get(Snapshot, Digest, output_digest)
+    # TODO: Drop result.stdout since we already wrote it to a file?
     return FmtResult.create(request, result, output_snapshot, strip_chroot_path=True)
 
 
@@ -194,7 +192,6 @@ async def validate_api_spec(
                 tgt.get(SourcesField) for tgt in transitive_targets.dependencies
             ],
             for_sources_types=(FileSourceField, ResourceSourceField),
-            # enable_codegen=True,
         ),
     )
 
@@ -210,14 +207,14 @@ async def validate_api_spec(
         PexFromTargetsRequest(
             [
                 Address(
-                    "st2common/st2common/cmd",
+                    CMD_DIR,
                     target_name="cmd",
-                    relative_file_path=f"{VALIDATE_SCRIPT}.py",
+                    relative_file_path=f"{VALIDATE_CMD}.py",
                 ),
             ],
-            output_filename=f"{VALIDATE_SCRIPT}.pex",
+            output_filename=f"{VALIDATE_CMD}.pex",
             internal_only=True,
-            main=EntryPoint.parse(f"st2common.cmd.{VALIDATE_SCRIPT}:main"),
+            main=EntryPoint.parse(f"{CMD_MODULE}.{VALIDATE_CMD}:main"),
         ),
     )
 
@@ -237,8 +234,10 @@ async def validate_api_spec(
             argv=(
                 "--config-file",
                 "conf/st2.dev.conf",
+                # TODO: Uncomment these as part of a project to fix the (many) issues it identifies.
+                #       We can uncomment --validate-defs (and possibly --verbose) once the spec defs are valid.
                 # "--validate-defs",  # check for x-api-model in definitions
-                # "--verbose",  # show definitions on failure
+                # "--verbose",  # show model definitions on failure (only applies to --validate-defs)
             ),
             input_digest=input_digest,
             description="Validating openapi.yaml api spec",
@@ -255,4 +254,6 @@ def rules():
         *collect_rules(),
         UnionRule(FmtTargetsRequest, GenerateAPISpecViaFmtTargetsRequest),
         UnionRule(LintTargetsRequest, ValidateAPISpecRequest),
+        *pex.rules(),
+        *pex_from_targets.rules(),
     ]
