@@ -33,6 +33,7 @@ backend_packages = [
   # internal plugins in pants-plugins/
   "pants.backend.plugin_development",
   "api_spec",
+  #"pack_metadata",
   "sample_conf",
   "schemas",
   "uses_services",

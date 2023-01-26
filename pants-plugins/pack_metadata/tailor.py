@@ -1,4 +1,4 @@
-# Copyright 2021 The StackStorm Authors.
+# Copyright 2023 The StackStorm Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -40,7 +40,6 @@ async def find_putative_targets(
     _: PutativePackMetadataTargetsRequest, all_owned_sources: AllOwnedSources
 ) -> PutativeTargets:
     all_pack_yaml_files = await Get(Paths, PathGlobs(["**/pack.yaml"]))
-    # pack_dirs = [os.path.dirname(p) for p in all_pack_yaml_files.files]
 
     unowned_pack_yaml_files = set(all_pack_yaml_files.files) - set(all_owned_sources)
     unowned_pack_dirs = [os.path.dirname(p) for p in unowned_pack_yaml_files]

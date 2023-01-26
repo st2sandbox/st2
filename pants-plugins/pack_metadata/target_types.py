@@ -1,4 +1,4 @@
-# Copyright 2021 The StackStorm Authors.
+# Copyright 2023 The StackStorm Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -59,8 +59,8 @@ class PackMetadata(ResourcesGeneratorTarget):
     core_fields = (*COMMON_TARGET_FIELDS, Dependencies, PackMetadataSourcesField)
     help = (
         "Loose pack metadata files.\n\n"
-        "Pack metadata includes top-level files (pack.yaml, <pack>.yaml.examle, "
-        "config.schema.yaml, icon.png, and requirements.txt) and metadata for actions, "
+        "Pack metadata includes top-level files (pack.yaml, <pack>.yaml.example, "
+        "config.schema.yaml, and icon.png) and metadata for actions, "
         "action-aliases, policies, rules, and sensors."
     )
 
