@@ -1,3 +1,6 @@
+pack_metadata(
+    name="metadata",
+)
 
 python_requirements(
     name="reqs",
@@ -5,10 +8,6 @@ python_requirements(
     # module_mapping can be removed once pants is released with
     # https://github.com/pantsbuild/pants/pull/17390
     module_mapping={"mail-parser": ["mailparser"]},
-)
-
-pack_metadata(
-    name="metadata",
 )
 
 python_sources(

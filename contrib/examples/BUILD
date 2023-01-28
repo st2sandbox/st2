@@ -1,3 +1,7 @@
+pack_metadata(
+    name="metadata",
+)
+
 # Using `python_requirements()` here results in:
 # ">1 target exports this module, so it is ambiguous which to use"
 # This error refers to the "requests" module.
@@ -11,8 +15,4 @@ python_requirement(
 python_requirement(
     name="flask",
     requirements=["flask"],
-)
-
-pack_metadata(
-    name="metadata",
 )
