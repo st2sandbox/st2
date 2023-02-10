@@ -1,4 +1,4 @@
-# Copyright 2021 The StackStorm Authors.
+# Copyright 2023 The StackStorm Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ from pants.backend.python.util_rules.pex import (
     PexRequirements,
     VenvPex,
     VenvPexProcess,
+    rules as pex_rules,
 )
 from pants.engine.fs import CreateDigest, Digest, FileContent
 from pants.engine.process import ProcessCacheScope, ProcessResult
@@ -68,7 +69,7 @@ async def get_platform() -> Platform:
             input_digest=script_digest,
             description="Introspecting platform (arch, os, distro)",
             # this can change from run to run, so don't cache results.
-            cache_scope=ProcessCacheScope.PER_RESTART_SUCCESSFULL,
+            cache_scope=ProcessCacheScope.PER_RESTART_SUCCESSFUL,
             level=LogLevel.DEBUG,
         ),
     )
@@ -77,4 +78,7 @@ async def get_platform() -> Platform:
 
 
 def rules():
-    return collect_rules()
+    return [
+        *collect_rules(),
+        *pex_rules(),
+    ]

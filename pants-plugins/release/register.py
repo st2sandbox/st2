@@ -1,4 +1,4 @@
-# Copyright 2022 The StackStorm Authors.
+# Copyright 2023 The StackStorm Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,12 +18,6 @@ Please see https://www.pantsbuild.org/docs/plugins-setup-py
 
 from release.rules import rules as release_rules
 
-# from release.target_types import
-
 
 def rules():
-    return [*release_rules()]
-
-
-# def target_types():
-#    return []
+    return release_rules()

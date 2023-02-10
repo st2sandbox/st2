@@ -1,6 +1,6 @@
 python_tests(
     name="tests",
-    uses=["mongo"],
+    uses=["mongo", "rabbitmq"],
     stevedore_namespaces=[
         "orquesta.expressions.functions",
         "st2common.runners.runner",

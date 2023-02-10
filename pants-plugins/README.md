@@ -12,10 +12,6 @@ These plugins might be useful outside of the StackStorm project:
 - `stevedore_extensions`
 - `uses_services`
 
-`uses_services` has some StackStorm-specific assumptions in it, but it might be
-generalizable. There are several other StackStorm-specific plugins, but some of
-them are only useful in the st2 repo.
-
 These StackStorm-specific plugins might be useful in other StackStorm-related repos.
 - `pack_metadata`
 
@@ -59,6 +55,14 @@ If it is not checked out, then some of the tests will fail.
 If it is not checked out, `pack_metadata_in_git_submodule` handles providing
 a helpful, instructive error message as early as possible.
 
+### `release` plugin
+
+This plugin implements the [`SetupKwargs`](https://www.pantsbuild.org/docs/plugins-setup-py)
+plugin hook that pants uses when it auto-generates a `setup.py` file whenever
+it builds a `python_distribution()` (ie a wheel or an sdist). This makes it
+easy to centralize all of the common bits of metadata that need to go in all
+the wheels (like `author="StackStorm"` or our `project_urls`).
+
 ### `sample_conf` plugin
 
 This plugin wires up pants to make sure `conf/st2.conf.sample` gets
@@ -76,3 +80,13 @@ the `fmt` goal (eg `./pants fmt contrib/schemas::`), the schemas will
 be regenerated if any of the files used to generate them have changed.
 Also, running the `lint` goal will fail if the schemas need to be
 regenerated.
+
+### `uses_seevices` plugin
+
+This plugin validates that services are running if required. For example, some tests
+need mongo, so this plugin can ensure mongo is running. If it is not running, then
+an error with instructions on how to run it are given to the user.
+
+`uses_services` has some StackStorm-specific assumptions in it, but it might be
+generalizable. There are several other StackStorm-specific plugins, but some of
+them are only useful in the st2 repo.

@@ -39,6 +39,34 @@ jobs:
             python-version-short: '3.8'
             python-version: '3.8.10'
 
+    services:
+      mongo:
+        image: mongo:4.4
+        ports:
+          - 27017:27017
+
+      rabbitmq:
+        image: rabbitmq:3.8-management
+        options: >-
+          --name rabbitmq
+        ports:
+          - 5671:5671/tcp   # AMQP SSL port
+          - 5672:5672/tcp   # AMQP standard port
+          - 15672:15672/tcp # Management: HTTP, CLI
+
+      redis:
+         # Docker Hub image
+         image: redis
+         # Set health checks to wait until redis has started
+         options: >-
+           --name "redis"
+           --health-cmd "redis-cli ping"
+           --health-interval 10s
+           --health-timeout 5s
+           --health-retries 5
+         ports:
+           - 6379:6379/tcp
+
     env:
       COLUMNS: '120'
 

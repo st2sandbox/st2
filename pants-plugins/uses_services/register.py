@@ -1,4 +1,4 @@
-# Copyright 2021 The StackStorm Authors.
+# Copyright 2023 The StackStorm Authors.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@ from pants.backend.python.target_types import (
     PythonTestsGeneratorTarget,
 )
 
-from uses_services import mongo, platform_
+from uses_services import mongo_rules, platform_rules
 from uses_services.target_types import UsesServicesField
 
 
@@ -24,6 +24,6 @@ def rules():
     return [
         PythonTestsGeneratorTarget.register_plugin_field(UsesServicesField),
         PythonTestTarget.register_plugin_field(UsesServicesField),
-        *platform_.rules(),
-        *mongo.rules(),
+        *platform_rules.rules(),
+        *mongo_rules.rules(),
     ]
