@@ -5,12 +5,9 @@ st2_component_python_distribution(
         "./st2auth/backends/base.py",
     ],
     scripts=["bin/st2auth"],
-)
-
-stevedore_extension(
-    name="sso_backends",
-    namespace="st2auth.sso.backends",
     entry_points={
-        "noop": "st2auth.sso.noop:NoOpSingleSignOnBackend",
+        stevedore_namespace("st2auth.sso.backends"): {
+            "noop": "st2auth.sso.noop:NoOpSingleSignOnBackend",
+        },
     },
 )

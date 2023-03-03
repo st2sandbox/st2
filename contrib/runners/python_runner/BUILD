@@ -1,15 +1,12 @@
-stevedore_extension(
-    name="runner",
-    namespace="st2common.runners.runner",
-    entry_points={
-        "python-script": "python_runner.python_runner",
-    },
-)
-
 st2_runner_python_distribution(
     runner_name="python",
     description=(
-        "Python action runner for StackStorm event-driven automation platform"
+        "Python action runner for the StackStorm event-driven automation platform"
     ),
+    entry_points={
+        stevedore_namespace("st2common.runners.runner"): {
+            "python-script": "python_runner.python_runner",
+        },
+    },
     zip_safe=False,
 )
