@@ -72,7 +72,6 @@ def st2_runner_python_distribution(**kwargs):
         if dep not in dependencies:
             dependencies.append(dep)
 
-
     kwargs["dependencies"] = dependencies
     kwargs["repositories"] = st2_publish_repos()
 
@@ -82,7 +81,6 @@ def st2_runner_python_distribution(**kwargs):
 def st2_component_python_distribution(**kwargs):
     """Create a python_distribution (wheel/sdist) for a core StackStorm component."""
     st2_component = kwargs.pop("component_name")
-
     description = (
         f"{st2_component} StackStorm event-driven automation platform component"
     )
@@ -104,7 +102,6 @@ def st2_component_python_distribution(**kwargs):
     )
 
     dependencies = kwargs.pop("dependencies", [])
-
     for dep in [st2_component, ":license"] + scripts:
         dep = f"./{dep}" if dep[0] != ":" else dep
         if dep not in dependencies:
