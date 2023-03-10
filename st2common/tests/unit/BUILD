@@ -16,6 +16,14 @@ python_tests(
         "st2common.rbac.backend",
         "st2common.metrics.driver",
     ],
+    overrides={
+        "test_util_file_system.py": dict(
+            dependencies=[
+                "st2tests/st2tests/policies",
+                "st2tests/st2tests/policies/meta",
+            ],
+        ),
+    },
 )
 
 python_test_utils(

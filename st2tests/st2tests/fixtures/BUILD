@@ -6,19 +6,3 @@ resources(
         "./rbac_invalid/**/*.yaml",
     ],
 )
-
-# Please make sure to register all of the packs in this dir.
-# For each pack, depend on the python_source targets (which depends on pack_metadata).
-target(
-    name="child_packs",
-    dependencies=[
-        "./aliases",
-        "./backstop",
-        "./descendants",
-        "./generic",
-        "./localrunner_pack",
-        "./rule_enforcements",  # not exactly a pack
-        "./timers",
-        "./traces",
-    ],
-)

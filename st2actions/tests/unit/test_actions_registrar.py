@@ -29,8 +29,8 @@ import st2tests.base as tests_base
 from st2tests.fixtures.generic.fixture import (
     PACK_NAME as GENERIC_PACK,
     PACK_PATH as GENERIC_PACK_PATH,
+    PACK_BASE_PATH as PACKS_BASE_PATH,
 )
-from st2tests.fixtures.child_packs_glob import PACKS_PATH
 import st2tests.fixturesloader as fixtures_loader
 
 MOCK_RUNNER_TYPE_DB = RunnerTypeDB(name="run-local", runner_module="st2.runners.local")
@@ -54,7 +54,7 @@ class ActionsRegistrarTest(tests_base.DbTestCase):
     def test_register_all_actions(self):
         try:
             all_actions_in_db = Action.get_all()
-            actions_registrar.register_actions(packs_base_paths=[PACKS_PATH])
+            actions_registrar.register_actions(packs_base_paths=[PACKS_BASE_PATH])
         except Exception as e:
             print(six.text_type(e))
             self.fail("All actions must be registered without exceptions.")
