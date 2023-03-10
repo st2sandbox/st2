@@ -1,11 +1,10 @@
 python_sources(
     overrides={
-        "process_container.py": {
-            "dependencies": [
+        "process_container.py": dict(
+            dependencies=[
                 # This is called in a subprocess using filesystem path
-                # TODO: make sure that does not confuse pants+PEX
                 "./sensor_wrapper.py",
             ],
-        },
+        ),
     },
 )
