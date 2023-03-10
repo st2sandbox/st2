@@ -1,3 +1,1 @@
-python_sources(
-    dependencies=["./lib"],
-)
+python_sources()
