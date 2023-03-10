@@ -150,7 +150,9 @@ def get_sandbox_python_path_for_python_action(
         ]
 
         # Add the pack's lib directory (lib/python3.x) in front of the PYTHONPATH.
-        pack_actions_lib_paths = os.path.join(pack_base_path, "actions", ACTION_LIBS_DIR)
+        pack_actions_lib_paths = os.path.join(
+            pack_base_path, "actions", ACTION_LIBS_DIR
+        )
         pack_virtualenv_lib_path = os.path.join(virtualenv_path, "lib")
         pack_venv_lib_directory = os.path.join(
             pack_virtualenv_lib_path, virtualenv_directories[0]

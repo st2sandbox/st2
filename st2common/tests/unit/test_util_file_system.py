@@ -19,9 +19,6 @@ import os.path
 
 import unittest2
 
-# tell pants we are using this
-from st2tests.policies import concurrency, meta, mock_exception  # noqa: F401
-
 from st2common.util.file_system import get_file_list
 
 CURRENT_DIR = os.path.dirname(__file__)

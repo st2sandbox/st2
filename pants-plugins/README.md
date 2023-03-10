@@ -21,7 +21,6 @@ These StackStorm-specific plugins are probably only useful for the st2 repo.
 - `release`
 - `sample_conf`
 - `schemas`
-- `macros.py` (not a plugin - see pants.toml `[GLOBAL].build_file_prelude_globs`)
 
 ### `api_spec` plugin
 
