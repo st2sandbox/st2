@@ -1,0 +1,408 @@
+---
+name: Regenerate Lockfiles
+
+on:
+  workflow_dispatch:
+    inputs:
+      resolves:
+        description: Regenerate lockfiles only for the resolves in this comma-separated list, or for all resolves if this is empty.
+        required: false
+        type: string
+        default: ""
+      pr:
+        description: Push regenerated lockfiles to the branch of this PR (Use 'new' to open a new PR).
+        required: true
+        type: string
+
+env:
+  # logs and screenshots go in {OUTPUT_BASE_DIR}/lockfile-{resolve}/ (where "lockfile-{resolve}" is the artifact name)
+  OUTPUT_BASE_DIR: dist/lockfiles # /dist/ is in .gitignore
+
+jobs:
+  resolves:
+    name: Preprocess input var - resolves
+    runs-on: ubuntu-22.04
+    outputs:
+      JSON: ${{ steps.resolves.outputs.JSON }}
+      LOCKFILES: ${{ steps.resolves.outputs.LOCKFILES }}
+    steps:
+      - name: Validate input var - resolves
+        run: |
+          if [[ "${{ inputs.resolves }}" =~ ^([a-z0-9-]+(,[a-z0-9-]+)*|)$ ]]; then
+            echo "VALID INPUT: resolves"
+            exit 0
+          else
+            echo "INVALID INPUT: resolves"
+            echo "resolves must be a comma separated list of resolve names, or an empty string"
+            exit 1
+          fi
+
+      - name: Get resolves in JSON
+        id: resolves
+        run: |
+          if [[ "${{ inputs.resolves }}" != "" ]]; then
+            JSON=$(jq '.|split(",")' <<< '"${{ inputs.resolves }}"')
+          else
+            # Pull pants.toml from the branch that the workflow runs from
+            pants_toml=$(
+              gh api -X GET \
+                'repos/${{ github.repository }}/contents/pants.toml' \
+                -f 'ref=${{ github.sha }}'
+            )
+            JSON=$(yq -e -p toml '.python.resolves|keys()' -o json -I 0 <<< ${pants_toml})
+            LOCKFILES=$(yq -e -p toml '.python.resolves' -o json -I 0 <<< ${pants_toml})
+          fi
+          echo "JSON=${JSON}" | tee -a ${GITHUB_OUTPUT}
+          echo "LOCKFILES=${LOCKFILES}" | tee -a ${GITHUB_OUTPUT}
+
+  pr:
+    name: Preprocess input var - pr
+    runs-on: ubuntu-22.04
+    outputs:
+      JSON: ${{ steps.pr.outputs.JSON }}
+      CHECKOUT_REF: ${{ steps.pr.outputs.CHECKOUT_REF }}
+      PR_REPO: ${{ steps.pr.outputs.PR_REPO }}
+      PR_REF: ${{ steps.pr.outputs.PR_REF }}
+      PR_BASE_REF: ${{ steps.pr.outputs.PR_BASE_REF }}
+    steps:
+      - name: Validate input var - pr
+        run: |
+          if [ "${{ inputs.pr }}" = new ]; then
+            echo "VALID INPUT: pr"
+            echo "The next step will collect some data for PR creation."
+            exit 0
+          elif [[ "${{ inputs.pr }}" =~ ^[0-9]+$ ]]; then
+            echo "VALID INPUT: pr"
+            echo "The next step will validate that PR #${{ inputs.pr }} exists."
+            exit 0
+          else
+            echo "INVALID INPUT: pr"
+            echo "pr must be a PR number, or the magic string 'new'."
+            exit 1
+          fi
+
+      - name: Get pr in JSON
+        id: pr
+        env:
+          PR_FIELDS: "\
+            id,\
+            number,\
+            url,\
+            closed,\
+            author,\
+            maintainerCanModify,\
+            headRepositoryOwner,\
+            headRepository,\
+            headRefName,\
+            baseRefName"
+        run: |
+          if [[ "${{ inputs.pr }}" == new ]]; then
+            echo "Planning new Pull Request metadata ..."
+            PR=$(
+              yq -e -p yaml . -o json -I 0 <<-HEREYAML
+              id: ""
+              number: "new"
+              url: ""
+              closed: false
+              author: # see https://api.github.com/users/github-actions[bot]
+                id: 41898282
+                is_bot: true
+                login: "github-actions[bot]"
+                name: "github-actions[bot]"
+              maintainerCanModify: true
+              headRepositoryOwner:
+                id: "${GITHUB_REPOSITORY_OWNER_ID}"
+                login: "${GITHUB_REPOSITORY_OWNER}"
+              headRepository:
+                id: "${GITHUB_REPOSITORY_ID}"
+                name: "${GITHUB_REPOSITORY#*/}"
+              headRefName: "regen-lockfiles-${GITHUB_RUN_ID}"
+              baseRefName: "${GITHUB_REF_NAME}"
+              HEREYAML
+            )
+            CHECKOUT_REF="${GITHUB_REF}"
+          else
+            CHECKOUT_REF="refs/pull/${{ inputs.pr }}/merge"
+            echo "Searching for Pull Request #${{ inputs.pr }} ..."
+            PR=$(gh pr view "${{ inputs.pr }}" --json "${PR_FIELDS}")
+            pr_search_rc=$?
+            if [ ${pr_search_rc} > 0 ]; then
+              echo "Pull Request #${{ inputs.pr }} not found!"
+              exit 2
+            elif (jq -e .closed <<< ${PR} >/dev/null); then
+              echo "Pull Request #${{ inputs.pr }} is closed!"
+              exit 3
+            elif ! (jq -e .maintainerCanModify <<< ${PR} >/dev/null); then
+              echo "Pull Request #${{ inputs.pr }} does not allow maintainer modification!"
+              exit 4
+            fi
+            echo "Found Pull Request #${{ inputs.pr }} by @$(jq .author.login <<< ${PR})"
+            echo "URL: $(jq -r .url <<< ${PR})"
+          fi
+          echo "JSON=${PR}" | tee -a ${GITHUB_OUTPUT}
+          echo "CHECKOUT_REF=${CHECKOUT_REF}" | tee -a ${GITHUB_OUTPUT}
+          PR_REPO=$(jq -r '.headRepositoryOwner.login + "/" + .headRepository.name' <<< ${PR})
+          PR_REF=$(jq -r '.headRefName' <<< ${PR})
+          PR_BASE_REF=$(jq -r '.baseRefName' <<< ${PR})
+          echo "PR_REPO=${PR_REPO}" | tee -a ${GITHUB_OUTPUT}
+          echo "PR_REF=${PR_REF}" | tee -a ${GITHUB_OUTPUT}
+          echo "PR_BASE_REF=${PR_BASE_REF}" | tee -a ${GITHUB_OUTPUT}
+          echo "Pull from ${PR_REPO}:${PR_REF} into ${PR_BASE_REF}"
+
+  regenerate:
+    name: Regenerate ${{ matrix.resolve }} lockfile
+    needs: [resolves, pr]
+    runs-on: ubuntu-22.04
+    strategy:
+      matrix:
+        resolve: ${{ fromJSON(needs.resolves.ouptuts.JSON) }}
+    env:
+      LOCKFILE: ${{ fromJSON(needs.resolves.outputs.LOCKFILES)[matrix.resolve] }}
+      # see also the 'Setup env' step
+    outputs:
+      CHANGED: ${{ steps.lockfile.outputs.CHANGED }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # a test uses a submodule, and pants needs access to it to calculate deps.
+          submodules: 'true'
+          ref: ${{ needs.pr.outputs.CHECKOUT_REF }}
+
+      - name: Initialize Pants and its GHA caches
+        uses: ./.github/actions/init-pants
+        with:
+          # To ignore a bad cache, bump the cache* integer.
+          gha-cache-key: cache0-BUILD
+
+      # This step exists because we cannot use the 'env' context in 'jobs.<job>.env.*'.
+      - name: Setup env
+        # We only need stderr, because generate-lockfiles puts the diff on stderr.
+        # Nothing else should be on stderr because Pants disables logging to stderr when
+        # it detects the stderr redirection. (NOTE: stdout should be empty.)
+        run: |
+          echo "OUTPUT_DIR=${{ env.OUTPUT_BASE_DIR }}/lockfile-${{ matrix.resolve }}" >> ${GITHUB_ENV}
+          echo "STDERR_LOG=${{ env.OUTPUT_BASE_DIR }}/lockfile-${{ matrix.resolve }}/stderr.log" >> ${GITHUB_ENV}
+
+      - name: Regenerate ${{ matrix.resolve }} lockfile
+        id: lockfile
+        env:
+          PR_BASE_REF: ${{ needs.pr.outputs.PR_BASE_REF }}
+        run: |
+          mkdir -p ${OUTPUT_DIR}/
+          git checkout ${{ env.PR_BASE_REF }} -- ${LOCKFILE}  # diff is for whole PR not just a commit.
+          pants generate-lockfiles '--resolve=${{ matrix.resolve }}' 2> >(tee ${STDERR_LOG} >&2 )
+          cp ${LOCKFILE} ${OUTPUT_DIR}/
+          CHANGED=$(
+            if git diff ${{ env.PR_BASE_REF }} --exit-code --quiet -- ${LOCKFILE}; then
+              echo "false"
+            else
+              echo "true"
+            fi
+          )
+          echo "CHANGED=${CHANGED}" | tee -a ${GITHUB_OUTPUT}
+
+      - name: Install rsvg-convert for freeze
+        if: steps.lockfile.outputs.CHANGED == 'true'
+        # rsvg-convert doesn't cause a panic like the resvg lib freeze uses, and it's faster.
+        run: |
+          sudo apt-get install librsvg2-bin
+
+      - name: Install freeze
+        if: steps.lockfile.outputs.CHANGED == 'true'
+        uses: robinraju/release-downloader@v1
+        with:
+          repository: charmbracelet/freeze
+          tag: v0.2.2
+          fileName: freeze_*_${{ runner.os }}_${{ fromJSON('{"X86":"i386","X64":"x86_64","ARM":"arm","ARM64":"arm64"}')[runner.arch] }}.tar.gz
+          extract: true
+
+      - name: Freeze lockfile diff as picture
+        if: steps.lockfile.outputs.CHANGED == 'true'
+        # For samples of the themes freeze can use when generating a "terminal screenshot", see:
+        #   - "charm" theme (default): https://github.com/charmbracelet/freeze
+        #   - all other themes: https://xyproto.github.io/splash/docs/
+        env:
+          # Freeze processes the output line-by-line, so the ansi escape sequences
+          # that span multiple lines only apply to the first line.
+          # This sed script repeats those ansi escape sequences on each line.
+          SED_SCRIPT: |
+            s/^\x1B\[4m \+$/\0\x1B[0m/     # append ansi reset on line above heading
+            s/^== .* ==$/\x1B[4m\0\x1B[0m/ # add ansi underline to headling
+            s/^\x1b\[0m$//                 # drop ansi reset after the heading
+        run: |
+          for theme in github github-dark; do
+            for ext in svg png; do
+              # The diff output applies ansi underlines across multiple lines, but freeze formats
+              # each line separately. So, use sed to repeat ansi chars per line.
+              sed -e "${SED_SCRIPT}" ${STDERR_LOG} \
+              | freeze --config full --language ansi --theme ${theme} --output ${STDERR_LOG}.${theme}.${ext} -
+            done
+          done
+
+      - name: Prepare text-only lockfile diff for commit message
+        if: steps.lockfile.outputs.CHANGED == 'true'
+        env:
+          # This sed script replaces ansi escape chars with unicode for use in the commit msg.
+          SED_SCRIPT: |
+            /^\x1B\[4m\( \+\)\(\x1B\[0m\)\?$/{ # line above headings (spaces with ansi underline)
+              s/ /_/g; # use underline char instead of space
+            }
+            # the next one adds a line of overline chars to replace the ansi overline
+            /^== .* ==$/{ # heading text line (the matched line goes in pattern space)
+              h;       # save copy of heading line in "hold" space
+              s/./‾/g; # make an line of overline chars to replace the heading's ansi underline
+              H;       # update "hold" space: append newline and line of overline chars
+              g        # replace the original line with lines from the "hold" space
+            }
+            /^\x1B\[0m$/d # drop blank line after heading (replaced with line of overline chars)
+            s/\x1B\[[0-9]\+m//g # strip out ansi escapes
+        run: |
+          sed -e "${SED_SCRIPT}" > ${STDERR_LOG}.txt
+
+      - name: Prepare Job Summary
+        if: steps.lockfile.outputs.CHANGED == 'true'
+        run: |
+          (
+            echo '## ${{ matrix.resolve }} Lockfile Diff'
+            echo
+            echo '<picture>'
+            echo '  <source media="(prefers-color-scheme: dark)" srcset="stderr.log.github-dark.svg">'
+            echo '  <source media="(prefers-color-scheme: dark)" srcset="stderr.log.github-dark.png">'
+            echo '  <source media="(prefers-color-scheme: light)" srcset="stderr.log.github.svg">'
+            echo '  <source media="(prefers-color-scheme: light)" srcset="stderr.log.github.png">'
+            echo '  <img alt="Terminal screenshot of lockfile diff in color. The text from the image is included below."'
+            echo '    src="stderr.log.github.png">'
+            echo '</picture>'
+            echo
+            echo '<details>'
+            echo '  <summary>Lockfile diff: ${{ env.LOCKFILE }} (plain text)</summary>'
+            echo
+            echo '```'
+            cat ${STDERR_LOG}.txt
+            echo '```'
+            echo
+          ) | tee -a ${STDERR_LOG}.md >> ${GITHUB_STEP_SUMMARY}
+          (
+            echo '[!NOTE]'
+            echo 'Diff base (git ref): *${{ steps.pr.outputs.PR_BASE_REF }}* '
+            echo
+          ) >> ${GITHUB_STEP_SUMMARY} # only add this note to the job summary
+          (
+            echo '</details>'
+            echo
+          ) | tee -a ${STDERR_LOG}.md >> ${GITHUB_STEP_SUMMARY}
+
+      - name: Upload lockfile and lockfile diff files
+        uses: actions/upload-artifact@v4
+        with:
+          name: lockfile-${{ matrix.resolve }}
+          path: ${{ env.OUTPUT_DIR }}
+        if: steps.lockfile.outputs.CHANGED == 'true'
+
+      - name: Upload pants log
+        uses: actions/upload-artifact@v4
+        with:
+          name: pants-log-${{ matrix.resolve }}
+          path: .pants.d/pants.log
+        if: always()  # We want the log even on failures.
+
+  commit:
+    name: Commit regenerated ${{ matrix.resolve }} lockfile(s)
+    needs: [resolves, pr, regenerate]
+    runs-on: ubuntu-22.04
+    env:
+      # preserve the order of resolves from input (eg pants.toml has st2 first, before tools)
+      RESOLVES: ${{ join(fromJSON(needs.resolves.ouptuts.JSON), ''' ''') }}
+      RESOLVES_CSV: ${{ join(fromJSON(needs.resolves.ouptuts.JSON), ', ') }}
+      LOCKFILES: ${{ needs.resolves.outputs.LOCKFILES }}
+      # see also the 'Setup env' step
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # a test uses a submodule, and pants needs access to it to calculate deps.
+          submodules: 'true'
+          ref: ${{ needs.pr.outputs.CHECKOUT_REF }}
+
+      # This step exists because we cannot use the 'env' context in 'jobs.<job>.env.*'.
+      - name: Setup env
+        run: |
+          echo "COMMIT_MSG=${{ env.OUTPUT_BASE_DIR }}/commit_msg.txt" >> ${GITHUB_ENV}
+          echo "PR_COMMENT=${{ env.OUTPUT_BASE_DIR }}/pr_comment.md" >> ${GITHUB_ENV}
+
+      - name: Create branch for new PR
+        if: ${{ inputs.pr == 'new' }}
+        run: |
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "${{ needs.pr.outputs.PR_REF }}" FETCH_HEAD
+
+      - name: Download lockfiles and lockfile diff files
+        uses: actions/download-artifact@v5
+        with:
+          pattern: lockfile-* # lockfile-{resolve}
+          path: ${{ env.OUTPUT_BASE_DIR }}
+          merge-multiple: true # unpack in {path}/{artifact_name}/
+
+      - name: Prepare commit
+        run: |
+          echo "pants generate-lockfiles: ${RESOLVES_CSV}" > ${COMMIT_MSG}
+          echo >> ${COMMIT_MSG}
+          for resolve in ${RESOLVES}; do
+            LOCKFILE=$(jq '.["'"${resolve}"'"]' <<< "${LOCKFILES}")
+            cp "${{ env.OUTPUT_BASE_DIR }}/lockfile-${resolve}/$(basename ${LOCKFILE})" "${LOCKFILE}"
+            git add "${LOCKFILE}"
+            STDERR_LOG="${{ env.OUTPUT_BASE_DIR }}/lockfile-${resolve}/stderr.log"
+            if [ -e ${STDERR_LOG}.txt ]; then
+              cat ${STDERR_LOG}.txt >> ${COMMIT_MSG}
+            else
+              echo "${STDERR_LOG}.txt is missing"
+              echo "No changes to: ${LOCKFILE}" >> ${COMMIT_MSG}
+              echo >> ${COMMIT_MSG}
+            fi
+          done
+
+      - name: Prepare PR comment
+        env:
+          RUN_LINK: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+        run: |
+          echo "# Lockfile Diffs" > ${PR_COMMENT}
+          echo >> ${PR_COMMENT}
+          for resolve in ${RESOLVES}; do
+            LOCKFILE=$(jq '.["'"${resolve}"'"]' <<< "${LOCKFILES}")
+            STDERR_LOG="${{ env.OUTPUT_BASE_DIR }}/lockfile-${resolve}/stderr.log"
+            if [ -e ${STDERR_LOG}.md ]; then
+              cat ${STDERR_LOG}.md >> ${PR_COMMENT}
+            else
+              echo "${STDERR_LOG}.md is missing"
+              echo "No changes to: `${LOCKFILE}`" >> ${PR_COMMENT}
+              echo >> ${PR_COMMENT}
+            fi
+          done
+          echo ":robot: [GitHub Actions Workflow Run](${RUN_LINK})" >> ${PR_COMMENT}
+
+      - name: Commit and push
+        run: |
+          git commit -F "${COMMIT_MSG}"
+          git push -u origin "${{ needs.pr.outputs.PR_REF }}"
+
+      - name: Create new PR
+        if: ${{ inputs.pr == 'new' }}
+        run: >
+          gh pr create
+          --base "${{ needs.pr.outputs.PR_BASE_REF }}"
+          --title "pants generate-lockfiles: ${RESOLVES_CSV}"
+          --body-file "${PR_COMMENT}"
+          --reviewer "Maintainers"
+          --assignee "${{ github.event.sender.login }}"
+          --label "external dependency"
+          --label "python3"
+
+      - name: Update or Add Comment on existing PR
+        if: ${{ inputs.pr != 'new' }}
+        run: >
+          gh pr comment ${{ inputs.pr }}
+          --body-file "${PR_COMMENT}"
+          --edit-last
+          --create-if-none
