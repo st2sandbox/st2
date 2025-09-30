@@ -5634,13 +5634,13 @@
           "artifacts": [
             {
               "algorithm": "sha256",
-              "hash": "529767eac2f95ee2ac0abcff8b08ae2a376fd914a401ad8476ba0f0c636634ea",
-              "url": "https://files.pythonhosted.org/packages/29/a7/da87e67ebf8a4ec150ee2fd2e2c17df833d3ed608aa42f71eafd4af27182/st2_auth_backend_flat_file-0.4.0-py3-none-any.whl"
+              "hash": "ca78524b296fd1ece20a4515d2eb745d31a06e7e7845beb1bf1dbf0baa35687b",
+              "url": "https://files.pythonhosted.org/packages/28/c7/ce6a10b839e08482d686290201f05b227e724c2aeafadc3bf579dbe7c346/st2_auth_backend_flat_file-0.4.1-py3-none-any.whl"
             },
             {
               "algorithm": "sha256",
-              "hash": "d0bbd73c6c8d380d38edc5844002e75050752846f74aed5905131fd5876282f0",
-              "url": "https://files.pythonhosted.org/packages/a2/44/c3cf74d891f38700a53f31f092634aaf19416c53c502b4b3394d1f8d00f0/st2-auth-backend-flat-file-0.4.0.tar.gz"
+              "hash": "6eb2e6e4f957fc31e85698232fbc7cda0b84580a93fd87f8797eae95c5dd4659",
+              "url": "https://files.pythonhosted.org/packages/8e/5e/19b41cc213bedef9107a8ad0d8c21107bc7c26dd54697fd8611051914c41/st2-auth-backend-flat-file-0.4.1.tar.gz"
             }
           ],
           "project_name": "st2-auth-backend-flat-file",
@@ -5648,7 +5648,7 @@
             "bcrypt>=4.3.0"
           ],
           "requires_python": ">=3.8",
-          "version": "0.4.0"
+          "version": "0.4.1"
         },
         {
           "artifacts": [
