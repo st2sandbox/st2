@@ -132,7 +132,7 @@ jobs:
         run: |
           if [[ "${{ inputs.pr }}" == new ]]; then
             NEW_PR_NUMBER="$(gh pr list --json number --repo "${GITHUB_REPOSITORY}" --head "${NEW_PR_REF}" --state open)"
-            pr_list_rc = $?
+            pr_list_rc=$?
           fi
           if [[ "${{ inputs.pr }}" == new ]] && [ ${pr_list_rc} -gt 0 ]; then
             CHECKOUT_REF="${GITHUB_REF}"
